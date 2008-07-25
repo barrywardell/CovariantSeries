@@ -48,17 +48,17 @@ Begin["`Private`"]
 (************************************** D *************************************)
 (* Part that keeps the order the same *)
 AvramidiDSame[AbstractDot[x_, y_]] :=  AbstractDot[AvramidiDSame[x], y] + AbstractDot[x, AvramidiDSame[y]]
-AvramidiDSame[\[ScriptCapitalK][n_]] := n *\[ScriptCapitalK][n]
-AvramidiDSame[Times[a_, x_]] /; NumberQ[a] := a*AvramidiDSame[x]
-AvramidiDSame[Plus[x_, y_]] :=  Plus[AvramidiDSame[x], AvramidiDSame[y]]
-AvramidiDSame[a_] /; NumberQ[a] := a
+AvramidiDSame[\[ScriptCapitalK][n_]] := n \[ScriptCapitalK][n]
+AvramidiDSame[a_?NumericQ x_] := a AvramidiDSame[x]
+e: AvramidiDSame[_Plus] :=  Distribute[Unevaluated[e]]
+AvramidiDSame[a_?NumericQ] := a
 
 (* Part that increases the order *)
 AvramidiDPlus[AbstractDot[x_, y_]] :=  AbstractDot[AvramidiDPlus[x], y] + AbstractDot[x, AvramidiDPlus[y]]
 AvramidiDPlus[\[ScriptCapitalK][n_]] := \[ScriptCapitalK][n + 1]
-AvramidiDPlus[Times[a_, x_]] /; NumberQ[a] := a*AvramidiDPlus[x]
-AvramidiDPlus[Plus[x_, y_]] :=  Plus[AvramidiDPlus[x], AvramidiDPlus[y]]
-AvramidiDPlus[a_] /; NumberQ[a] := a
+AvramidiDPlus[a_?NumericQ x_] := a AvramidiDPlus[x]
+e: AvramidiDPlus[_Plus] := Distribute[Unevaluated[e]]
+AvramidiDPlus[a_?NumericQ] := a
 
 (* Total *)
 AvramidiD[x_] := AvramidiDSame[x] + AvramidiDPlus[x]
