@@ -38,30 +38,30 @@ Bitensors = {
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
 
-AvramidiD::usage = "AvramidiD[x] is the derivative operator D on x."
-AvramidiDPlus::usage = "AvramidiDPlus[x] is the part of the derivative operator D on x that increases the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
-AvramidiDSame::usage = "AvramidiDSame[x] is the part of the derivative operator D on x that preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
+SigmaCD::usage = "SigmaCD[x] is the derivative operator D on x."
+SigmaCDPlus::usage = "SigmaCDPlus[x] is the part of the derivative operator D on x that increases the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
+SigmaCDSame::usage = "SigmaCDSame[x] is the part of the derivative operator D on x that preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
 
 Begin["`Private`"]
 (* Implementation of the package *)
 
 (************************************** D *************************************)
 (* Part that keeps the order the same *)
-AvramidiDSame[AbstractDot[x_, y_]] :=  AbstractDot[AvramidiDSame[x], y] + AbstractDot[x, AvramidiDSame[y]]
-AvramidiDSame[\[ScriptCapitalK][n_]] := n \[ScriptCapitalK][n]
-AvramidiDSame[a_?NumericQ x_] := a AvramidiDSame[x]
-e: AvramidiDSame[_Plus] :=  Distribute[Unevaluated[e]]
-AvramidiDSame[a_?NumericQ] := a
+SigmaCDSame[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDSame[x], y] + AbstractDot[x, SigmaCDSame[y]]
+SigmaCDSame[\[ScriptCapitalK][n_]] := n \[ScriptCapitalK][n]
+SigmaCDSame[a_?NumericQ x_] := a SigmaCDSame[x]
+e: SigmaCDSame[_Plus] :=  Distribute[Unevaluated[e]]
+SigmaCDSame[a_?NumericQ] := a
 
 (* Part that increases the order *)
-AvramidiDPlus[AbstractDot[x_, y_]] :=  AbstractDot[AvramidiDPlus[x], y] + AbstractDot[x, AvramidiDPlus[y]]
-AvramidiDPlus[\[ScriptCapitalK][n_]] := \[ScriptCapitalK][n + 1]
-AvramidiDPlus[a_?NumericQ x_] := a AvramidiDPlus[x]
-e: AvramidiDPlus[_Plus] := Distribute[Unevaluated[e]]
-AvramidiDPlus[a_?NumericQ] := a
+SigmaCDPlus[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDPlus[x], y] + AbstractDot[x, SigmaCDPlus[y]]
+SigmaCDPlus[\[ScriptCapitalK][n_]] := \[ScriptCapitalK][n + 1]
+SigmaCDPlus[a_?NumericQ x_] := a SigmaCDPlus[x]
+e: SigmaCDPlus[_Plus] := Distribute[Unevaluated[e]]
+SigmaCDPlus[a_?NumericQ] := a
 
 (* Total *)
-AvramidiD[x_] := AvramidiDSame[x] + AvramidiDPlus[x]
+SigmaCD[x_] := SigmaCDSame[x] + SigmaCDPlus[x]
 
 (************************************ gamma ***********************************)
 GammaBitensor /: CovariantSeries[GammaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[GammaBitensor, i],{i,0,n}]
@@ -91,8 +91,8 @@ LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, 1] = 0;
 
 LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n_]:= 
 	LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n] = 
-	Expand[Sum[Binomial[n, k]*AbstractDot[ (n-k)*AvramidiDPlus[CovariantSeriesCoefficient[EtaBitensor,n-k-1]]
-		 - AvramidiDSame[CovariantSeriesCoefficient[EtaBitensor,n-k]],
+	Expand[Sum[Binomial[n, k]*AbstractDot[ (n-k)*SigmaCDPlus[CovariantSeriesCoefficient[EtaBitensor,n-k-1]]
+		 - SigmaCDSame[CovariantSeriesCoefficient[EtaBitensor,n-k]],
 		  CovariantSeriesCoefficient[GammaBitensor,k]], {k, 0, n-2}]];
 
 (************************************** Z *************************************)
