@@ -58,34 +58,38 @@ AbstractTrace(AB)=AbstractTrace(BA), A and B maAbstractTraceices *)
 !=x[[{1}]][[1,1]]*)
 
 (****************************** SimplifyTrace ********************************)
-ExtractNumbersFromTrace[x_AbstractTrace] :=
- Module[{n = Length[x[[1]]]},
-  If[n == 1,
-   {x[[1]][[1]]},
-   Table[x[[1]][[i]][[1]], {i, 1, n}]
-   ]
-  ]
+(* Extract just the numeric quantities x *)
+SetAttributes[ExtractNumbers, Listable]
+ExtractNumbers[x_] := Extract[x, Position[x, _Integer]]
 
-PermWeight[x_List] := Module[{n, i},
-  n = Length[x];
-  Apply[Plus, Table[n^(n - i) x[[i]], {i, 1, n}]]
-  ]
+(* Calculate all cyclic permutations of x *)
+CyclicPermutations[x_] := With[{len = Length[x]},
+  Table[RotateLeft[x, n], {n, 0, len - 1}]
+]
 
-SimplifyTrace[x_AbstractTrace] := Module[{min = \[Infinity], perm, n, i},
-  perm = ExtractNumbersFromTrace[x];
-  n = Length[perm];
-  If[n < 2,
-   x,
-   For[i = 0, i < n, i++,
-    min = Min[PermWeight[perm], min];
-    perm = RotateLeft[perm];
-    ];
-   
-   While[PermWeight[perm] > min, perm = RotateLeft[perm]];
-   
-   AbstractTrace[Apply[AbstractDot, Map[s, perm]]]
-   ]
-  ]
+(* Calculate the "weight" of the permutation x *)
+PermWeight[x_List] := With[{n = Length[x]},
+  Sum[ n^(n-i) x[[i]], {i, 1, n}]
+]
+
+(* Perform simplification on the trace given that it is invariant
+ * under cyclic permutations of the matrices *)
+SimplifyTrace[x_AbstractTrace] := With[{matrix = First[x]},
+	Module[{perms, permweights, canonicalPermPos},
+		(* Calculate cyclic permutations *)
+		perms = CyclicPermutations[matrix];
+		
+		(* Get the weight of all the permutations *)
+		permweights = PermWeight /@ ExtractNumbers[perms];
+		
+		(* Find the position in the list of permutations of the first
+		 * occurance of the permutation with the minimum weight *)
+		canonicalPermPos = First[Position[permweights, Min[permweights]]];
+		
+		(* Return the permutation with the minimum weight *)
+		AbstractTrace[Extract[perms,canonicalPermPos]]
+	]
+]
 
 SimplifyTrace[x_Plus] := Map[SimplifyTrace, x]
 
