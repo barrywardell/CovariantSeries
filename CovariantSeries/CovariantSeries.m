@@ -25,9 +25,6 @@ Format[\[ScriptCapitalM][n_]] := Subscript[\[ScriptCapitalM], n];
 Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
 
 (* We can calculate covariant series expansions for the following bitensors *)
-Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
-	ToString[#[[1]] &/@ Bitensors]
-
 Bitensors = { 
 	{GammaBitensor, "\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \[Nu]]\)"},
 	{EtaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \[Nu]]\)"},
@@ -42,9 +39,16 @@ Bitensors = {
 	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
 }
 
+Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
+	ToString[#[[1]] &/@ Bitensors]
+
+(Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
+
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
 
+CovD::usage = "Covariant derivative of bitensor."
+Dal::usage = "Covariant d'Alembertian of bitensor."
 SigmaCD::usage = "SigmaCD[x] is the derivative operator D on x."
 SigmaCDPlus::usage = "SigmaCDPlus[x] is the part of the derivative operator D on x that increases the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
 SigmaCDSame::usage = "SigmaCDSame[x] is the part of the derivative operator D on x that preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
@@ -191,6 +195,30 @@ BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n_]:=
 			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]
 			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
 				CovariantSeriesCoefficient[CDSqrtDeltaBitensor,n-k] ], {k, 2, n+1}]
+		];
+
+(**************** Covariant Derivative of a general bitensor ******************)
+AddFreeIndex[x_] := x /. {\[ScriptCapitalL]->\[ScriptCapitalM],\[ScriptCapitalK]->\[ScriptCapitalL]}
+CovD /: CovariantSeries[CovD[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[x, i],{i,0,n}]
+
+CovD /: CovariantSeriesCoefficient[CovD[x_?BitensorQ], 0] =  -AddFreeIndex[CovariantSeriesCoefficient[x,1]];
+
+CovD /: CovariantSeriesCoefficient[CovD[x_?BitensorQ], n_]:= 
+	CovD /: CovariantSeriesCoefficient[CovD[x], n] = 
+		Expand[Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[x,k]],
+			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]];
+
+(********************** D'alembertian of a general bitensor *******************)
+Dal /: CovariantSeries[Dal[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[x, i],{i,0,n}]
+
+Dal /: CovariantSeriesCoefficient[Dal[x_?BitensorQ], 0] =  -AddFreeIndex[CovariantSeriesCoefficient[CovD[x],1]];
+
+Dal /: CovariantSeriesCoefficient[Dal[x_?BitensorQ], n_]:= 
+	Dal /: CovariantSeriesCoefficient[Dal[x], n] = 
+		Expand[Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[CovD[x],k]],
+			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]
+			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
+				CovariantSeriesCoefficient[CovD[x],n-k] ], {k, 2, n+1}]
 		];
 
 End[]
