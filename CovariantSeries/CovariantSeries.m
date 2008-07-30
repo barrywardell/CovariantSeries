@@ -14,10 +14,14 @@ CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates
 
 (* Kappa and R are the bitensors in terms of which all other bitensors are expanded *)
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the \!\(\*SubscriptBox[K, \"(n)\"]\) of Avramidi."
+\[ScriptCapitalL]::usage = "\[ScriptCapitalL][n] is the \!\(\*SubscriptBox[L, \"(n)\"]\) of Wardell."
+\[ScriptCapitalM]::usage = "\[ScriptCapitalL][n] is the \!\(\*SubscriptBox[M, \"(n)\"]\) of Wardell."
 \[ScriptCapitalR]::usage = "\[ScriptCapitalR][n] is the \!\(\*SubscriptBox[\[ScriptCapitalR], \"(n)\"]\) of Avramidi."
 
 (* Format Kappa_n and R_n nicely *)
 Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
+Format[\[ScriptCapitalL][n_]] := Subscript[\[ScriptCapitalL], n];
+Format[\[ScriptCapitalM][n_]] := Subscript[\[ScriptCapitalM], n];
 Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
 
 (* We can calculate covariant series expansions for the following bitensors *)
@@ -32,7 +36,9 @@ Bitensors = {
 	{ABitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"\[Mu]'\"], \"\[Nu] ; \[Tau]\"]\)"},
 	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Nu] ; \[Tau]'\"]\)"},
 	{ZetaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Mu]'\"]\)"},
-	{SqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"1/2\"]\)"}
+	{SqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"1/2\"]\)"},
+	{CDSqrtDeltaBitensor,"\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)"},
+	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
 }
 
 (* Usage messages for all the bitensors we support *)
@@ -153,6 +159,29 @@ SqrtDeltaBitensor /: CovariantSeriesCoefficient[SqrtDeltaBitensor, n_]:=
 		SimplifyTrace[
 			Expand[(1/n)*Sum[Binomial[n, k] k CovariantSeriesCoefficient[ZetaBitensor, k]*
 				CovariantSeriesCoefficient[SqrtDeltaBitensor, n-k], {k, 1, n}]]
+		];
+
+(**************************** Cov Deriv of Delta^1/2 **************************)
+CDSqrtDeltaBitensor /: CovariantSeries[CDSqrtDeltaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[CDSqrtDeltaBitensor, i],{i,0,n}]
+
+CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, 0] = 0;
+
+CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, n_]:= 
+	CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, n] = 
+		Expand[Sum[Binomial[n, k-1]*AbstractDot[ CovariantSeriesCoefficient[SqrtDeltaBitensor,k]/.(\[ScriptCapitalK]->\[ScriptCapitalL]),
+			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]];
+
+(************************* D'alembertian of Delta^1/2 *************************)
+BoxSqrtDeltaBitensor /: CovariantSeries[BoxSqrtDeltaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, i],{i,0,n}]
+
+BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, 0] =  -CovariantSeriesCoefficient[CDSqrtDeltaBitensor,1]/.(\[ScriptCapitalL]->\[ScriptCapitalM]);
+
+BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n_]:= 
+	BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n] = 
+		Expand[Sum[Binomial[n, k-1]*AbstractDot[ CovariantSeriesCoefficient[CDSqrtDeltaBitensor,k]/.{\[ScriptCapitalL]->\[ScriptCapitalM],\[ScriptCapitalK]->\[ScriptCapitalL]},
+			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]
+			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
+				CovariantSeriesCoefficient[CDSqrtDeltaBitensor,n-k] ], {k, 2, n+1}]
 		];
 
 End[]
