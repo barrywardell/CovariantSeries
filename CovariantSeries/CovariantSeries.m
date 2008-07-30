@@ -37,6 +37,7 @@ Bitensors = {
 	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Nu] ; \[Tau]'\"]\)"},
 	{ZetaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Mu]'\"]\)"},
 	{SqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"1/2\"]\)"},
+	{SqrtDeltaInvBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]\)"},
 	{CDSqrtDeltaBitensor,"\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)"},
 	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
 }
@@ -160,6 +161,14 @@ SqrtDeltaBitensor /: CovariantSeriesCoefficient[SqrtDeltaBitensor, n_]:=
 			Expand[(1/n)*Sum[Binomial[n, k] k CovariantSeriesCoefficient[ZetaBitensor, k]*
 				CovariantSeriesCoefficient[SqrtDeltaBitensor, n-k], {k, 1, n}]]
 		];
+
+(********************************** Delta^-1/2 *********************************)
+SqrtDeltaInvBitensor /: CovariantSeries[SqrtDeltaInvBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[SqrtDeltaInvBitensor, i],{i,0,n}]
+
+SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n_?EvenQ] := 
+	CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n] = CovariantSeriesCoefficient[SqrtDeltaBitensor, n];
+SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n_?OddQ] := 
+	CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n] = -CovariantSeriesCoefficient[SqrtDeltaBitensor, n];
 
 (**************************** Cov Deriv of Delta^1/2 **************************)
 CDSqrtDeltaBitensor /: CovariantSeries[CDSqrtDeltaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[CDSqrtDeltaBitensor, i],{i,0,n}]
