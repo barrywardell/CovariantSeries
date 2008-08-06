@@ -505,3 +505,26 @@ Test[
 	,
 	TestID->"CovariantSeriesTest-20080806-U6B5M2"
 ]
+
+(* CDSqrtDelta up to order 3 *)
+Test[
+	CovariantSeries[CDSqrtDeltaBitensor, 3]
+	,
+	-AddFreeIndex[AbstractTrace[\[ScriptCapitalK][2]], 1]/6 + 
+ 	AddFreeIndex[AbstractTrace[\[ScriptCapitalK][3]], 1]/8 + 
+ 	(-AbstractDot[AddFreeIndex[AbstractTrace[\[ScriptCapitalK][2]], 1], \[ScriptCapitalK][2]]/
+    6 - AddFreeIndex[AbstractTrace[AbstractDot[\[ScriptCapitalK][2], 
+       \[ScriptCapitalK][2]]], 1]/15 - AddFreeIndex[AbstractTrace[\[ScriptCapitalK][2]]^2, 
+     1]/12 - (3*AddFreeIndex[AbstractTrace[\[ScriptCapitalK][4]], 1])/10)/6
+	,
+	TestID->"CovariantSeriesTest-20080806-A2R8M1"
+]
+
+(* CovD[SqrtDelta] up to order 3 *)
+Test[
+	CovariantSeries[CovD[SqrtDeltaBitensor],3]
+	,
+	Evaluate[CovariantSeries[CDSqrtDeltaBitensor, 3]]
+	,
+	TestID->"CovariantSeriesTest-20080806-A2R8M1"
+]

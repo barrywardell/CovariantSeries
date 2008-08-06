@@ -199,7 +199,7 @@ CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, 0] = 0;
 
 CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, n_]:= 
 	CDSqrtDeltaBitensor /: CovariantSeriesCoefficient[CDSqrtDeltaBitensor, n] = 
-		Expand[Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[SqrtDeltaBitensor,k]],
+		-Expand[Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[SqrtDeltaBitensor,k]],
 			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]];
 
 (************************* D'alembertian of Delta^1/2 *************************)
@@ -209,7 +209,7 @@ BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, 0] :=  
 
 BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n_]:= 
 	BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n] = 
-		Expand[Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[CDSqrtDeltaBitensor,k]],
+		Expand[-Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[CDSqrtDeltaBitensor,k]],
 			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 2, n+1}]
 			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
 				CovariantSeriesCoefficient[CDSqrtDeltaBitensor,n-k] ], {k, 2, n+1}]
