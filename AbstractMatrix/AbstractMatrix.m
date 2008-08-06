@@ -10,6 +10,9 @@ AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X a
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
 SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form."
 
+(* Error Messages *)
+SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
+
 Begin["`Private`"]
 (* Implementation of the package *)
 
@@ -75,17 +78,27 @@ PermWeight[x_List] := With[{n = Length[x]},
 (* Perform simplification on the trace given that it is invariant
  * under cyclic permutations of the matrices *)
 SimplifyTrace[x_AbstractTrace] := With[{matrix = First[x]},
-	Module[{perms, permweights, canonicalPermPos},
+	Module[{perms, permweights, min, canonicalPermPos},
 		(* Calculate cyclic permutations *)
 		perms = CyclicPermutations[matrix];
 		
 		(* Get the weight of all the permutations *)
 		permweights = PermWeight /@ ExtractNumbers[perms];
 		
+		(* Find the minimum permutation weight *)		
+		min = Min[permweights];
+
 		(* Find the position in the list of permutations of the first
 		 * occurance of the permutation with the minimum weight *)
-		canonicalPermPos = First[Position[permweights, Min[permweights]]];
+		canonicalPermPos = First[Position[permweights, min]];
 		
+		(* Print an error if we're not getting a canonical form		
+		With[{numequivperms = Count[permweights, Min[permweights]]},
+			If[(numequivperms>1) && (numequivperms<Length[permweights]),
+				Message[SimplifyTrace::notCanonical, x]
+			];
+		]*)
+
 		(* Return the permutation with the minimum weight *)
 		AbstractTrace[Extract[perms,canonicalPermPos]]
 	]
