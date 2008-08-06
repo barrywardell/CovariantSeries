@@ -258,8 +258,7 @@ Test[
    (170*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3], \[ScriptCapitalK][6]]])/3 - 
    103*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][4], \[ScriptCapitalK][5]]] - 
    103*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][5], \[ScriptCapitalK][4]]] - 
-   (95*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][6], \[ScriptCapitalK][3]]])/6 - 
-   (245*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][6]]])/6 - 
+   (170*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][6], \[ScriptCapitalK][3]]])/3 - 
    (575*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][3], \[ScriptCapitalK][5]]])/3 - 
    273*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][4], \[ScriptCapitalK][4]]] - 
    (184*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][5]]])/3 - 
@@ -394,8 +393,7 @@ Test[
    (170*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3], \[ScriptCapitalK][6]]])/3 - 
    103*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][4], \[ScriptCapitalK][5]]] - 
    103*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][5], \[ScriptCapitalK][4]]] - 
-   (95*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][6], \[ScriptCapitalK][3]]])/6 - 
-   (245*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][6]]])/6 - 
+   (170*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][6], \[ScriptCapitalK][3]]])/3 - 
    (575*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][3], \[ScriptCapitalK][5]]])/3 - 
    273*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][4], \[ScriptCapitalK][4]]] - 
    (184*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][5]]])/3 - 
