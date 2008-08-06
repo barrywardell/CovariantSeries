@@ -71,8 +71,8 @@ CyclicPermutations[x_] := With[{len = Length[x]},
 ]
 
 (* Calculate the "weight" of the permutation x *)
-PermWeight[x_List] := With[{n = Length[x]},
-  Sum[ n^(n-i) x[[i]], {i, 1, n}]
+PermWeight[x_List] := With[{l = Length[x], n = Max[x]+1},
+  Sum[ n^(n-i) x[[i]], {i, 1, l}]
 ]
 
 (* Perform simplification on the trace given that it is invariant
