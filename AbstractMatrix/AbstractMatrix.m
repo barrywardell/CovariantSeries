@@ -61,9 +61,17 @@ AbstractTrace(AB)=AbstractTrace(BA), A and B maAbstractTraceices *)
 !=x[[{1}]][[1,1]]*)
 
 (****************************** SimplifyTrace ********************************)
-(* Extract just the numeric quantities x *)
+(* Convert symbols representing matrices to a sequence of numbers in the range
+ * [0,x-1] where x is the number of unique matrices present, eg.
+ * AbstractDot[x[2],x[5],x[1],x[2]] -> {1,2,0,1}  }*)
 SetAttributes[ExtractNumbers, Listable]
-ExtractNumbers[x_] := Extract[x, Position[x, _Integer]]
+ExtractNumbers[x_] := Module[{seq = {Sequence @@ x}, elems},
+	(* Get an ordered list of the unique elements *)
+	elems = Union[seq];
+	
+	(* Replace our sequence of matrices with a sequence of numbers *)
+	seq /. Thread[Sort[seq] -> Range[0, Length[seq] - 1]]
+]
 
 (* Calculate all cyclic permutations of x *)
 CyclicPermutations[x_] := With[{len = Length[x]},
@@ -71,8 +79,8 @@ CyclicPermutations[x_] := With[{len = Length[x]},
 ]
 
 (* Calculate the "weight" of the permutation x *)
-PermWeight[x_List] := With[{l = Length[x], n = Max[x]+1},
-  Sum[ n^(n-i) x[[i]], {i, 1, l}]
+PermWeight[x_List] := With[{n = Length[x]},
+  Sum[ n^(n-i) x[[i]], {i, 1, n}]
 ]
 
 (* Perform simplification on the trace given that it is invariant
