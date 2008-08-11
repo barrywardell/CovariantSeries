@@ -43,13 +43,15 @@ Bitensors = {
 	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{VTildeBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{VBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{TauBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
+	{TauBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
+	{TauPBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
 }
 
 Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
 	ToString[#[[1]] &/@ Bitensors]
 
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
+VBitensor/: BitensorQ[VBitensor[n_]] = True
 
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
@@ -295,6 +297,38 @@ TauBitensor /: CovariantSeriesCoefficient[TauBitensor, n_]:=
 		 + SigmaCDSame[CovariantSeriesCoefficient[ZetaBitensor,n]]]
 	];
 
+(*********************************** tau ***************************************)
+TauPBitensor /: CovariantSeries[TauPBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[TauPBitensor, i],{i,0,n}]
+
+TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, 0] = 0;
+TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, 1] = 0;
+
+TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, n_]:= 
+	TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, n] = 
+	Expand[n CovariantSeriesCoefficient[ZetaBitensor,n]];
+	
+(************************************ V0 ***************************************)
+VBitensor /: CovariantSeries[VBitensor[0], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[0], i],{i,0,n}]
+
+VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n_]:= 
+	VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n] = 
+		Expand[1/(n+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[0], k]*
+				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
+				- 1/2 (CovariantSeriesCoefficient[Dal[SqrtDeltaBitensor], n] 
+				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]))
+		];
+
+(************************************ Vl ***************************************)
+VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
+
+VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:= 
+	VBitensor /: CovariantSeriesCoefficient[VBitensor[l], n] = 
+		Expand[1/(n+l+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l], k]*
+				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
+				- 1/(2 l) (CovariantSeriesCoefficient[Dal[VBitensor[l-1]], n] 
+				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]))
+		];
+		
 End[]
 
 EndPackage[]
