@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* Mathematica Package *)
 
 BeginPackage["CovariantSeries`AvramidiToXTensor`", { "xAct`xTensor`", "CovariantSeries`", "AbstractMatrix`" }]
@@ -85,11 +87,17 @@ AvramidiToXTensor[x_AbstractTrace, vbundle_?VBundleQ] := Module[{indices},
 
 (* In a sum, we treat each term independently *)
 e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
+e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
 
-AvramidiToXTensor[x_Times, a_, b_] := Map[AvramidiToXTensor[#,a,b]&, x]
+AvramidiToXTensor[x_Times, a_?AIndexQ, b_AIndexQ] := Map[AvramidiToXTensor[#,a,b]&, x]
+AvramidiToXTensor[x_Times, v_?VBundleQ ] := Map[AvramidiToXTensor[#, v]&, x]
 
-AvramidiToXTensor[a_?NumericQ, _, _] := a
+AvramidiToXTensor[a_?NumericQ, _?AIndexQ, _?AIndexQ] := a
+AvramidiToXTensor[a_?NumericQ, v_?VBundleQ] := a
 
 End[] (* End Private Context *)
 
 EndPackage[]
+
+
+
