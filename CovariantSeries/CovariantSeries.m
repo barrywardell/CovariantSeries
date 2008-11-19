@@ -5,13 +5,6 @@
 BeginPackage["CovariantSeries`", "AbstractMatrix`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
-(* The main functions we provide *)
-CovariantSeries::usage = "CovariantSeries[X, n] calculates the covariant series of X up to "<>
-	"order n, where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
-
-CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates the order n "<>
-	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
-
 (* Kappa and R are the bitensors in terms of which all other bitensors are expanded *)
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the \!\(\*SubscriptBox[K, \"(n)\"]\) of Avramidi."
 \[ScriptCapitalR]::usage = "\[ScriptCapitalR][n] is the \!\(\*SubscriptBox[\[ScriptCapitalR], \"(n)\"]\) of Avramidi."
@@ -32,26 +25,26 @@ Bitensors = {
 	{LambdaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]\"], \[Nu]]\)"},
 	{ZBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Nu]'\"]\)"},
 	{ABitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"\[Mu]'\"], \"\[Nu] ; \[Tau]\"]\)"},
-	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Nu] ; \[Tau]'\"]\)"},
+	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"\[Mu]'\"], \"\[Nu] ; \[Tau]'\"]\)"},
 	{ZetaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Mu]'\"]\)"},
 	{SqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"1/2\"]\)"},
 	{SqrtDeltaInvBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]\)"},
 	{CDSqrtDeltaBitensor,"\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)"},
 	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{WBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{SqrtDeltaInvDalWBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{VTildeBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{VBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{TauBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
-	{TauPBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"}
+	{WBitensor,"W(x,x')"},
+	{SqrtDeltaInvDalWBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]BoxW(x,x')\)"},
+	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
+	{VTildeBitensor,"Vtilde(x,x')"},
+	{VBitensor,"V(x,x')"},
+	{TauBitensor,"\[Tau](x,x')"},
+	{TauPBitensor,"\[Tau]'(x,x')"}
 }
 
 Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
 	ToString[#[[1]] &/@ Bitensors]
 
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
-VBitensor/: BitensorQ[VBitensor[n_]] = True
+VBitensor/: BitensorQ[VBitensor[_]] = True
 
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
@@ -61,6 +54,13 @@ Dal::usage = "Covariant d'Alembertian of bitensor."
 SigmaCD::usage = "SigmaCD[x] is the derivative operator D on x."
 SigmaCDPlus::usage = "SigmaCDPlus[x] is the part of the derivative operator D on x that increases the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
 SigmaCDSame::usage = "SigmaCDSame[x] is the part of the derivative operator D on x that preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
+
+(* The main functions we provide *)
+CovariantSeries::usage = "CovariantSeries[X, n] calculates the covariant series of X up to "<>
+	"order n, where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
+
+CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates the order n "<>
+	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
 
 Begin["`Private`"]
 (* Implementation of the package *)
