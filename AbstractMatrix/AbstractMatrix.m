@@ -8,7 +8,7 @@ BeginPackage["AbstractMatrix`"]
 AbstractMatrix::usage = "AbstractMatrix is a package which provides abstract matrix operations such as dot product and trace."
 AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X and Y."
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
-SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form."
+SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form. This allows for the simplification of expressions with AbstractTrace[] in them."
 
 (* Error Messages *)
 SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
@@ -38,7 +38,7 @@ AbstractDot[x_, a_?NumericQ y_] := a AbstractDot[x,y];
 e : AbstractDot[_, _Plus] := Distribute[Unevaluated[e]]
 e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
 
-(* Print AbstractDot as a space *)
+(* Print AbstractDot as a cross inside a circle *)
 Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"\[CircleTimes]"];
 
 (****************************** AbstractTrace ********************************)
