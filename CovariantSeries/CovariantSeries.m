@@ -131,7 +131,7 @@ LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n_]:=
 (************************************** Z *************************************)
 ZBitensor /: CovariantSeries[ZBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[ZBitensor, i],{i,0,n}]
 
-ZBitensor /: CovariantSeriesCoefficient[ZBitensor, 0] = -1;
+ZBitensor /: CovariantSeriesCoefficient[ZBitensor, 0] = 1;
 ZBitensor /: CovariantSeriesCoefficient[ZBitensor, 1] = 0;
 
 ZBitensor /: CovariantSeriesCoefficient[ZBitensor, n_]:= 
