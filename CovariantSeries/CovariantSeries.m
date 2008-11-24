@@ -119,7 +119,7 @@ EtaBitensor /: CovariantSeriesCoefficient[EtaBitensor, n_]:=
 (*********************************** lambda ***********************************)
 LambdaBitensor /: CovariantSeries[LambdaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[LambdaBitensor, i],{i,0,n}]
 
-LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, 0] = -1;
+LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, 0] = 1;
 LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, 1] = 0;
 
 LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n_]:= 
