@@ -72,7 +72,7 @@ SigmaCDSame[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDSame[x], y] + AbstractDo
 SigmaCDSame[\[ScriptCapitalK][n_]] := n \[ScriptCapitalK][n]
 SigmaCDSame[a_?NumericQ x_] := a SigmaCDSame[x]
 e: SigmaCDSame[_Plus] :=  Distribute[Unevaluated[e]]
-SigmaCDSame[a_?NumericQ] := a
+SigmaCDSame[a_?NumericQ] := 0
 
 (* Part that increases the order *)
 SigmaCDPlus[AbstractTrace[x_]] := AbstractTrace[SigmaCDPlus[x]]
@@ -80,7 +80,7 @@ SigmaCDPlus[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDPlus[x], y] + AbstractDo
 SigmaCDPlus[\[ScriptCapitalK][n_]] := \[ScriptCapitalK][n + 1]
 SigmaCDPlus[a_?NumericQ x_] := a SigmaCDPlus[x]
 e: SigmaCDPlus[_Plus] := Distribute[Unevaluated[e]]
-SigmaCDPlus[a_?NumericQ] := a
+SigmaCDPlus[a_?NumericQ] := 0
 
 (* Total *)
 SigmaCD[x_] := SigmaCDSame[x] + SigmaCDPlus[x]
