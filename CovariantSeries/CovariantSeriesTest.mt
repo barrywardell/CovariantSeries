@@ -185,7 +185,7 @@ Test[
 Test[
 	CovariantSeries[LambdaBitensor, 9]
 	,
-	-1 - \[ScriptCapitalK][2]/3 + \[ScriptCapitalK][3]/12 + ((-8*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2]])/15 - (2*\[ScriptCapitalK][4])/5)/24 + 
+	1 - \[ScriptCapitalK][2]/3 + \[ScriptCapitalK][3]/12 + ((-8*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2]])/15 - (2*\[ScriptCapitalK][4])/5)/24 + 
  (AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3]] + AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2]] + \[ScriptCapitalK][5]/3)/120 + 
  ((-10*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][4]])/7 - (17*AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][3]])/7 - 
    (10*AbstractDot[\[ScriptCapitalK][4], \[ScriptCapitalK][2]])/7 - (32*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2]])/21 - (2*\[ScriptCapitalK][6])/7)/
