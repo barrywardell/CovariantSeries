@@ -1,6 +1,22 @@
-(* ::Package:: *)
+(* AvramidiToXTensor Mathematica package 
+   This is a Mathematica package for converting expressions from Avramidi notation
+   to a the notation used by xTensor.
+    
+   Copyright 2009 Barry Wardell
+   
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-(* Mathematica Package *)
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *)
 
 BeginPackage["CovariantSeries`AvramidiToXTensor`", { "xAct`xTensor`", "CovariantSeries`", "AbstractMatrix`" }]
 (* Exported symbols added here with SymbolName::usage *)  

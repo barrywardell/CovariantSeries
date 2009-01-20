@@ -1,9 +1,24 @@
-(* Mathematica Package *)
+(* CovariantSeries Mathematica package 
+   This is a Mathematica for calculating covariant series expansions
+   of bitensors.
+    
+   Copyright 2009 Barry Wardell
+   
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-(* Created by the Wolfram Workbench 24-Jul-2008 *)
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *)
+ 
 BeginPackage["CovariantSeries`", "AbstractMatrix`"]
-(* Exported symbols added here with SymbolName::usage *) 
 
 (* Kappa and R are the bitensors in terms of which all other bitensors are expanded *)
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the \!\(\*SubscriptBox[K, \"(n)\"]\) of Avramidi."
