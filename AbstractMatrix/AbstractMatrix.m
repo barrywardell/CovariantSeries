@@ -1,10 +1,26 @@
-(* Mathematica package *)
+(* AbstractMatrix Mathematica package 
+   This is a Mathematica for doing abstract matrix calculations. It
+   treats any non-numeric symbols as matrices.
+    
+   Copyright 2009 Barry Wardell
+   
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-(* Created by the Wolfram Workbench 14-Jul-2008 *)
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *)
 
 BeginPackage["AbstractMatrix`"]
-(* Exported symbols added here with SymbolName::usage *) 
 
+(* Exported functions *)
 AbstractMatrix::usage = "AbstractMatrix is a package which provides abstract matrix operations such as dot product and trace."
 AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X and Y."
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
@@ -53,12 +69,6 @@ e : AbstractTrace[_Plus] := Distribute[Unevaluated[e]];
 
 (* Print AbstractTrace[x] as a tr[x] *)
 Format[AbstractTrace[x_]] := "tr"x;
-
-(*AbstractTrace[x_]:=AbstractTrace[Sort[x]]/;!OrderedQ[x]&&(Length[x]==2)*)(* \
-AbstractTrace(AB)=AbstractTrace(BA), A and B maAbstractTraceices *)
-(*AbstractTrace[x_]:=AbstractTrace[RotateLeft[x]]/;!OrderedQ[x]*)
-(*AbstractTrace[x_]:=AbstractTrace[RotateLeft[x,Ordering[x,1]-1]]/;x[[Ordering[x,1]]][[1,1]]\
-!=x[[{1}]][[1,1]]*)
 
 (****************************** SimplifyTrace ********************************)
 (* Convert symbols representing matrices to a sequence of numbers in the range
@@ -120,8 +130,6 @@ SimplifyTrace[a_] := a /; NumberQ[a]
 
 SimplifyTrace[x_Power] := Power[SimplifyTrace[x[[1]]], x[[2]]]
 
-(*SimplifyTrace[Times[a_,x_AbstractTrace]]:=Times[a,SimplifyTrace[x]]/;NumberQ[a]\
-*)
 End[]
 
 EndPackage[]
