@@ -34,17 +34,49 @@ in xTensor form.";
 
 \[Sigma]::usage = "\[Sigma] is Synge's world function";
 
+$PrePrint=ScreenDollarIndices;
+$CovDFormat="Postfix";
+
+DefManifold[M, 4, {a, b, c, d, e, f, h, i, j, k, l}];
+DefMetric[-1, g[-a, -b], CD, {";", "\[Del]"}];
+DefTensor[\[Sigma][a], M];
+
+PrintAs[g] ^= "g";
+PrintAs[epsilong] ^= "\[Epsilon]";
+PrintAs[RiemannCD] ^= "R";
+PrintAs[RicciCD] ^= "R";
+PrintAs[RicciScalarCD] ^= "R";
+PrintAs[WeylCD] ^= "W";
+PrintAs[TFRicciCD] ^= "S";
+
+SetAttributes[AvramidiToXTensor, HoldFirst];
+
 Begin["`Private`"] (* Begin Private Context *) 
+(* Calculate the number of indices (contracted with sigma^a) used by an expression *)
+NumIndices[x_] := Module[{positions, numIndices},
+  (* Find where the K[n]'s are*)
+  positions = Position[x, \[ScriptCapitalK][_]];
+  
+  (* Pull out the values for n and add them together *)
+  numIndices = Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
+  
+  (* Look for AddFreeIndices *)
+  positions = Position[x, AddFreeIndex[_,_]];
+  (* Pull out the values for n and add them together *)
+
+  numIndices = numIndices - (Plus @@ (Part[x, Sequence @@ #, 2] & /@ positions));
+
+  numIndices
+]
 
 (* Convert K_n to n derivatives of Riemann in xTensor form *)
-RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ] := Module[{vbundle, indices, CD, expr, i},
+RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] := Module[{vbundle, CD, expr, i},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[a];
 
-  (* Get some indices *)
-  indices = GetIndicesOfVBundle[vbundle, n, {a, b, -a, -b}];
-  
-  (* Get the covariant derivative *)
+  (* Get the covariant derivative 
+     FIXME: Should we worry about getting a different CD for each index? 
+     Probably not, but maybe there is a case where it would be important. *)
   CD = CovDOfMetric[First[MetricsOfVBundle[vbundle]]];
   
   (* First, create the Riemann tensor *)
@@ -58,58 +90,40 @@ RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ] := Module[{vbundle, i
   expr
 ]
 
-AvramidiToXTensor[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ] := Module[{expr, indices, i},
-  (* Riemann tensor part *)
-  expr = RiemannPart[\[ScriptCapitalK][n],a,b];
+AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, indices, n},
+  (* Find how many indices we need *)
+  n = Unevaluated[x][[2]];
   
-  (* Extract the indices we need for the \[Sigma]'s *)
-  indices = Cases[IndicesOf[Free][expr], Except[a|b]];
-
-  (* Add sigmas *)
-  For[i = 1, i <= Length[indices], i++,
-    expr = expr \[Sigma][-indices[[i]]];
-  ];
+  (* Get enough indices *)
+  indices = GetIndicesOfVBundle[vbundle, n];
   
-  ReplaceDummies[expr]
-]
-
-(* Convert AbstractDot[...] to Riemann in xTensor Form *)
-AvramidiToXTensor[x_AbstractDot, a_?AIndexQ, b_?AIndexQ] := 
- Module[{vbundle, indices, i, expr, n},
-  n = Length[x] - 1;
+  expr = AvramidiToXTensor[Evaluate[x], IndexList @@ indices];
   
-  (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[a];
-
-  (* Get some indices *)
-  indices = Join[{a},GetIndicesOfVBundle[vbundle, n, {a, b, -a, -b}],{-b}];
-  
-  expr = 1;
-  
-  For[i = 1, i <= Length[x], i++,
-  	expr = expr AvramidiToXTensor[x[[i]],indices[[i]],-indices[[i+1]]];
-   ];
-   
   expr
 ]
 
-(* Convert AbstractTrace[...] to Riemann in xTensor form *)
-AvramidiToXTensor[x_AbstractTrace, vbundle_?VBundleQ] := Module[{indices},
-  (* Get some indices *)
-  indices = GetIndicesOfVBundle[vbundle, 1];
-  
-  AvramidiToXTensor[#, indices[[1]], -indices[[1]]]& @@ x
-]
 
 (* In a sum, we treat each term independently *)
 e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
 e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
 
-AvramidiToXTensor[x_Times, a_?AIndexQ, b_AIndexQ] := Map[AvramidiToXTensor[#,a,b]&, x]
-AvramidiToXTensor[x_Times, v_?VBundleQ ] := Map[AvramidiToXTensor[#, v]&, x]
+(* Multiplication is a bit tricky since we want all terms to have unique indices *)
+AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
+  (* Separate multiplication into a list of each term *)
+  parts = List @@ x;
+  
+  (* Figure out how many indices each term uses *)
+  indicesPerTerm = Map[NumIndices, parts];
+  
+  (* And divide the indices up between each term *)
+  termIndices = Partition[indices, Sequence@@indicesPerTerm];
+  
+  Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
+]
 
-AvramidiToXTensor[a_?NumericQ, _?AIndexQ, _?AIndexQ] := a
-AvramidiToXTensor[a_?NumericQ, v_?VBundleQ] := a
+AvramidiToXTensor[a_?NumericQ, _IndexList] := a
+
+AvramidiToXTensor[CovariantSeries`m^(a_), _IndexList] := CovariantSeries`m^(a)
 
 End[] (* End Private Context *)
 
