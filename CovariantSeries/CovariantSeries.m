@@ -52,7 +52,8 @@ Bitensors = {
 	{VTildeBitensor,"Vtilde(x,x')"},
 	{VBitensor,"V(x,x')"},
 	{TauBitensor,"\[Tau](x,x')"},
-	{TauPBitensor,"\[Tau]'(x,x')"}
+	{TauPBitensor,"\[Tau]'(x,x')"},
+	{DeWittABitensor,"a(x,x')"}
 }
 
 Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
@@ -349,7 +350,13 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:=
 				- 1/(2 l) (CovariantSeriesCoefficient[AbstractDal[VBitensor[l-1]], n] 
 				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]))
 		];
-		
+
+(************************************ a_k **************************************)
+DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
+
+DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k_Integer?NonNegative], n_]:=
+	Sum[(-2)^(r + 1) r!/(k - 1 - r)! (m^2)^(k - 1 - r) CovariantSeriesCoefficient[VBitensor[r], 0], {r, 0, k - 1}] + (m^2)^k/k!
+
 End[]
 
 EndPackage[]
