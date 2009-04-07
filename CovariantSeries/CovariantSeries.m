@@ -60,6 +60,8 @@ Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using
 
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
 VBitensor/: BitensorQ[VBitensor[_]] = True
+BitensorQ[\[ScriptCapitalK]] = True
+BitensorQ[\[ScriptCapitalR]] = True
 BitensorQ[_] = False
 NotBitensorQ[x_] = If[BitensorQ[x],False,True]
 
