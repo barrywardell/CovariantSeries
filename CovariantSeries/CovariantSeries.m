@@ -147,7 +147,7 @@ LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n_]:=
 		 - SigmaCDSame[CovariantSeriesCoefficient[EtaBitensor,n-k]],
 		  CovariantSeriesCoefficient[GammaBitensor,k]], {k, 0, n-2}]];
 
-(************************************** Z *************************************)
+(************************************* Xi *************************************)
 XiBitensor /: CovariantSeries[XiBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[XiBitensor, i],{i,0,n}]
 
 XiBitensor /: CovariantSeriesCoefficient[XiBitensor, 0] = 1;
