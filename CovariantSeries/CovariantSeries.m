@@ -35,13 +35,13 @@ Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
 
 (* We can calculate covariant series expansions for the following bitensors *)
 Bitensors = { 
-	{GammaBitensor, "\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \[Nu]]\)"},
-	{EtaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \[Nu]]\)"},
-	{LambdaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]\"], \[Nu]]\)"},
-	{ZBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Nu]'\"]\)"},
-	{ABitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"\[Mu]'\"], \"\[Nu] ; \[Tau]\"]\)"},
-	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"\[Mu]'\"], \"\[Nu] ; \[Tau]'\"]\)"},
-	{ZetaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Mu]'\"], \"\[Mu]'\"]\)"},
+	{GammaBitensor, "\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a'\"], b]\)"},
+	{EtaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a\"], \"b'\"]\)"},
+	{LambdaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a\"], b]\)"},
+	{XiBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a'\"], \"b'\"]\)"},
+	{ABitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"a'\"], \"b ; c\"]\)"},
+	{BBitensor,"\!\(\*SubscriptBox[SuperscriptBox[g,\"a'\"], \"b ; c'\"]\)"},
+	{ZetaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"\[Alpha]'\"], \"\[Alpha]'\"]\)"},
 	{SqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"1/2\"]\)"},
 	{SqrtDeltaInvBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]\)"},
 	{CDSqrtDeltaBitensor,"\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)"},
@@ -148,13 +148,13 @@ LambdaBitensor /: CovariantSeriesCoefficient[LambdaBitensor, n_]:=
 		  CovariantSeriesCoefficient[GammaBitensor,k]], {k, 0, n-2}]];
 
 (************************************** Z *************************************)
-ZBitensor /: CovariantSeries[ZBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[ZBitensor, i],{i,0,n}]
+XiBitensor /: CovariantSeries[XiBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[XiBitensor, i],{i,0,n}]
 
-ZBitensor /: CovariantSeriesCoefficient[ZBitensor, 0] = 1;
-ZBitensor /: CovariantSeriesCoefficient[ZBitensor, 1] = 0;
+XiBitensor /: CovariantSeriesCoefficient[XiBitensor, 0] = 1;
+XiBitensor /: CovariantSeriesCoefficient[XiBitensor, 1] = 0;
 
-ZBitensor /: CovariantSeriesCoefficient[ZBitensor, n_]:= 
-	ZBitensor /: CovariantSeriesCoefficient[ZBitensor, n] = 
+XiBitensor /: CovariantSeriesCoefficient[XiBitensor, n_]:= 
+	XiBitensor /: CovariantSeriesCoefficient[XiBitensor, n] = 
 		Expand[n*CovariantSeriesCoefficient[EtaBitensor, n] -
 			 Sum[Binomial[n, k]*k*AbstractDot[CovariantSeriesCoefficient[GammaBitensor, n-k],
 			 	 CovariantSeriesCoefficient[EtaBitensor, k]], {k, 2, n - 2}]];
@@ -168,7 +168,7 @@ ABitensor /: CovariantSeriesCoefficient[ABitensor, n_]:=
 	ABitensor /: CovariantSeriesCoefficient[ABitensor, n] = 
 		Expand[(1/(n + 1))*(n*\[ScriptCapitalR][n] 
 			- Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
-				CovariantSeriesCoefficient[ZBitensor, n-k]], {k, 0, n - 2}])];
+				CovariantSeriesCoefficient[XiBitensor, n-k]], {k, 0, n - 2}])];
 
 (************************************** B *************************************)
 BBitensor /: CovariantSeries[BBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[BBitensor, i],{i,0,n}]
@@ -189,7 +189,7 @@ ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, 0] = 0;
 ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, n_]:= 
 	ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, n] = 
 		SimplifyTrace[
-			Expand[-(1/(2 n)) AbstractTrace[CovariantSeriesCoefficient[ZBitensor,n]]]
+			Expand[-(1/(2 n)) AbstractTrace[CovariantSeriesCoefficient[XiBitensor,n]]]
 		];
 
 (********************************** Delta^1/2 *********************************)
