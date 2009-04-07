@@ -29,6 +29,10 @@ SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in 
 (* Error Messages *)
 SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
 
+(* Is the symbol a bitensor or not? *)
+BitensorQ::usage = "Tests if a symbol is a bitensor."
+NotBitensorQ::usage = "Tests if a symbol is not a bitensor."
+
 Begin["`Private`"]
 (* Implementation of the package *)
 
@@ -49,6 +53,10 @@ SetAttributes[AbstractDot, {Flat, OneIdentity}];
 (* Numbers pull through the dot product *)
 AbstractDot[a_?NumericQ x_, y_] := a AbstractDot[x,y];
 AbstractDot[x_, a_?NumericQ y_] := a AbstractDot[x,y];
+
+AbstractDot[m_?NotBitensorQ^(a_),x_] := m^(a) AbstractDot[x];
+AbstractDot[m_?NotBitensorQ^(a_) x_, y_] := m^(a) AbstractDot[x,y];
+AbstractDot[x_, m_?NotBitensorQ^(a_) y_] := m^(a) AbstractDot[x,y];
 
 (* The dot product is distributive *)
 e : AbstractDot[_, _Plus] := Distribute[Unevaluated[e]]
