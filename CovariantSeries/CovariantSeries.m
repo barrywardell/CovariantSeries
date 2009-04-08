@@ -123,8 +123,12 @@ e: AddFreeIndex[_Plus,a_] := Distribute[Unevaluated[e]]
 
 CovariantSeriesCoefficient[bitensor_, n_, OptionsPattern[]]:=
   If[OptionValue[xTensorNotation] == True,
-    CovariantSeries`AvramidiToXTensor`AvramidiToXTensor[CovariantSeriesCoefficient[bitensor,n],
-      CovariantSeries`AvramidiToXTensor`TangentM], CovariantSeriesCoefficient[bitensor,n]]
+    If[FreeQ[$ContextPath, "CovariantSeries`AvramidiToXTensor`"],
+      Print["You must load the AvramidiToXTensor package first. Try '<<CovariantSeries`AvramidiToXTensor`'."];,
+      CovariantSeries`AvramidiToXTensor`AvramidiToXTensor[CovariantSeriesCoefficient[bitensor,n], CovariantSeries`AvramidiToXTensor`TangentM]
+    ],
+    CovariantSeriesCoefficient[bitensor,n]
+  ]
 
 (************************************ gamma ***********************************)
 GammaBitensor /: CovariantSeries[GammaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[GammaBitensor, i],{i,0,n}]
