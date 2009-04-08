@@ -37,7 +37,7 @@ in xTensor form.";
 $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
 
-DefManifold[M, 4, {a, b, c, d, e, f, h, i, j, k, l}];
+DefManifold[M, 4, {\[Alpha], \[Beta], a, b, c, d, e, f, h, i, j, k, l}];
 DefMetric[-1, g[-a, -b], CD, {";", "\[Del]"}];
 DefTensor[\[Sigma][a], M];
 
@@ -105,7 +105,8 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndi
   n = NumSigmaIndices[x];
     
   (* Get some free indices *)
-  freeIndices = GetIndicesOfVBundle[vbundle, 2]; (* FIXME: this could be different from 2 *)
+  freeIndices = {\[Alpha], -\[Beta]}; (*GetIndicesOfVBundle[vbundle, 2];*) (* FIXME: this could be different from 2 *)
+  (*freeIndices[[2]] = -freeIndices[[2]];*)
   
   (* Get enough indices *)
   sigmaIndices = GetIndicesOfVBundle[vbundle, n, freeIndices];
@@ -116,7 +117,7 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndi
 ]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
-AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
+AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
   (* Separate multiplication into a list of each term *)
   parts = List @@ x;
   
@@ -124,11 +125,28 @@ AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, 
   indicesPerTerm = Map[NumSigmaIndices, parts];
   
   (* And divide the indices up between each term *)
-  termIndices = Partition[indices, Sequence@@indicesPerTerm];
+  termIndices = Partition[sigmaIndices, Sequence@@indicesPerTerm];
   
   Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
 ]
 
+(* AbstractDot *)
+AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, numContractedIndices, contractedIndices, iter, expr},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  numContractedIndices = Length[x] - 1;
+
+  contractedIndices = {};
+  For[iter=1, iter<=numContractedIndices, iter++,
+    contractedIndices = Append[contractedIndices, NewIndexIn[vbundle]];
+  ];
+
+  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]]], sigmaIndices[[ 1 ;; NumSigmaIndices[ x[[1]] ] ]] ];
+
+  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ -NumSigmaIndices[ x[[-1]] ]  ;; -1 ]] ]
+]
+
+AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
 
 End[] (* End Private Context *)
 
