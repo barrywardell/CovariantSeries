@@ -131,19 +131,28 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
 ]
 
 (* AbstractDot *)
-AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, numContractedIndices, contractedIndices, iter, expr},
+AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
-  numContractedIndices = Length[x] - 1;
+  numTerms = Length[x];
+  numContractedIndices = numTerms - 1;
 
   contractedIndices = {};
   For[iter=1, iter<=numContractedIndices, iter++,
     contractedIndices = Append[contractedIndices, NewIndexIn[vbundle]];
   ];
+  
+  sigmaIndicesPerTerm = Map[NumSigmaIndices, List @@ x];
 
-  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]]], sigmaIndices[[ 1 ;; NumSigmaIndices[ x[[1]] ] ]] ];
-
-  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ -NumSigmaIndices[ x[[-1]] ]  ;; -1 ]] ]
+  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]] ], sigmaIndices[[ 1 ;; sigmaIndicesPerTerm[[1]] ]] ];
+  indicesUsed = sigmaIndicesPerTerm[[1]];
+  
+  For[iter=2 , iter<numTerms, iter++,
+  	expr = expr AvramidiToXTensor[x[[iter]], IndexList[ contractedIndices[[iter-1]], -contractedIndices[[iter]]], sigmaIndices[[ indicesUsed+1 ;; indicesUsed+1+sigmaIndicesPerTerm[[iter]] ]] ];
+  	indicesUsed += sigmaIndicesPerTerm[[iter]];
+  ];
+  
+  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]] ]
 ]
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
