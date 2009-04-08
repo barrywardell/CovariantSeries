@@ -93,14 +93,24 @@ RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] :=
 e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
 e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
 
-AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, indices, n},
+
+AvramidiToXTensor[a_?NumericQ, _] := a
+AvramidiToXTensor[a_?NumericQ x_, y_] := a AvramidiToXTensor[x,y]
+
+AvramidiToXTensor[CovariantSeries`m^(a_), _] := CovariantSeries`m^(a)
+AvramidiToXTensor[CovariantSeries`m^(a_) x_, y_] := CovariantSeries`m^(a) AvramidiToXTensor[x,y]
+
+AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndices, n},
   (* Find how many indices we need *)
   n = NumSigmaIndices[x];
+    
+  (* Get some free indices *)
+  freeIndices = GetIndicesOfVBundle[vbundle, 2]; (* FIXME: this could be different from 2 *)
   
   (* Get enough indices *)
-  indices = GetIndicesOfVBundle[vbundle, n];
-  
-  expr = AvramidiToXTensor[x, IndexList @@ indices];
+  sigmaIndices = GetIndicesOfVBundle[vbundle, n, freeIndices];
+
+  expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList @@ sigmaIndices];
   
   expr
 ]
@@ -119,9 +129,6 @@ AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, 
   Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
 ]
 
-AvramidiToXTensor[a_?NumericQ, _] := a
-
-AvramidiToXTensor[CovariantSeries`m^(a_), _] := CovariantSeries`m^(a)
 
 End[] (* End Private Context *)
 
