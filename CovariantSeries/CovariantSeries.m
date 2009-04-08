@@ -364,10 +364,11 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:=
 		];
 
 (************************************ a_k **************************************)
-DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
+DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], 0]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
 
-DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k_Integer?NonNegative], n_]:=
-	Sum[(-2)^(r + 1) r!/(k - 1 - r)! (m^2)^(k - 1 - r) CovariantSeriesCoefficient[VBitensor[r], 0], {r, 0, k - 1}] + (m^2)^k/k!
+DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k_Integer?NonNegative], 0]:=
+	DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k], 0]=
+		Expand[Sum[(-2)^(r + 1) r!/(k - 1 - r)! (m^2)^(k - 1 - r) CovariantSeriesCoefficient[VBitensor[r], 0], {r, 0, k - 1}] + (m^2)^k/k!]
 
 End[]
 
