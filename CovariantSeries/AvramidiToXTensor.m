@@ -61,9 +61,14 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
   
   (* Look for AddFreeIndices *)
   positions = Position[x, AddFreeIndex[_,_]];
-  (* Pull out the values for n and add them together *)
 
+  (* Pull out the values for n and add them together *)
   numIndices = numIndices - (Plus @@ (Part[x, Sequence @@ #, 2] & /@ positions));
+
+  (* Look for Power *)
+  positions = Position[x, Power[_,_]];
+
+  numIndices = numIndices + (Plus @@ ((Part[x, Sequence @@ #, 2]-1)NumSigmaIndices[Part[x, Sequence @@ #, 1]] & /@ positions));
 
   numIndices
 ]
@@ -128,6 +133,19 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
   termIndices = Partition[sigmaIndices, Sequence@@indicesPerTerm];
   
   Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
+]
+
+(* Powers - FIXME: assumes no free indices *)
+AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{expr, partitionedIndices, iter},
+  partitionedIndices = Partition[sigmaIndices, pow];
+
+  expr = 1;
+
+  For[iter = 1, iter <= pow, iter++,
+    expr = expr AvramidiToXTensor[x, freeIndices, partitionedIndices[[iter]]];
+  ];
+
+  expr
 ]
 
 (* AbstractDot *)
