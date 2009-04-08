@@ -157,6 +157,8 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
 
+AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := AvramidiToXTensor[x, IndexList[a, b], sigmaIndices] g[-a, -b]
+
 End[] (* End Private Context *)
 
 EndPackage[]
