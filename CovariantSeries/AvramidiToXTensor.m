@@ -49,11 +49,10 @@ PrintAs[RicciScalarCD] ^= "R";
 PrintAs[WeylCD] ^= "W";
 PrintAs[TFRicciCD] ^= "S";
 
-SetAttributes[AvramidiToXTensor, HoldFirst];
 
 Begin["`Private`"] (* Begin Private Context *) 
 (* Calculate the number of indices (contracted with sigma^a) used by an expression *)
-NumIndices[x_] := Module[{positions, numIndices},
+NumSigmaIndices[x_] := Module[{positions, numIndices},
   (* Find where the K[n]'s are*)
   positions = Position[x, \[ScriptCapitalK][_]];
   
@@ -90,22 +89,21 @@ RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] :=
   expr
 ]
 
+(* In a sum, we treat each term independently *)
+e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
+e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
+
 AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, indices, n},
   (* Find how many indices we need *)
-  n = Unevaluated[x][[2]];
+  n = NumSigmaIndices[x];
   
   (* Get enough indices *)
   indices = GetIndicesOfVBundle[vbundle, n];
   
-  expr = AvramidiToXTensor[Evaluate[x], IndexList @@ indices];
+  expr = AvramidiToXTensor[x, IndexList @@ indices];
   
   expr
 ]
-
-
-(* In a sum, we treat each term independently *)
-e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
-e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
 AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
@@ -113,7 +111,7 @@ AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, 
   parts = List @@ x;
   
   (* Figure out how many indices each term uses *)
-  indicesPerTerm = Map[NumIndices, parts];
+  indicesPerTerm = Map[NumSigmaIndices, parts];
   
   (* And divide the indices up between each term *)
   termIndices = Partition[indices, Sequence@@indicesPerTerm];
@@ -121,9 +119,9 @@ AvramidiToXTensor[x_Times, indices_IndexList] := Module[{parts, indicesPerTerm, 
   Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
 ]
 
-AvramidiToXTensor[a_?NumericQ, _IndexList] := a
+AvramidiToXTensor[a_?NumericQ, _] := a
 
-AvramidiToXTensor[CovariantSeries`m^(a_), _IndexList] := CovariantSeries`m^(a)
+AvramidiToXTensor[CovariantSeries`m^(a_), _] := CovariantSeries`m^(a)
 
 End[] (* End Private Context *)
 
