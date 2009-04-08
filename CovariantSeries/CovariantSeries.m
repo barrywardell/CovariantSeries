@@ -82,6 +82,9 @@ CovariantSeries::usage = "CovariantSeries[X, n] calculates the covariant series 
 CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates the order n "<>
 	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
 
+xTensorNotation::usage = "Specifies whether CovariantSeriesCoefficient should output in xTensor notation. Default: FALSE."
+Options[CovariantSeriesCoefficient] = {xTensorNotation -> False};
+
 Begin["`Private`"]
 (* Implementation of the package *)
 
@@ -117,6 +120,11 @@ e: AddFreeIndex[_Plus,a_] := Distribute[Unevaluated[e]]
 (*AddFreeIndex[x_] := x /. {(*\[ScriptCapitalL]->\[ScriptCapitalM],\[ScriptCapitalK]->\[ScriptCapitalL],*)
 	 \[ScriptCapitalK][n_,m_]:>\[ScriptCapitalK][n,m+1],\[ScriptCapitalK][n_]:>\[ScriptCapitalK][n,1],
 	 W[n_,m_]:>W[n,m+1], W[n_]:>W[n,1]} (* X->Y, W->X}*)*)
+
+CovariantSeriesCoefficient[bitensor_, n_, OptionsPattern[]]:=
+  If[OptionValue[xTensorNotation] == True,
+    CovariantSeries`AvramidiToXTensor`AvramidiToXTensor[CovariantSeriesCoefficient[bitensor,n],
+      CovariantSeries`AvramidiToXTensor`TangentM], CovariantSeriesCoefficient[bitensor,n]]
 
 (************************************ gamma ***********************************)
 GammaBitensor /: CovariantSeries[GammaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[GammaBitensor, i],{i,0,n}]
