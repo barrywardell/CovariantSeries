@@ -128,11 +128,12 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
   
   (* Figure out how many indices each term uses *)
   indicesPerTerm = Map[NumSigmaIndices, parts];
+
+  (* And divide the indices up between each term FIXME! *)
+  termIndices = Table[sigmaIndices[[ i ;; i+indicesPerTerm[[i]] ]], {i, 1, Plus@@indicesPerTerm, indicesPerTerm[[i]]}];
   
-  (* And divide the indices up between each term *)
-  termIndices = Partition[sigmaIndices, Sequence@@indicesPerTerm];
-  
-  Times@@MapThread[AvramidiToXTensor[#1, #2] &, {parts, List @@ termIndices}]
+  (* FIXME: we should have something other than freeIndices here *)
+  Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2] &, {parts, List @@ termIndices}]
 ]
 
 (* Powers - FIXME: assumes no free indices *)
