@@ -148,7 +148,7 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
 
 (* Powers - FIXME: assumes no free indices *)
 AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{expr, partitionedIndices, iter},
-  partitionedIndices = Partition[sigmaIndices, pow];
+  partitionedIndices = Partition[sigmaIndices, NumSigmaIndices[x]];
 
   expr = 1;
 
@@ -186,7 +186,7 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
 
-AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := AvramidiToXTensor[x, IndexList[a, b], sigmaIndices] g[-a, -b]
+AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices] g[-a, -b] ]
 
 End[] (* End Private Context *)
 
