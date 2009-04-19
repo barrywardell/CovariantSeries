@@ -73,6 +73,16 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
   numIndices
 ]
 
+PartitionIndices[indicesIn_, partition_]:= Module[{iter, expr, indices=indicesIn},
+  expr = {};
+    For[iter = 1, iter <= Length[partition], iter++,
+      AppendTo[expr, Take[indices, partition[[iter]]]];
+      indices = Drop[indices, partition[[iter]]];
+    ];
+  expr
+]
+
+
 (* Convert K_n to n derivatives of Riemann in xTensor form *)
 RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] := Module[{vbundle, CD, expr, i},
   (* Get the vbundle corresponding to the index a *)
@@ -129,8 +139,8 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
   (* Figure out how many indices each term uses *)
   indicesPerTerm = Map[NumSigmaIndices, parts];
 
-  (* And divide the indices up between each term FIXME! *)
-  termIndices = Table[sigmaIndices[[ i ;; i+indicesPerTerm[[i]] ]], {i, 1, Plus@@indicesPerTerm, indicesPerTerm[[i]]}];
+  (* And divide the indices up between each term *)
+  termIndices = PartitionIndices[sigmaIndices, indicesPerTerm];
   
   (* FIXME: we should have something other than freeIndices here *)
   Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2] &, {parts, List @@ termIndices}]
