@@ -64,7 +64,13 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
 
   (* Pull out the values for n and add them together *)
   numIndices = numIndices - (Plus @@ (Part[x, Sequence @@ #, 2] & /@ positions));
-
+  
+  (* Look for R[n] *)
+  positions = Position[x, \[ScriptCapitalR][_]];
+  
+  (* Pull out the values for n and add them together *)
+  numIndices = numIndices + Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
+ 
   (* Look for Power *)
   positions = Position[x, Power[_,_]];
 
