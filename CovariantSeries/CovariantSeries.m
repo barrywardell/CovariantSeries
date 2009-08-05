@@ -85,8 +85,13 @@ CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates
 xTensorNotation::usage = "Specifies whether CovariantSeriesCoefficient should output in xTensor notation. Default: FALSE."
 Options[CovariantSeriesCoefficient] = {xTensorNotation -> False};
 
+SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculations by ignoring terms which are 0 in Ricci-flat spacetimes";
+
 Begin["`Private`"]
 (* Implementation of the package *)
+
+(* For Ricci-flat spacetimes, we can set tr(K[_]) = 0 *)
+SetRicciFlat[] := Module[{},AbstractTrace[\[ScriptCapitalK][_]] = 0;]
 
 (************************************** D *************************************)
 (* Part that keeps the order the same *)
