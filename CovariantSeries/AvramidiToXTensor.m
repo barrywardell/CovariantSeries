@@ -60,10 +60,7 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
   numIndices = Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
   
   (* Look for AddFreeIndices *)
-  positions = Position[x, AddFreeIndex[_,_]];
-
-  (* Pull out the values for n and add them together *)
-  numIndices = numIndices - (Plus @@ (Part[x, Sequence @@ #, 2] & /@ positions));
+  numIndices = numIndices - NumAddFreeIndices[x];
   
   (* Look for R[n] *)
   positions = Position[x, \[ScriptCapitalR][_]];
@@ -75,6 +72,16 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
   positions = Position[x, Power[_,_]];
 
   numIndices = numIndices + (Plus @@ ((Part[x, Sequence @@ #, 2]-1)NumSigmaIndices[Part[x, Sequence @@ #, 1]] & /@ positions));
+
+  numIndices
+]
+
+NumAddFreeIndices[x_] := Module[{positions, numIndices},
+  (* Look for AddFreeIndices *)
+  positions = Position[x, AddFreeIndex[_,_]];
+
+  (* Pull out the values for n and add them together *)
+  numIndices = (Plus @@ (Part[x, Sequence @@ #, 2] & /@ positions));
 
   numIndices
 ]
