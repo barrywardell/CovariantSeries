@@ -128,9 +128,10 @@ AvramidiToXTensor[a_?NumericQ x_, y_] := a AvramidiToXTensor[x,y]
 AvramidiToXTensor[CovariantSeries`m^(a_), _] := CovariantSeries`m^(a)
 AvramidiToXTensor[CovariantSeries`m^(a_) x_, y_] := CovariantSeries`m^(a) AvramidiToXTensor[x,y]
 
-AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndices, n},
+AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndices, addFreeIndices, n, nf},
   (* Find how many indices we need *)
   n = NumSigmaIndices[x];
+  nf = NumAddFreeIndices[x];
     
   (* Get some free indices *)
   freeIndices = {\[Alpha], -\[Beta]}; (*GetIndicesOfVBundle[vbundle, 2];*) (* FIXME: this could be different from 2 *)
@@ -138,14 +139,15 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndi
   
   (* Get enough indices *)
   sigmaIndices = GetIndicesOfVBundle[vbundle, n, freeIndices];
+  addFreeIndices = GetIndicesOfVBundle[vbundle, nf, Join[freeIndices, sigmaIndices]];
 
-  expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList @@ sigmaIndices];
+  expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList @@ sigmaIndices, IndexList@@addFreeIndices];
   
   expr
 ]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
-AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
+AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
   (* Separate multiplication into a list of each term *)
   parts = List @@ x;
   
@@ -160,7 +162,7 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Mod
 ]
 
 (* Powers - FIXME: assumes no free indices *)
-AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{expr, partitionedIndices, iter},
+AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexLis] := Module[{expr, partitionedIndices, iter},
   partitionedIndices = Partition[sigmaIndices, NumSigmaIndices[x]];
 
   expr = 1;
@@ -173,7 +175,7 @@ AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, 
 ]
 
 (* AbstractDot *)
-AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
+AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexLis] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   numTerms = Length[x];
