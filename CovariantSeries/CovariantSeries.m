@@ -271,12 +271,12 @@ AbstractCovD /: CovariantSeriesCoefficient[AbstractCovD[x_?BitensorQ], n_]:=
 AbstractDal /: CovariantSeries[AbstractDal[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractDal[x], i],{i,0,n}]
 
 AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x_?BitensorQ], 0] := 
-	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], 0] = AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],1]];
+	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], 0] = AbstractTrace[AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],1]]];
 
 AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x_?BitensorQ], n_]:= 
 	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], n] = 
-		Expand[-Sum[Binomial[n, k]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],k+1]],
-			CovariantSeriesCoefficient[EtaBitensor,n-k] ], {k, 0, n}]
+		Expand[-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],k+1]],
+			CovariantSeriesCoefficient[EtaBitensor,n-k] ]], {k, 0, n}]
 			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
 				CovariantSeriesCoefficient[AbstractCovD[x],n-k] ], {k, 1, n}]
 		];
