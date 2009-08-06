@@ -76,7 +76,7 @@ AbstractTrace[a_?NumericQ] := a;
 e : AbstractTrace[_Plus] := Distribute[Unevaluated[e]];
 
 (* Print AbstractTrace[x] as a tr[x] *)
-Format[AbstractTrace[x_]] := "tr"x;
+Format[AbstractTrace[x_]] := "tr"[x];
 
 (****************************** SimplifyTrace ********************************)
 (* Convert symbols representing matrices to a sequence of numbers in the range
