@@ -38,7 +38,7 @@ $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
 
 DefManifold[M, 4, {\[Alpha], \[Beta], a, b, c, d, e, f, h, i, j, k, l}];
-DefMetric[-1, g[-a, -b], CD, {";", "\[Del]"}];
+DefMetric[-1, g[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
 DefTensor[\[Sigma][a], M];
 
 PrintAs[g] ^= "g";
@@ -158,24 +158,24 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList, addFre
   termIndices = PartitionIndices[sigmaIndices, indicesPerTerm];
   
   (* FIXME: we should have something other than freeIndices here *)
-  Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2] &, {parts, List @@ termIndices}]
+  Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2, addFreeIndices] &, {parts, List @@ termIndices}]
 ]
 
 (* Powers - FIXME: assumes no free indices *)
-AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexLis] := Module[{expr, partitionedIndices, iter},
+AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{expr, partitionedIndices, iter},
   partitionedIndices = Partition[sigmaIndices, NumSigmaIndices[x]];
 
   expr = 1;
 
   For[iter = 1, iter <= pow, iter++,
-    expr = expr AvramidiToXTensor[x, freeIndices, partitionedIndices[[iter]]];
+    expr = expr AvramidiToXTensor[x, freeIndices, partitionedIndices[[iter]], addFreeIndices];
   ];
 
   expr
 ]
 
 (* AbstractDot *)
-AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexLis] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
+AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   numTerms = Length[x];
@@ -188,20 +188,46 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, 
   
   sigmaIndicesPerTerm = Map[NumSigmaIndices, List @@ x];
 
-  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]] ], sigmaIndices[[ 1 ;; sigmaIndicesPerTerm[[1]] ]] ];
+  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]] ], sigmaIndices[[ 1 ;; sigmaIndicesPerTerm[[1]] ]], addFreeIndices ];
   indicesUsed = sigmaIndicesPerTerm[[1]];
   
   For[iter=2 , iter<numTerms, iter++,
-  	expr = expr AvramidiToXTensor[x[[iter]], IndexList[ contractedIndices[[iter-1]], -contractedIndices[[iter]]], sigmaIndices[[ indicesUsed+1 ;; indicesUsed+1+sigmaIndicesPerTerm[[iter]] ]] ];
+  	expr = expr AvramidiToXTensor[x[[iter]], IndexList[ contractedIndices[[iter-1]], -contractedIndices[[iter]]], sigmaIndices[[ indicesUsed+1 ;; indicesUsed+1+sigmaIndicesPerTerm[[iter]] ]], addFreeIndices ];
   	indicesUsed += sigmaIndicesPerTerm[[iter]];
   ];
   
-  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]] ]
+  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]], addFreeIndices ]
 ]
 
-AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
+(* AddFreeIndices *)
+AvramidiToXTensor[x_AddFreeIndex, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+  
+  n = NumSigmaIndices[x];
+  nf = NumAddFreeIndices[x];
+  
+  res = Insert[sigmaIndices, addFreeIndices[[1]], #] & /@ Range[1, n+1];
+  extraSigmaIndices = IndexList@@GetIndicesOfVBundle[vbundle, nf, Join[freeIndices, sigmaIndices, addFreeIndices]];
+  
+  allSigmaIndices = Join[sigmaIndices, extraSigmaIndices];
+  
+  originalExpr = 1/(n+nf) AvramidiToXTensor[x[[1]], freeIndices, allSigmaIndices, addFreeIndices[[1;;nf]]];
+  expr = 0;
+  iter2=1;
+  For[iter2=1, iter2<=nf, iter2++,
+    For[iter=1, iter<=(n+nf), iter++,
+  	  expr = expr + originalExpr metric[ allSigmaIndices[[iter]], -addFreeIndices[[iter2]] ];
+    ];
+  ];
 
-AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices] g[-a, -b] ]
+  {allSigmaIndices,addFreeIndices,expr,res}
+]
+
+AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
+
+AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices, addFreeIndices] g[-a, -b] ]
 
 End[] (* End Private Context *)
 
