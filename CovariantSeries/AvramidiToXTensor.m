@@ -204,25 +204,19 @@ AvramidiToXTensor[x_AddFreeIndex, freeIndices_IndexList, sigmaIndices_IndexList,
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   metric = First[MetricsOfVBundle[vbundle]];
-  
+
   n = NumSigmaIndices[x];
   nf = NumAddFreeIndices[x];
-  
-  res = Insert[sigmaIndices, addFreeIndices[[1]], #] & /@ Range[1, n+1];
-  extraSigmaIndices = IndexList@@GetIndicesOfVBundle[vbundle, nf, Join[freeIndices, sigmaIndices, addFreeIndices]];
-  
-  allSigmaIndices = Join[sigmaIndices, extraSigmaIndices];
-  
-  originalExpr = 1/(n+nf) AvramidiToXTensor[x[[1]], freeIndices, allSigmaIndices, addFreeIndices[[1;;nf]]];
-  expr = 0;
-  iter2=1;
-  For[iter2=1, iter2<=nf, iter2++,
-    For[iter=1, iter<=(n+nf), iter++,
-  	  expr = expr + originalExpr metric[ allSigmaIndices[[iter]], -addFreeIndices[[iter2]] ];
-    ];
-  ];
 
-  {allSigmaIndices,addFreeIndices,expr,res}
+  res = Insert[sigmaIndices, addFreeIndices[[1]], #] & /@ Range[1, n+1];
+
+  extraSigmaIndices = IndexList@@GetIndicesOfVBundle[vbundle, nf, Join[freeIndices, sigmaIndices, addFreeIndices]];
+
+  allSigmaIndices = Join[sigmaIndices, extraSigmaIndices];
+
+  expr = 1/(n+nf) AvramidiToXTensor[x[[1]], freeIndices, #, addFreeIndices[[1;;nf]]]& /@ Plus@@res;
+
+  expr
 ]
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
