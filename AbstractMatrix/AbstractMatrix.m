@@ -69,6 +69,9 @@ Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"\[CircleTimes]"];
 (* AbstractTrace(aB)=a*AbstractTrace(B), a is a number, B is an AbstractMatrix *)
 AbstractTrace[a_?NumericQ x_] := a*AbstractTrace[x];
 
+AbstractTrace[m_?NotBitensorQ^(a_)] := m^(a);
+AbstractTrace[m_?NotBitensorQ^(a_) x_] := m^(a) AbstractTrace[x];
+
 (* AbstractTrace(a)=a, where a is a number *)
 AbstractTrace[a_?NumericQ] := a;
 
