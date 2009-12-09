@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* AvramidiToXTensor Mathematica package 
    This is a Mathematica package for converting expressions from Avramidi notation
    to a the notation used by xTensor.
@@ -200,7 +202,7 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, 
 ]
 
 (*AddFreeIndices*)
-AvramidiToXTensor[x_AddFreeIndex[_,2], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] :=
+AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] :=
   Module[{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
@@ -212,6 +214,86 @@ AvramidiToXTensor[x_AddFreeIndex[_,2], freeIndices_IndexList, sigmaIndices_Index
   AvramidiToXTensor[x[[1]], addFreeIndices[[1 ;; 2]],
     Join[IndexList[-freeIndices[[1]]], IndexList[-freeIndices[[2]]], 
      sigmaIndices], addFreeIndices[[3 ;; -1]]]
+]
+
+AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+  (*Get the vbundle corresponding to the index a*)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+  contractedIndex = NewIndexIn[vbundle];
+  index2 = NewIndexIn[vbundle];
+  q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
+  s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
+
+  n1 = NumSigmaIndices[x]-1;
+  n2 = NumSigmaIndices[y];
+
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],
+    Print["Error!"];
+  ];
+
+  AvramidiToXTensor[x,IndexList[freeIndices[[1]],index2],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
+]
+
+AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+  (*Get the vbundle corresponding to the index a*)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+  contractedIndex = NewIndexIn[vbundle];
+  index2 = NewIndexIn[vbundle];
+  q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
+  s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
+
+  n1 = NumSigmaIndices[x]-2;
+  n2 = NumSigmaIndices[y];
+
+  (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
+  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
+]
+
+AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+  (*Get the vbundle corresponding to the index a*)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+  contractedIndex = NewIndexIn[vbundle];
+  index2 = NewIndexIn[vbundle];
+  q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
+  s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
+
+  n1 = NumSigmaIndices[x]-1;
+  n2 = NumSigmaIndices[y];
+
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],
+    Print["Error!"];
+  ];
+
+  AvramidiToXTensor[x,IndexList[freeIndices[[2]],index2],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
+]
+
+AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+  (*Get the vbundle corresponding to the index a*)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+  contractedIndex = NewIndexIn[vbundle];
+  index2 = NewIndexIn[vbundle];
+  q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
+  s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
+
+  n1 = NumSigmaIndices[x]-2;
+  n2 = NumSigmaIndices[y];
+
+  (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
+  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[freeIndices[[2]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
 ]
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
