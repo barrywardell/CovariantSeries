@@ -252,7 +252,7 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sig
   n2 = NumSigmaIndices[y];
 
   (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
-  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[-freeIndices[[1]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
   AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
 ]
 
@@ -292,7 +292,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
   n2 = NumSigmaIndices[y];
 
   (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
-  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[freeIndices[[2]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
+  AvramidiToXTensor[x,IndexList[q,index2],Join[IndexList[-freeIndices[[2]],contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]
   AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]
 ]
 
