@@ -237,6 +237,20 @@ AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_Ind
      sigmaIndices], addFreeIndices[[3 ;; -1]]]
 ]
 
+(* FIXME: This works for the term in V_ 1. Check it also works for all other cases. *)
+AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] :=
+  Module[{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  metric = First[MetricsOfVBundle[vbundle]];
+
+  n = NumSigmaIndices[x];
+  nf = NumAddFreeIndices[x];
+
+  AvramidiToXTensor[x[[1]], IndexList[addFreeIndices[[1]], freeIndices[[2]]],
+    Join[IndexList[-freeIndices[[1]]], sigmaIndices], addFreeIndices[[2 ;; -1]]]
+]
+
 AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
 {res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
