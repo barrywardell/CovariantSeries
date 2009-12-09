@@ -39,7 +39,7 @@ in xTensor form.";
 $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
 
-DefManifold[M, 4, {\[Alpha], \[Beta], a, b, c, d, e, f, h, i, j, k, l}];
+DefManifold[M, 4, {\[Alpha], \[Beta], b, c, d, e, f, h, i, j, k, l, a}];
 DefMetric[-1, g[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
 DefTensor[\[Sigma][a], M];
 
