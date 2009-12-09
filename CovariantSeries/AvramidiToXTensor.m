@@ -119,6 +119,27 @@ RiemannPart[\[ScriptCapitalK][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] :=
   expr
 ]
 
+(* Convert R_n to n derivatives of Ricci in xTensor form *)
+RiemannPart[\[ScriptCapitalR][n_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] := Module[{vbundle, CD, expr, i},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = VBundleOfIndex[a];
+
+  (* Get the covariant derivative
+     FIXME: Should we worry about getting a different CD for each index?
+     Probably not, but maybe there is a case where it would be important. *)
+  CD = CovDOfMetric[First[MetricsOfVBundle[vbundle]]];
+
+  (* First, create the Riemann tensor *)
+  expr = Ricci[CD][b, -indices[[1]]];
+
+  (* Add covariant derivatives *)
+  For[i = 2, i <= n, i++,
+   expr = CD[-indices[[i]]]@expr;
+  ];
+
+  expr
+]
+
 (* In a sum, we treat each term independently *)
 e : AvramidiToXTensor[_Plus, _, _] := Distribute[Unevaluated[e]]
 e : AvramidiToXTensor[_Plus, _] := Distribute[Unevaluated[e]]
@@ -297,6 +318,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
 ]
 
 AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
+AvramidiToXTensor[\[ScriptCapitalR][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalR][n], a, b, sigmaIndices]
 
 AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices, addFreeIndices] g[-a, -b] ]
 
