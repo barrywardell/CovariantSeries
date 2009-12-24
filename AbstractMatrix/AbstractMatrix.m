@@ -27,6 +27,7 @@ AbstractMatrix::usage = "AbstractMatrix is a package which provides abstract mat
 AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X and Y."
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
 SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form. This allows for the simplification of expressions with AbstractTrace[] in them."
+CyclicPermutations::usage = "CyclicPermutations[x] calculates the cyclic permutations of X."
 
 (* Error Messages *)
 SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
