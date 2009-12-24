@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* AbstractMatrix Mathematica package 
    This is a Mathematica for doing abstract matrix calculations. It
    treats any non-numeric symbols as matrices.
@@ -66,13 +68,13 @@ e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
 Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"\[CircleTimes]"];
 
 (****************************** AbstractTrace ********************************)
-(* AbstractTrace(aB)=a*AbstractTrace(B), a is a number, B is an AbstractMatrix *)
+(* AbstractTrace (aB)=a*AbstractTrace (B), a is a number, B is an AbstractMatrix *)
 AbstractTrace[a_?NumericQ x_] := a*AbstractTrace[x];
 
 AbstractTrace[m_?NotBitensorQ^(a_)] := m^(a);
 AbstractTrace[m_?NotBitensorQ^(a_) x_] := m^(a) AbstractTrace[x];
 
-(* AbstractTrace(a)=a, where a is a number *)
+(* AbstractTrace (a)=a, where a is a number *)
 AbstractTrace[a_?NumericQ] := a;
 
 (* Trace is distributive *)
@@ -144,3 +146,6 @@ SimplifyTrace[x_Power] := Power[SimplifyTrace[x[[1]]], x[[2]]]
 End[]
 
 EndPackage[]
+
+
+
