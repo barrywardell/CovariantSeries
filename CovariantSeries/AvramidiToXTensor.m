@@ -151,10 +151,9 @@ AvramidiToXTensor[a_?NumericQ x_, y_] := a AvramidiToXTensor[x,y]
 AvramidiToXTensor[CovariantSeries`m^(a_), _] := CovariantSeries`m^(a)
 AvramidiToXTensor[CovariantSeries`m^(a_) x_, y_] := CovariantSeries`m^(a) AvramidiToXTensor[x,y]
 
-AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndices, addFreeIndices, n, nf},
+AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndices, n},
   (* Find how many indices we need *)
   n = NumSigmaIndices[x];
-  nf = NumAddFreeIndices[x];
     
   (* Get some free indices *)
   freeIndices = {\[Alpha], -\[Beta]}; (*GetIndicesOfVBundle[vbundle, 2];*) (* FIXME: this could be different from 2 *)
@@ -162,15 +161,14 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] := Module[{expr, sigmaIndices, freeIndi
   
   (* Get enough indices *)
   sigmaIndices = GetIndicesOfVBundle[vbundle, n, freeIndices];
-  addFreeIndices = GetIndicesOfVBundle[vbundle, nf, Join[freeIndices, sigmaIndices]];
 
-  expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList @@ sigmaIndices, IndexList@@addFreeIndices];
+  expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList @@ sigmaIndices];
   
   expr
 ]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
-AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
+AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{parts, indicesPerTerm, termIndices},
   (* Separate multiplication into a list of each term *)
   parts = List @@ x;
   
@@ -181,24 +179,24 @@ AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList, addFre
   termIndices = PartitionIndices[sigmaIndices, indicesPerTerm];
   
   (* FIXME: we should have something other than freeIndices here *)
-  Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2, addFreeIndices] &, {parts, List @@ termIndices}]
+  Times@@MapThread[AvramidiToXTensor[#1, freeIndices, #2] &, {parts, List @@ termIndices}]
 ]
 
 (* Powers - FIXME: assumes no free indices *)
-AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{expr, partitionedIndices, iter},
+AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{expr, partitionedIndices, iter},
   partitionedIndices = Partition[sigmaIndices, NumSigmaIndices[x]];
 
   expr = 1;
 
   For[iter = 1, iter <= pow, iter++,
-    expr = expr AvramidiToXTensor[x, freeIndices, partitionedIndices[[iter]], addFreeIndices];
+    expr = expr AvramidiToXTensor[x, freeIndices, partitionedIndices[[iter]]];
   ];
 
   expr
 ]
 
 (* AbstractDot *)
-AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
+AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, numTerms, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   numTerms = Length[x];
@@ -211,52 +209,49 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList, 
   
   sigmaIndicesPerTerm = Map[NumSigmaIndices, List @@ x];
 
-  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]] ], sigmaIndices[[ 1 ;; sigmaIndicesPerTerm[[1]] ]], addFreeIndices ];
+  expr = AvramidiToXTensor[x[[1]], IndexList[ freeIndices[[1]], -contractedIndices[[1]] ], sigmaIndices[[ 1 ;; sigmaIndicesPerTerm[[1]] ]] ];
   indicesUsed = sigmaIndicesPerTerm[[1]];
   
   For[iter=2 , iter<numTerms, iter++,
-  	expr = expr AvramidiToXTensor[x[[iter]], IndexList[ contractedIndices[[iter-1]], -contractedIndices[[iter]]], sigmaIndices[[ indicesUsed+1 ;; indicesUsed+1+sigmaIndicesPerTerm[[iter]] ]], addFreeIndices ];
+  	expr = expr AvramidiToXTensor[x[[iter]], IndexList[ contractedIndices[[iter-1]], -contractedIndices[[iter]]], sigmaIndices[[ indicesUsed+1 ;; indicesUsed+1+sigmaIndicesPerTerm[[iter]] ]] ];
   	indicesUsed += sigmaIndicesPerTerm[[iter]];
   ];
   
-  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]], addFreeIndices ]
+  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], freeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]] ]
 ]
 
 
 (*AddFreeIndices*)
-AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] :=
-  Module[{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,extraIndices},
+AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList] :=
+  Module[{res, n, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,extraIndices},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   metric = First[MetricsOfVBundle[vbundle]];
 
   n = NumSigmaIndices[x];
-  nf = NumAddFreeIndices[x];
 
   extraIndices = IndexList[NewIndexIn[vbundle],NewIndexIn[vbundle]];
 
-  Apply[Plus, AvramidiToXTensor[x[[1]], extraIndices,#,addFreeIndices]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[-freeIndices[[2]]],sigmaIndices[[1;;n]]]],1] ]/((n+2)(n+1))
+  Apply[Plus, AvramidiToXTensor[x[[1]], extraIndices,#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[-freeIndices[[2]]],sigmaIndices[[1;;n]]]],1] ]/((n+2)(n+1))
 ]
 
 (* FIXME: This works for the term in V_ 1. Check it also works for all other cases. *)
-AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] :=
-  Module[{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2, addFreeIndicesAvail, extraIndex},
+AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList] :=
+  Module[{res, n, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2, extraIndex},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   metric = First[MetricsOfVBundle[vbundle]];
 
   n = NumSigmaIndices[x];
-  nf = NumAddFreeIndices[x];
 
   extraIndex= NewIndexIn[vbundle];
-  addFreeIndicesAvail = Length[addFreeIndices];
 
   Apply[Plus,AvramidiToXTensor[x[[1]], IndexList[extraIndex, freeIndices[[2]]],
-    #, addFreeIndices]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n]], IndexList[-freeIndices[[1]]]]]] / (n+1)
+    #]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n]], IndexList[-freeIndices[[1]]]]]] / (n+1)
 ]
 
-AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
-{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
+{res, n, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
   metric = First[MetricsOfVBundle[vbundle]];
@@ -268,16 +263,16 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
 
-  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!=
-      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],
     Print["Error!"];
   ];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[1]],index2],#,IndexList[]]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
-  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]],IndexList[]] / (n1+1)
+  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[1]],index2],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]]] / (n1+1)
 ]
 
-AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
@@ -290,12 +285,11 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-2;
   n2 = NumSigmaIndices[y];
 
-  (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
-  Apply[Plus, AvramidiToXTensor[x,IndexList[q,index2],#,IndexList[]]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
-  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]],IndexList[]] / ((n1+2)(n1+1))
+  Apply[Plus, AvramidiToXTensor[x,IndexList[q,index2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
+  AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]]] / ((n1+2)(n1+1))
 ]
 
-AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
@@ -308,16 +302,16 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
 
-  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!=
-      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],
     Print["Error!"];
   ];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[2]],index2],#,IndexList[]]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
-  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]/ (n1+1)
+  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[2]],index2],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ (n1+1)
 ]
 
-AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
+AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
@@ -330,20 +324,19 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-2;
   n2 = NumSigmaIndices[y];
 
-  (*If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!= AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],Print["Error!"];];*)
-  Apply[Plus, AvramidiToXTensor[x,IndexList[q,index2],#,IndexList[]]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[2]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
-  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]],IndexList[]]/ ((n1+2)(n1+1))
+  Apply[Plus, AvramidiToXTensor[x,IndexList[q,index2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[2]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
+  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ ((n1+2)(n1+1))
 ]
 
-AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
-AvramidiToXTensor[\[ScriptCapitalR][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := RiemannPart[\[ScriptCapitalR][n], a, b, sigmaIndices]
+AvramidiToXTensor[\[ScriptCapitalK][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], a, b, sigmaIndices]
+AvramidiToXTensor[\[ScriptCapitalR][n_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalR][n], a, b, sigmaIndices]
 
-AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices, addFreeIndices] g[-a, -b] ]
+AvramidiToXTensor[AbstractTrace[x_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, b], sigmaIndices] g[-a, -b] ]
 
 (* FIXME: We need to treat this as a special case because otherwise we get {-beta, -beta} as free indices rather than {alpha, -beta}.
    Ideally we shouldn't have to worry about this special case *)
-AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
-{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
+AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := Module[
+{res, n, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[a];
   metric = First[MetricsOfVBundle[vbundle]];
@@ -355,17 +348,17 @@ AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
 
-  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]]!=
-      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]],IndexList[]],
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],
     Print["Error!"];
   ];
 
-  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#,IndexList[]]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
-    AvramidiToXTensor[y,IndexList[contractedIndex,b],sigmaIndices[[n1+1;;n1+n2]],IndexList[]] / (n1+1)]
+  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+    AvramidiToXTensor[y,IndexList[contractedIndex,b],sigmaIndices[[n1+1;;n1+n2]]] / (n1+1)]
 ]
 
-AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList, addFreeIndices_IndexList] := Module[
-{res, n, nf, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex1,contractedIndex2,n1,n2,index2,q,r,s,t},
+AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := Module[
+{res, n, extraSigmaIndices, vbundle, metric, allSigmaIndices, originalExpr, expr, iter, iter2,contractedIndex1,contractedIndex2,n1,n2,index2,q,r,s,t},
   (*Get the vbundle corresponding to the index a*)
   vbundle = VBundleOfIndex[a];
   metric = First[MetricsOfVBundle[vbundle]];
@@ -378,15 +371,13 @@ AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], In
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
 
-  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex1],sigmaIndices[[1;;n1]]],IndexList[]]!=
-      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex1],sigmaIndices[[1;;n1]]],IndexList[]],
+  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex1],sigmaIndices[[1;;n1]]]]!=
+      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex1],sigmaIndices[[1;;n1]]]],
     Print["Error!"];
   ];
 
-  ReplaceDummies[AvramidiToXTensor[\[ScriptCapitalR][k],IndexList[index2,-contractedIndex2],sigmaIndices[[1;;k]],IndexList[]]Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#,IndexList[]]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]]
-    AvramidiToXTensor[y,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+1;;k+n1+n2]],IndexList[]] / (n1+1)](*;
-{AvramidiToXTensor[\[ScriptCapitalR][k],IndexList[index2,-contractedIndex2],sigmaIndices[[1;;k]],IndexList[]],Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#,IndexList[]]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]],
-    AvramidiToXTensor[y,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+1;;k+n1+n2]],IndexList[]] / (n1+1)}*)
+  ReplaceDummies[AvramidiToXTensor[\[ScriptCapitalR][k],IndexList[index2,-contractedIndex2],sigmaIndices[[1;;k]]]Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]]
+    AvramidiToXTensor[y,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+1;;k+n1+n2]]] / (n1+1)]
 ]
 
 End[] (* End Private Context *)
