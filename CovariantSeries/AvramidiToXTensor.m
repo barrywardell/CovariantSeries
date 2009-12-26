@@ -270,7 +270,7 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sig
     Print["Error!"];
   ];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[1]],unusedIndex],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[1]],unusedIndex],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]*
   AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]]] / (n1+1)
 ]
 
@@ -286,7 +286,7 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-2;
   n2 = NumSigmaIndices[y];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[unusedIndex1,unusedIndex2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
+  Apply[Plus, AvramidiToXTensor[x,IndexList[unusedIndex1,unusedIndex2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]*
   AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]]] / ((n1+2)(n1+1))
 ]
 
@@ -308,7 +308,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sig
     Print["Error!"];
   ];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[2]],unusedIndex],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[2]],unusedIndex],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]*
   AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ (n1+1)
 ]
 
@@ -324,7 +324,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
   n1 = NumSigmaIndices[x]-2;
   n2 = NumSigmaIndices[y];
 
-  Apply[Plus, AvramidiToXTensor[x,IndexList[unusedIndex1, unusedIndex2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[2]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]
+  Apply[Plus, AvramidiToXTensor[x,IndexList[unusedIndex1, unusedIndex2],#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[2]]],#]]&/@CyclicPermutations[Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],1] ]*
   AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ ((n1+2)(n1+1))
 ]
 
@@ -352,7 +352,7 @@ AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList
     Print["Error!"];
   ];
 
-  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]
+  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]*
     AvramidiToXTensor[y,IndexList[contractedIndex,b],sigmaIndices[[n1+1;;n1+n2]]] / (n1+1)]
 ]
 
@@ -375,7 +375,7 @@ AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], In
     Print["Error!"];
   ];
 
-  ReplaceDummies[AvramidiToXTensor[\[ScriptCapitalR][k],IndexList[unusedIndex,-contractedIndex2],sigmaIndices[[1;;k]]]Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]]
+  ReplaceDummies[AvramidiToXTensor[\[ScriptCapitalR][k],IndexList[unusedIndex,-contractedIndex2],sigmaIndices[[1;;k]]]Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]]*
     AvramidiToXTensor[y,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+1;;k+n1+n2]]] / (n1+1)]
 ]
 
