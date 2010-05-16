@@ -92,10 +92,13 @@ NumAddFreeIndices[x_] := Module[{positions, numIndices},
 
 NumFreeIndices[\[ScriptCapitalR][_]] := 3;
 NumFreeIndices[\[ScriptCapitalK][_]] := 2;
-NumFreeIndices[x_AbstractDot] := Plus@@(NumFreeIndices/@(List@@x)) - 2 (Length[x]-1)
-NumFreeIndices[AbstractTrace[_]]:=0
+NumFreeIndices[x_AbstractDot] := Plus@@(NumFreeIndices/@(List@@x)) - 2 (Length[x]-1);
+NumFreeIndices[x_AbstractTrace]:= NumFreeIndices[x[[1]]]-2;
+NumFreeIndices[x_Contraction]:= NumFreeIndices[x[[1]]]-2;
 NumFreeIndices[x_Times] := Plus @@(NumFreeIndices/@(List@@x));
 NumFreeIndices[x_Power] := x[[2]]NumFreeIndices[x[[1]]];
+NumFreeIndices[x_AddFreeIndex] := x[[2]]+NumFreeIndices[x[[1]]];
+NumFreeIndices[n_?NumericQ] := 0;
 
 PartitionIndices[indicesIn_, partition_]:= Module[{iter, expr, indices=indicesIn},
   expr = {};
@@ -252,8 +255,16 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
 ]
 
 (* AbstractTrace *)
-AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{a = DummyIndices[[1]]},
+AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{a = Complement[DummyIndices,Join[List@@sigmaIndices,List@@freeIndices]][[1]]},
   ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, a], sigmaIndices] ]
+]
+
+(* AbstractTrace *)
+AvramidiToXTensor[Contraction[x_, pos_List], freeIndices_IndexList, sigmaIndices_IndexList] :=
+  Module[{a = Complement[DummyIndices,Join[List@@sigmaIndices,List@@freeIndices]][[1]], spos = Sort[pos], freeIndicesList},
+  freeIndicesList = IndexList@@Riffle[List@@freeIndices, a, {spos[[1]], spos[[2]], spos[[2]]-spos[[1]]}];
+  freeIndicesList[[pos[[1]]]] = - freeIndicesList[[pos[[1]]]];
+  ReplaceDummies[ AvramidiToXTensor[x, freeIndicesList, sigmaIndices] ]
 ]
 
 (* \[ScriptCapitalK] and \[ScriptCapitalR] *)
@@ -263,29 +274,32 @@ AvramidiToXTensor[\[ScriptCapitalR][n_], inds_IndexList, sigmaIndices_IndexList]
 
 (*AddFreeIndices*)
 AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList] :=
-  Module[{nsi, vbundle, extraIndices},
+  Module[{nsi, vbundle, a, b},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
 
   nsi = NumSigmaIndices[x];
 
-  extraIndices = IndexList[NewIndexIn[vbundle],NewIndexIn[vbundle]];
+  a = freeIndices[[-2]];
+  b = freeIndices[[-1]];
 
-  Apply[Plus, AvramidiToXTensor[x[[1]], extraIndices,#]& /@ Flatten[CyclicPermutations[Join[IndexList[-freeIndices[[1]]],#]]&/@CyclicPermutations[Join[IndexList[-freeIndices[[2]]],sigmaIndices[[1;;nsi]]]],1] ]/((nsi+2)(nsi+1))
+  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x[[1]], freeIndices[[1;;-3]], #]& /@ 
+    Flatten[CyclicPermutations[Join[IndexList[-a],#]]&/@
+      CyclicPermutations[Join[IndexList[b],sigmaIndices[[1;;nsi]]]],1] ]/((nsi+2)(nsi+1))]
 ]
 
 (* FIXME: This works for the term in V_ 1. Check it also works for all other cases. *)
 AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList] :=
-  Module[{nsi, vbundle, extraIndex},
+  Module[{nsi, vbundle, a},
   (* Get the vbundle corresponding to the index a *)
   vbundle = VBundleOfIndex[freeIndices[[1]]];
 
   nsi = NumSigmaIndices[x];
 
-  extraIndex= NewIndexIn[vbundle];
+  a = freeIndices[[-1]];
 
-  Apply[Plus,AvramidiToXTensor[x[[1]], IndexList[extraIndex, freeIndices[[2]]],
-    #]& /@ CyclicPermutations[Join[sigmaIndices[[1;;nsi]], IndexList[-freeIndices[[1]]]]]] / (nsi+1)
+  ReplaceDummies[Apply[Plus,AvramidiToXTensor[x[[1]], freeIndices[[1;;-2]],
+    #]& /@ CyclicPermutations[Join[sigmaIndices[[1;;nsi]], IndexList[a]]]] / (nsi+1)]
 ]
 
 AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
@@ -398,8 +412,6 @@ AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList
   ReplaceDummies[Apply[Plus, AvramidiToXTensor[x,IndexList[a,-b],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]*
     AvramidiToXTensor[y,IndexList[contractedIndex,b],sigmaIndices[[n1+1;;n1+n2]]] / (n1+1)]
 ]
-
-AvramidiToXTensor[Contraction[x_]]:=0;
 
 AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex1, contractedIndex2, unusedIndex, q, r, s, t},
