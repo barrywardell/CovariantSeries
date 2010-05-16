@@ -28,6 +28,7 @@ AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X a
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
 SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form. This allows for the simplification of expressions with AbstractTrace[] in them."
 CyclicPermutations::usage = "CyclicPermutations[x] calculates the cyclic permutations of X."
+Contraction::usage = "Contraction[x, {i1, i2}] symbolizes a contraction of indices i1 and i2 together."
 
 (* Error Messages *)
 SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
@@ -67,6 +68,20 @@ e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
 
 (* Print AbstractDot as a cross inside a circle *)
 Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"\[CircleTimes]"];
+
+(******************************* Contraction *********************************)
+(*Contraction[x_,{_,_}] := x;*)
+(* Numbers pull through the contraction *)
+Contraction[a_?NumericQ x_, l_List] := a Contraction[x, l];
+
+(* The contraction is distributive *)
+e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
+
+Format[Contraction[x_, {i1_, i2_}]] :=
+
+\!\(\*SubscriptBox["\"\<C\>\"", 
+RowBox[{"{", 
+RowBox[{"i1", ",", "i2"}], "}"}]]\)[x];
 
 (****************************** AbstractTrace ********************************)
 (* AbstractTrace (aB)=a*AbstractTrace (B), a is a number, B is an AbstractMatrix *)
@@ -147,6 +162,4 @@ SimplifyTrace[x_Power] := Power[SimplifyTrace[x[[1]]], x[[2]]]
 End[]
 
 EndPackage[]
-
-
 
