@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* CovariantSeries Mathematica package 
    This is a Mathematica for calculating covariant series expansions
    of bitensors.
@@ -90,7 +92,7 @@ SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculation
 Begin["`Private`"]
 (* Implementation of the package *)
 
-(* For Ricci-flat spacetimes, we can set tr(K[_]) = 0 *)
+(* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
 SetRicciFlat[] := Module[{},AbstractTrace[\[ScriptCapitalK][_]] = 0;]
 
 (************************************** D *************************************)
@@ -252,7 +254,7 @@ BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n_]:=
 	BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n] = 
 		Expand[-Sum[Binomial[n, k-1]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[CDSqrtDeltaBitensor,k]],
 			CovariantSeriesCoefficient[EtaBitensor,n+1-k] ], {k, 1, n+1}]
-			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
+			-Sum[Binomial[n, k]*AbstractDot[Contraction[CovariantSeriesCoefficient[ABitensor,k],{1,2}],
 				CovariantSeriesCoefficient[CDSqrtDeltaBitensor,n-k] ], {k, 1, n+1}]
 		];
 
@@ -277,7 +279,7 @@ AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x_?BitensorQ], n_]:=
 	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], n] = 
 		Expand[-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],k+1]],
 			CovariantSeriesCoefficient[EtaBitensor,n-k] ]], {k, 0, n}]
-			-Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
+			-Sum[Binomial[n, k]*AbstractDot[Contraction[CovariantSeriesCoefficient[ABitensor,k],{1,2}],
 				CovariantSeriesCoefficient[AbstractCovD[x],n-k] ], {k, 1, n}]
 		];
 
