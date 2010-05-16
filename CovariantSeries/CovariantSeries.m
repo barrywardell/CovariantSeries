@@ -29,12 +29,6 @@ W::usage = "W[n] is the n-th term in the covariant expansion of the general bite
 m::usage = "m is the field mass."
 g::usage = "g is the metric tensor."
 
-(* Format Kappa_n and R_n nicely *)
-Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
-Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
-Format[W[n_]] := Subscript[W, n];
-Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
-
 (* We can calculate covariant series expansions for the following bitensors *)
 Bitensors = { 
 	{GammaBitensor, "\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a'\"], b]\)"},
@@ -91,6 +85,12 @@ SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculation
 
 Begin["`Private`"]
 (* Implementation of the package *)
+
+(* Format Kappa_n and R_n nicely *)
+Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
+Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
+Format[W[n_]] := Subscript[W, n];
+Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
 
 (* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
 SetRicciFlat[] := Module[{},AbstractTrace[\[ScriptCapitalK][_]] = 0;]
