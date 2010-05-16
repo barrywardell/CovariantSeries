@@ -206,7 +206,7 @@ BBitensor /: CovariantSeriesCoefficient[BBitensor, n_]:=
 (************************************ Zeta ************************************)
 ZetaBitensor /: CovariantSeries[ZetaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[ZetaBitensor, i],{i,0,n}]
 
-ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, 0] = 0;
+ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, 0] = 4;
 
 ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, n_]:= 
 	ZetaBitensor /: CovariantSeriesCoefficient[ZetaBitensor, n] = 
