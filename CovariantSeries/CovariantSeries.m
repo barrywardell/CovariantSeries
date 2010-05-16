@@ -55,13 +55,6 @@ Bitensors = {
 Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
 	ToString[#[[1]] &/@ Bitensors]
 
-(Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
-VBitensor/: BitensorQ[VBitensor[_]] = True
-BitensorQ[\[ScriptCapitalK]] = True
-BitensorQ[\[ScriptCapitalR]] = True
-BitensorQ[_] = False
-NotBitensorQ[x_] = If[BitensorQ[x],False,True]
-
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
 
@@ -85,6 +78,13 @@ SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculation
 
 Begin["`Private`"]
 (* Implementation of the package *)
+
+(Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
+VBitensor/: BitensorQ[VBitensor[_]] = True
+BitensorQ[\[ScriptCapitalK]] = True
+BitensorQ[\[ScriptCapitalR]] = True
+BitensorQ[_] = False
+NotBitensorQ[x_] = If[BitensorQ[x],False,True]
 
 (* Format Kappa_n and R_n nicely *)
 Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
