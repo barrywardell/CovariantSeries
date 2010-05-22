@@ -286,9 +286,9 @@ AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_Ind
   a = freeIndices[[-2]];
   b = freeIndices[[-1]];
 
-  ReplaceDummies[Apply[Plus, AvramidiToXTensor[x[[1]], freeIndices[[1;;-3]], #]& /@ 
+  Apply[Plus, AvramidiToXTensor[x[[1]], freeIndices[[1;;-3]], #]& /@ 
     Flatten[CyclicPermutations[Join[IndexList[-a],#]]&/@
-      CyclicPermutations[Join[IndexList[b],sigmaIndices[[1;;nsi]]]],1] ]/((nsi+2)(nsi+1))]
+      CyclicPermutations[Join[IndexList[b],sigmaIndices[[1;;nsi]]]],1] ]/((nsi+2)(nsi+1))
 ]
 
 (* FIXME: This works for the term in V_ 1. Check it also works for all other cases. *)
@@ -301,8 +301,8 @@ AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_Ind
 
   a = freeIndices[[-1]];
 
-  ReplaceDummies[Apply[Plus,AvramidiToXTensor[x[[1]], freeIndices[[1;;-2]],
-    #]& /@ CyclicPermutations[Join[sigmaIndices[[1;;nsi]], IndexList[a]]]] / (nsi+1)]
+  Apply[Plus,AvramidiToXTensor[x[[1]], freeIndices[[1;;-2]],
+    #]& /@ CyclicPermutations[Join[sigmaIndices[[1;;nsi]], IndexList[a]]]] / (nsi+1)
 ]
 
 AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
