@@ -41,6 +41,7 @@ SigmaIndices=RotateLeft[IndexRange[a,l]]; (* RotateLeft so that 'a' is used for 
 DefManifold[M, 4, Join[FreeIndices,SigmaIndices]];
 DefMetric[-1, metric[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
 DefTensor[\[Sigma][a], M];
+IndexVBundle=VBundleOfIndex[a];
 
 PrintAs[metric] ^= "g";
 PrintAs[epsilonmetric] ^= "\[Epsilon]";
@@ -112,7 +113,7 @@ PartitionIndices[indicesIn_, partition_]:= Module[{iter, expr, indices=indicesIn
 (* Convert K_n to n derivatives of Riemann in xTensor form *)
 RiemannPart[\[ScriptCapitalK][num_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] := Module[{vbundle, CD, expr, iter},
   (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[a];
+  vbundle = IndexVBundle;
 
   (* Get the covariant derivative 
      FIXME: Should we worry about getting a different CD for each index? 
@@ -133,7 +134,7 @@ RiemannPart[\[ScriptCapitalK][num_], a_?AIndexQ, b_?AIndexQ, indices_IndexList] 
 (* Convert R_n to n derivatives of Ricci in xTensor form *)
 RiemannPart[\[ScriptCapitalR][num_], a_?AIndexQ, b_?AIndexQ, c_?AIndexQ, indices_IndexList] := Module[{vbundle, CD, expr, iter},
   (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[a];
+  vbundle = IndexVBundle;
 
   (* Get the covariant derivative
      FIXME: Should we worry about getting a different CD for each index?
@@ -224,7 +225,7 @@ AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, 
 AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{vbundle, numTerms, numFreeIndices, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm, indicesUsed, parts, freeIndicesPerTerm, termFreeIndices},
   (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
   numTerms = Length[x];
   numContractedIndices = numTerms - 1;
   numFreeIndices = NumFreeIndices[x];
@@ -253,7 +254,7 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
 
 (* AbstractTrace *)
 AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, a},
-  vbundle = VBundleOfIndex[FreeIndices[[1]]];
+  vbundle = IndexVBundle;
   a = DummyIn[vbundle];
   AvramidiToXTensor[x, IndexList[a, a], sigmaIndices]
 ]
@@ -261,7 +262,7 @@ AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexLi
 (* AbstractTrace *)
 AvramidiToXTensor[Contraction[x_, pos_List], freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{vbundle, a, spos = Sort[pos], freeIndicesList},
-  vbundle = VBundleOfIndex[FreeIndices[[1]]];
+  vbundle = IndexVBundle;
   a = DummyIn[vbundle];
   
   freeIndicesList = IndexList@@Riffle[List@@freeIndices, a, {spos[[1]], spos[[2]], spos[[2]]-spos[[1]]}];
@@ -278,7 +279,7 @@ AvramidiToXTensor[\[ScriptCapitalR][n_], inds_IndexList, sigmaIndices_IndexList]
 AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{nsi, vbundle, a, b},
   (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   nsi = NumSigmaIndices[x];
 
@@ -294,7 +295,7 @@ AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_Ind
 AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{nsi, vbundle, a},
   (* Get the vbundle corresponding to the index a *)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   nsi = NumSigmaIndices[x];
 
@@ -307,7 +308,7 @@ AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_Ind
 AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex, unusedIndex, q, r, s, t},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   contractedIndex = NewIndexIn[vbundle];
   unusedIndex = NewIndexIn[vbundle];
@@ -329,7 +330,7 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,1],y_], freeIndices_IndexList, sig
 AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex, unusedIndex1, unusedIndex2},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   contractedIndex = NewIndexIn[vbundle];
   unusedIndex1 = NewIndexIn[vbundle];
@@ -345,7 +346,7 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sig
 AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex, unusedIndex, q, r, s, t},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   contractedIndex = NewIndexIn[vbundle];
   unusedIndex = NewIndexIn[vbundle];
@@ -367,7 +368,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sig
 AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex, unusedIndex1, unusedIndex2, q, r, s, t},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[freeIndices[[1]]];
+  vbundle = IndexVBundle;
 
   contractedIndex = NewIndexIn[vbundle];
   unusedIndex1 = NewIndexIn[vbundle];
@@ -382,7 +383,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
 
 (*AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][1], \[ScriptCapitalK][2], AddFreeIndex[AbstractTrace[\[ScriptCapitalK][2]], 1]], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] :=
   Module[{vbundle, q, r, s, t},
-  vbundle = VBundleOfIndex[a];
+  vbundle = IndexVBundle;
   q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
   s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
 
@@ -397,7 +398,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
 AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex, q, r, s, t},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[a];
+  vbundle = IndexVBundle;
 
   contractedIndex = NewIndexIn[vbundle];
   q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
@@ -418,7 +419,7 @@ AvramidiToXTensor[AbstractTrace[AbstractDot[AddFreeIndex[x_, 1], y_]], IndexList
 AvramidiToXTensor[AbstractDot[\[ScriptCapitalR][k_],AddFreeIndex[x_, 1], y_], IndexList[a_?AIndexQ, b_?AIndexQ], sigmaIndices_IndexList] := Module[
 {n1, n2, vbundle, contractedIndex1, contractedIndex2, unusedIndex, q, r, s, t},
   (*Get the vbundle corresponding to the index a*)
-  vbundle = VBundleOfIndex[a];
+  vbundle = IndexVBundle;
 
   contractedIndex1 = NewIndexIn[vbundle];
   contractedIndex2 = NewIndexIn[vbundle];
