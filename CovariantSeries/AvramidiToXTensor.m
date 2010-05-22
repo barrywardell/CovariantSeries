@@ -36,7 +36,7 @@ in xTensor form.";
 
 $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
-FreeIndices=IndexRange[\[Alpha],\[Xi]];
+FreeIndices=IndexRange[\[Alpha],\[Nu]];
 SigmaIndices=RotateLeft[IndexRange[a,l]]; (* RotateLeft so that 'a' is used for generating new indices *)
 DefManifold[M, 4, Join[FreeIndices,SigmaIndices]];
 DefMetric[-1, metric[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
@@ -337,26 +337,19 @@ AvramidiToXTensor[AbstractDot[AddFreeIndex[x_,2],y_], freeIndices_IndexList, sig
   AvramidiToXTensor[y,IndexList[contractedIndex,freeIndices[[2]]],sigmaIndices[[n1+1;;n1+n2]]] / ((n1+2)(n1+1))
 ]
 
+(* FIXME: we should really partition the indices properly *)
 AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,1]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
-{n1, n2, vbundle, contractedIndex, unusedIndex, q, r, s, t},
+{n1, n2, vbundle, contractedIndex},
   (*Get the vbundle corresponding to the index a*)
   vbundle = IndexVBundle;
 
-  contractedIndex = NewIndexIn[vbundle];
-  unusedIndex = NewIndexIn[vbundle];
-  q = NewIndexIn[vbundle]; r = NewIndexIn[vbundle];
-  s = NewIndexIn[vbundle]; t = NewIndexIn[vbundle];
+  contractedIndex = DummyIn[vbundle];
 
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
 
-  If[AvramidiToXTensor[x,IndexList[q,r],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]]!=
-      AvramidiToXTensor[x,IndexList[s,t],Join[IndexList[contractedIndex],sigmaIndices[[1;;n1]]]],
-    Print["Error!"];
-  ];
-
-  Apply[Plus, AvramidiToXTensor[x,IndexList[freeIndices[[2]],unusedIndex],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[contractedIndex]]]]*
-  AvramidiToXTensor[y,IndexList[freeIndices[[1]],contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ (n1+1)
+  Apply[Plus, AvramidiToXTensor[x,IndexList[],#]& /@ CyclicPermutations[Join[sigmaIndices[[1;;n1]], IndexList[-contractedIndex]]]]*
+  AvramidiToXTensor[y,IndexList[contractedIndex],sigmaIndices[[n1+1;;n1+n2]]]/ (n1+1)
 ]
 
 AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sigmaIndices_IndexList] := Module[
