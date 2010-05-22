@@ -38,8 +38,7 @@ $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
 FreeIndices=IndexRange[\[Alpha],\[Xi]];
 SigmaIndices=RotateLeft[IndexRange[a,l]]; (* RotateLeft so that 'a' is used for generating new indices *)
-DummyIndices=IndexRange[n,z];
-DefManifold[M, 4, Join[FreeIndices,SigmaIndices,DummyIndices]];
+DefManifold[M, 4, Join[FreeIndices,SigmaIndices]];
 DefMetric[-1, metric[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
 DefTensor[\[Sigma][a], M];
 
@@ -142,7 +141,7 @@ RiemannPart[\[ScriptCapitalR][num_], a_?AIndexQ, b_?AIndexQ, c_?AIndexQ, indices
   CD = CovDOfMetric[First[MetricsOfVBundle[vbundle]]];
 
   (* First, create the Riemann tensor *)
-  expr = ReplaceDummies[Riemann[CD][a, b, -indices[[1]], c]];
+  expr = Riemann[CD][a, b, -indices[[1]], c];
 
   (* Add covariant derivatives *)
   For[iter = 2, iter <= num, iter++,
@@ -174,10 +173,10 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] :=
   (* Get some free indices *)
   (*freeIndices = FreeIndices[[1;;nfi]]; *)(*GetIndicesOfVBundle[vbundle, 2];*) (* FIXME: this could be different from 2 *)
   (*freeIndices[[2]] = -freeIndices[[2]];*)
-  freeIndices = GetIndicesOfVBundle[vbundle, nfi, Join[SigmaIndices, DummyIndices]];
+  freeIndices = GetIndicesOfVBundle[vbundle, nfi, SigmaIndices];
   
   (* Get enough indices *)
-  sigmaIndices = GetIndicesOfVBundle[vbundle, nsi, Join[FreeIndices, DummyIndices]];
+  sigmaIndices = GetIndicesOfVBundle[vbundle, nsi, FreeIndices];
 
   expr = AvramidiToXTensor[x, IndexList@@freeIndices, IndexList@@sigmaIndices];
   
@@ -237,9 +236,7 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
   (* And divide the indices up between each term *)
   termFreeIndices = PartitionIndices[freeIndices, freeIndicesPerTerm];
 
-  (* We avoid dummy indices which may be in freeIndices from AbstractTrace, for example *)
-  If[numContractedIndices > (Length[DummyIndices] - Length[freeIndices]), Print["Error, too many dummy indices"]];
-  contractedIndices = Complement[DummyIndices, List @@ freeIndices][[1;;numContractedIndices]];
+  contractedIndices = Table[DummyIn[vbundle],{numContractedIndices}];
   
   sigmaIndicesPerTerm = Map[NumSigmaIndices, List @@ x];
 
@@ -251,20 +248,25 @@ AvramidiToXTensor[x_AbstractDot, freeIndices_IndexList, sigmaIndices_IndexList] 
   	indicesUsed += sigmaIndicesPerTerm[[iter]];
   ];
   
-  expr = ReplaceDummies[expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], Sequence@@termFreeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]] ]]
+  expr = expr AvramidiToXTensor[x[[-1]], IndexList[contractedIndices[[-1]], Sequence@@termFreeIndices[[-1]]], sigmaIndices[[ indicesUsed + 1;; -1 ]] ]
 ]
 
 (* AbstractTrace *)
-AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{a = Complement[DummyIndices,Join[List@@sigmaIndices,List@@freeIndices]][[1]]},
-  ReplaceDummies[ AvramidiToXTensor[x, IndexList[a, a], sigmaIndices] ]
+AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexList] := Module[{vbundle, a},
+  vbundle = VBundleOfIndex[FreeIndices[[1]]];
+  a = DummyIn[vbundle];
+  AvramidiToXTensor[x, IndexList[a, a], sigmaIndices]
 ]
 
 (* AbstractTrace *)
 AvramidiToXTensor[Contraction[x_, pos_List], freeIndices_IndexList, sigmaIndices_IndexList] :=
-  Module[{a = Complement[DummyIndices,Join[List@@sigmaIndices,List@@freeIndices]][[1]], spos = Sort[pos], freeIndicesList},
+  Module[{vbundle, a, spos = Sort[pos], freeIndicesList},
+  vbundle = VBundleOfIndex[FreeIndices[[1]]];
+  a = DummyIn[vbundle];
+  
   freeIndicesList = IndexList@@Riffle[List@@freeIndices, a, {spos[[1]], spos[[2]], spos[[2]]-spos[[1]]}];
   freeIndicesList[[pos[[1]]]] = - freeIndicesList[[pos[[1]]]];
-  ReplaceDummies[ AvramidiToXTensor[x, freeIndicesList, sigmaIndices] ]
+  AvramidiToXTensor[x, freeIndicesList, sigmaIndices]
 ]
 
 (* \[ScriptCapitalK] and \[ScriptCapitalR] *)
