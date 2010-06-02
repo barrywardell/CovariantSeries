@@ -36,6 +36,7 @@ in xTensor form.";
 
 $PrePrint=ScreenDollarIndices;
 $CovDFormat="Postfix";
+$DefInfoQ=False;
 FreeIndices=IndexRange[\[Alpha],\[Nu]];
 SigmaIndices=RotateLeft[IndexRange[a,l]]; (* RotateLeft so that 'a' is used for generating new indices *)
 DefManifold[M, 4, Join[FreeIndices,SigmaIndices]];
@@ -409,7 +410,7 @@ AvramidiToXTensor[AbstractDot[Contraction[\[ScriptCapitalR][k_],pos_List],AddFre
   contractedIndex2 = DummyIn[vbundle];
   n1 = NumSigmaIndices[x]-1;
   n2 = NumSigmaIndices[y];
-Print["Warning"];
+
   AvramidiToXTensor[Contraction[\[ScriptCapitalR][k],pos],IndexList[-contractedIndex2],sigmaIndices[[1;;k]]]*
     Apply[Plus, 
       AvramidiToXTensor[x,IndexList[],#]& /@ CyclicPermutations[Join[sigmaIndices[[k+1;;k+n1]], IndexList[contractedIndex1]]]]*
