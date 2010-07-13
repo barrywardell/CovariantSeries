@@ -260,7 +260,7 @@ AvramidiToXTensor[AbstractTrace[x_], freeIndices_IndexList, sigmaIndices_IndexLi
   AvramidiToXTensor[x, IndexList[a, a], sigmaIndices]
 ]
 
-(* AbstractTrace *)
+(* Contraction *)
 AvramidiToXTensor[Contraction[x_, pos_List], freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{vbundle, a, spos = Sort[pos], freeIndicesList},
   vbundle = IndexVBundle;
