@@ -417,6 +417,24 @@ AvramidiToXTensor[AbstractDot[Contraction[\[ScriptCapitalR][k_],pos_List],AddFre
       AvramidiToXTensor[y,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+1;;k+n1+n2]]] / (n1+1)
 ]
 
+AvramidiToXTensor[AbstractDot[Contraction[AbstractDot[\[ScriptCapitalR][k_],x_],pos_List],AddFreeIndex[y_, 1], z_], IndexList[], sigmaIndices_IndexList] := Module[
+{n1, n2, n3, vbundle, contractedIndex1, contractedIndex2,contractedIndex3},
+  (*Get the vbundle corresponding to the index a*)
+  vbundle = IndexVBundle;
+
+  contractedIndex1 = DummyIn[vbundle];
+  contractedIndex2 = DummyIn[vbundle];
+
+  n1 = NumSigmaIndices[x];
+  n2 = NumSigmaIndices[y]-1;
+  n3 = NumSigmaIndices[z];
+
+  AvramidiToXTensor[Contraction[AbstractDot[\[ScriptCapitalR][k],x],pos],IndexList[-contractedIndex2],sigmaIndices[[1;;k+n1]]]*
+    Apply[Plus,
+      AvramidiToXTensor[y,IndexList[],#]& /@ CyclicPermutations[Join[sigmaIndices[[k+n1+1;;k+n1+n2]], IndexList[contractedIndex1]]]]*
+      AvramidiToXTensor[z,IndexList[contractedIndex1,contractedIndex2],sigmaIndices[[k+n1+n2+1;;k+n1+n2+n3]]] / (n2+1)
+]
+
 End[] (* End Private Context *)
 
 EndPackage[]
