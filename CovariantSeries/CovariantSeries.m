@@ -26,6 +26,7 @@ BeginPackage["CovariantSeries`", "AbstractMatrix`"]
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the matrix \!\(\*SubscriptBox[\"K\", \"(n)\"]\) of Avramidi."
 \[ScriptCapitalR]::usage = "\[ScriptCapitalR][n] is the tensor \!\(\*SubscriptBox[\[ScriptCapitalR], \"(n)\"]\) of Avramidi."
 W::usage = "W[n] is the n-th term in the covariant expansion of the general bitensor, W."
+\[ScriptCapitalP]::usage = "\[ScriptCapitalP][n] is the n-th term in the covariant expansion of the scalar potential, \[ScriptCapitalP]."
 m::usage = "m is the field mass."
 g::usage = "g is the metric tensor."
 
@@ -85,6 +86,7 @@ Begin["`Private`"]
 VBitensor/: BitensorQ[VBitensor[_]] = True
 BitensorQ[\[ScriptCapitalK]] = True
 BitensorQ[\[ScriptCapitalR]] = True
+BitensorQ[\[ScriptCapitalP]] = True
 BitensorQ[_] = False
 NotBitensorQ[x_] = If[BitensorQ[x],False,True]
 
@@ -92,6 +94,7 @@ NotBitensorQ[x_] = If[BitensorQ[x],False,True]
 Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
 Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
 Format[W[n_]] := Subscript[W, n];
+Format[\[ScriptCapitalP][n_]] := Subscript[\[ScriptCapitalP], n];
 Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
 
 (* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
@@ -102,6 +105,7 @@ SetRicciFlat[] := Module[{},AbstractTrace[\[ScriptCapitalK][_]] = 0;]
 SigmaCDSame[AbstractTrace[x_]] := AbstractTrace[SigmaCDSame[x]]
 SigmaCDSame[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDSame[x], y] + AbstractDot[x, SigmaCDSame[y]]
 SigmaCDSame[\[ScriptCapitalK][n_]] := n \[ScriptCapitalK][n]
+SigmaCDSame[\[ScriptCapitalP][n_]] := n \[ScriptCapitalP][n]
 SigmaCDSame[a_?NumericQ x_] := a SigmaCDSame[x]
 e: SigmaCDSame[_Plus] :=  Distribute[Unevaluated[e]]
 SigmaCDSame[a_?NumericQ] := 0
@@ -110,6 +114,7 @@ SigmaCDSame[a_?NumericQ] := 0
 SigmaCDPlus[AbstractTrace[x_]] := AbstractTrace[SigmaCDPlus[x]]
 SigmaCDPlus[AbstractDot[x_, y_]] :=  AbstractDot[SigmaCDPlus[x], y] + AbstractDot[x, SigmaCDPlus[y]]
 SigmaCDPlus[\[ScriptCapitalK][n_]] := \[ScriptCapitalK][n + 1]
+SigmaCDPlus[\[ScriptCapitalP][n_]] := \[ScriptCapitalP][n + 1]
 SigmaCDPlus[a_?NumericQ x_] := a SigmaCDPlus[x]
 e: SigmaCDPlus[_Plus] := Distribute[Unevaluated[e]]
 SigmaCDPlus[a_?NumericQ] := 0
@@ -124,6 +129,8 @@ AddFreeIndex[a_?NumericQ,_] := a
 AddFreeIndex[a_?NumericQ x_,b_] := a AddFreeIndex[x,b]
 AddFreeIndex[m^(a_),_] := m^(a)
 AddFreeIndex[m^(a_) x_,b_] := m^(a) AddFreeIndex[x,b]
+AddFreeIndex[\[ScriptCapitalP][0],_] := \[ScriptCapitalP][0]
+AddFreeIndex[\[ScriptCapitalP][0] x_,b_] := \[ScriptCapitalP][0] AddFreeIndex[x,b]
 e: AddFreeIndex[_Plus,a_] := Distribute[Unevaluated[e]]
 
 (*AddFreeIndex[x_] := x /. {(*\[ScriptCapitalL]->\[ScriptCapitalM],\[ScriptCapitalK]->\[ScriptCapitalL],*)
@@ -358,7 +365,9 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n_]:=
 		Expand[1/(n+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[0], k]*
 				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
 				- 1/2 (CovariantSeriesCoefficient[AbstractDal[SqrtDeltaBitensor], n] 
-				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]))
+				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]+
+                Sum[Binomial[n, k] CovariantSeriesCoefficient[SqrtDeltaBitensor, k]*
+				\[ScriptCapitalP][n-k], {k, 0, n}]))
 		];
 
 (************************************ Vl ***************************************)
@@ -369,7 +378,9 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:=
 		Expand[1/(n+l+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l], k]*
 				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
 				- 1/(2 l) (CovariantSeriesCoefficient[AbstractDal[VBitensor[l-1]], n] 
-				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]))
+				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]+
+                Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l-1], k]*
+				\[ScriptCapitalP][n-k], {k, 0, n}]))
 		];
 
 (************************************ a_k **************************************)
