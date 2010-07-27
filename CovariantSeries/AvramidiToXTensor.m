@@ -43,6 +43,7 @@ DefManifold[M, 4, Join[FreeIndices,SigmaIndices]];
 DefMetric[-1, metric[-a, -b], CD, {";", "\[Del]"}, CurvatureRelations -> False];
 DefTensor[\[Sigma][a], M];
 DefTensor[PotentialP[], M];
+DefTensor[HadamardW[], M];
 IndexVBundle=VBundleOfIndex[a];
 
 PrintAs[metric] ^= "g";
@@ -53,6 +54,7 @@ PrintAs[RicciScalarCD] ^= "R";
 PrintAs[WeylCD] ^= "W";
 PrintAs[TFRicciCD] ^= "S";
 PrintAs[PotentialP] ^= "\[ScriptCapitalP]";
+PrintAs[HadamardW] ^= "W";
 
 NumFreeIndices::usage="";
 
@@ -75,11 +77,23 @@ NumSigmaIndices[x_] := Module[{positions, numIndices},
   (* Pull out the values for n and add them together *)
   numIndices = numIndices + Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
  
-  (* Look for R[n] *)
+  (* Look for \[ScriptCapitalP][n] *)
   positions = Position[x, \[ScriptCapitalP][_]];
   
   (* Pull out the values for n and add them together *)
   numIndices = numIndices + Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
+
+  (* Look for W[n] *)
+  positions = Position[x, W[_]];
+
+  (* Pull out the values for n and add them together *)
+  numIndices = numIndices + Plus @@ (Part[x, Sequence @@ #, 1] & /@ positions);
+
+  (* Look for g *)
+  positions = Position[x, g];
+
+  (* 2 extra indices per g *)
+  numIndices = numIndices + 2 Length[positions];
 
   (* Look for Power *)
   positions = Position[x, Power[_,_]];
@@ -102,6 +116,8 @@ NumAddFreeIndices[x_] := Module[{positions, numIndices},
 NumFreeIndices[\[ScriptCapitalR][_]] := 3;
 NumFreeIndices[\[ScriptCapitalK][_]] := 2;
 NumFreeIndices[\[ScriptCapitalP][_]] := 0;
+NumFreeIndices[W[_]] := 0;
+NumFreeIndices[g] := 0;
 NumFreeIndices[x_AbstractDot] := Plus@@(NumFreeIndices/@(List@@x)) - 2 (Length[x]-1);
 NumFreeIndices[x_AbstractTrace]:= NumFreeIndices[x[[1]]]-2;
 NumFreeIndices[x_Contraction]:= NumFreeIndices[x[[1]]]-2;
@@ -284,8 +300,11 @@ AvramidiToXTensor[Contraction[x_, pos_List], freeIndices_IndexList, sigmaIndices
 AvramidiToXTensor[\[ScriptCapitalK][n_], inds_IndexList, sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalK][n], inds[[1]], -inds[[2]], sigmaIndices]
 AvramidiToXTensor[\[ScriptCapitalR][n_], inds_IndexList, sigmaIndices_IndexList] := RiemannPart[\[ScriptCapitalR][n], -inds[[1]], -inds[[2]], -inds[[3]], sigmaIndices]
 AvramidiToXTensor[\[ScriptCapitalP][0], inds_IndexList, sigmaIndices_IndexList] := PotentialP[]
+AvramidiToXTensor[W[0], inds_IndexList, sigmaIndices_IndexList] := HadamardW[]
 AvramidiToXTensor[\[ScriptCapitalP][0]^n_, inds_IndexList, sigmaIndices_IndexList] := PotentialP[]^n
 AvramidiToXTensor[\[ScriptCapitalP][n_], inds_IndexList, sigmaIndices_IndexList] := PotentialP[Sequence@@(Times[-1,#]&/@sigmaIndices)]
+AvramidiToXTensor[W[n_], inds_IndexList, sigmaIndices_IndexList] := HadamardW[Sequence@@(Times[-1,#]&/@sigmaIndices)]
+AvramidiToXTensor[g, inds_IndexList, sigmaIndices_IndexList] := metric[Sequence@@(Times[-1,#]&/@sigmaIndices)]
 
 
 (*AddFreeIndices*)
