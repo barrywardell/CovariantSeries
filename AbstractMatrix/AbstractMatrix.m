@@ -35,6 +35,7 @@ SimplifyTrace::notCanonical = "Warning, not necessarily in canonical form ``."
 
 (* Is the symbol a bitensor or not? *)
 BitensorQ::usage = "Tests if a symbol is a bitensor."
+BiscalarQ::usage = "Tests if a symbol is a bitensor."
 NotBitensorQ::usage = "Tests if a symbol is not a bitensor."
 
 Begin["`Private`"]
@@ -62,6 +63,18 @@ AbstractDot[m_?NotBitensorQ^(a_),x_] := m^(a) AbstractDot[x];
 AbstractDot[m_?NotBitensorQ^(a_) x_, y_] := m^(a) AbstractDot[x,y];
 AbstractDot[x_, m_?NotBitensorQ^(a_) y_] := m^(a) AbstractDot[x,y];
 
+(* Biscalars pull through dot product *)
+AbstractDot[a_?BiscalarQ x_, y_] := a AbstractDot[x,y];
+AbstractDot[x_, a_?BiscalarQ y_] := a AbstractDot[x,y];
+AbstractDot[x_ a_?BiscalarQ, y_] := a AbstractDot[x,y];
+AbstractDot[x_, y_ a_?BiscalarQ] := a AbstractDot[x,y];
+
+AbstractDot[m_?BiscalarQ^(a_),x_] := m^(a) AbstractDot[x];
+AbstractDot[m_?BiscalarQ^(a_) x_, y_] := m^(a) AbstractDot[x,y];
+AbstractDot[x_, m_?BiscalarQ^(a_) y_] := m^(a) AbstractDot[x,y];
+AbstractDot[x_ m_?BiscalarQ^(a_), y_] := m^(a) AbstractDot[x,y];
+AbstractDot[x_, y_ m_?BiscalarQ^(a_)] := m^(a) AbstractDot[x,y];
+
 (* The dot product is distributive *)
 e : AbstractDot[_, _Plus] := Distribute[Unevaluated[e]]
 e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
@@ -79,6 +92,7 @@ e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
 
 Format[Contraction[x_, {i1_, i2_}]] :=
 
+
 \!\(\*SubscriptBox["\"\<C\>\"", 
 RowBox[{"{", 
 RowBox[{"i1", ",", "i2"}], "}"}]]\)[x];
@@ -89,6 +103,13 @@ AbstractTrace[a_?NumericQ x_] := a*AbstractTrace[x];
 
 AbstractTrace[m_?NotBitensorQ^(a_)] := m^(a);
 AbstractTrace[m_?NotBitensorQ^(a_) x_] := m^(a) AbstractTrace[x];
+
+AbstractTrace[a_?Biscalar] := a;
+AbstractTrace[a_?BiscalarQ x_] := a*AbstractTrace[x];
+AbstractTrace[x_ a_?BiscalarQ] := a*AbstractTrace[x];
+AbstractTrace[m_?BiscalarQ^(a_)] := m^(a);
+AbstractTrace[m_?BiscalarQ^(a_) x_] := m^(a) AbstractTrace[x];
+AbstractTrace[x_ m_?BiscalarQ^(a_)] := m^(a) AbstractTrace[x];
 
 (* AbstractTrace (a)=a, where a is a number *)
 AbstractTrace[a_?NumericQ] := a;
