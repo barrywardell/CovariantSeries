@@ -87,6 +87,7 @@ VBitensor/: BitensorQ[VBitensor[_]] = True
 BitensorQ[\[ScriptCapitalK]] = True
 BitensorQ[\[ScriptCapitalR]] = True
 BitensorQ[\[ScriptCapitalP]] = True
+BiscalarQ[\[ScriptCapitalP][_]] = True
 BitensorQ[_] = False
 NotBitensorQ[x_] = If[BitensorQ[x],False,True]
 
