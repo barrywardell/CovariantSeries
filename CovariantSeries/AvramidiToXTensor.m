@@ -306,6 +306,18 @@ AvramidiToXTensor[\[ScriptCapitalP][n_], inds_IndexList, sigmaIndices_IndexList]
 AvramidiToXTensor[W[n_], inds_IndexList, sigmaIndices_IndexList] := HadamardW[Sequence@@(Times[-1,#]&/@sigmaIndices)]
 AvramidiToXTensor[g, inds_IndexList, sigmaIndices_IndexList] := metric[Sequence@@(Times[-1,#]&/@sigmaIndices)]
 
+AvramidiToXTensor[\[ScriptCapitalP][k_]^pow_, IndexList[], sigmaIndices_IndexList] :=
+  Module[{expr, partitionedIndices, iter},
+  partitionedIndices = Partition[sigmaIndices, NumSigmaIndices[\[ScriptCapitalP][k]]];
+
+  expr = 1;
+  For[iter = 1, iter <= pow, iter++,
+    expr = expr AvramidiToXTensor[\[ScriptCapitalP][k], IndexList[], partitionedIndices[[iter]]];
+  ];
+
+  expr
+]
+
 
 (*AddFreeIndices*)
 AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_IndexList] :=
