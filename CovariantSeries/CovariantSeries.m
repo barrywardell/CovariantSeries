@@ -240,10 +240,15 @@ SqrtDeltaBitensor /: CovariantSeriesCoefficient[SqrtDeltaBitensor, n_]:=
 (********************************** Delta^-1/2 *********************************)
 SqrtDeltaInvBitensor /: CovariantSeries[SqrtDeltaInvBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[SqrtDeltaInvBitensor, i],{i,0,n}]
 
-SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n_?EvenQ] := 
-	CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n] = CovariantSeriesCoefficient[SqrtDeltaBitensor, n];
-SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n_?OddQ] := 
-	CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n] = -CovariantSeriesCoefficient[SqrtDeltaBitensor, n];
+SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, 0] = 1;
+SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, 1] = 0;
+
+SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n_] :=
+	SqrtDeltaInvBitensor /: CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n] =
+        SimplifyTrace[
+			Expand[-(1/n)*Sum[Binomial[n, k] k CovariantSeriesCoefficient[ZetaBitensor, k]*
+				CovariantSeriesCoefficient[SqrtDeltaInvBitensor, n-k], {k, 1, n}]]
+        ];
 
 (**************************** Cov Deriv of Delta^1/2 **************************)
 CDSqrtDeltaBitensor /: CovariantSeries[CDSqrtDeltaBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[CDSqrtDeltaBitensor, i],{i,0,n}]
@@ -385,11 +390,14 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:=
 		];
 
 (************************************ a_k **************************************)
-DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], 0]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
+DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
 
-DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k_Integer?NonNegative], 0]:=
-	DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[k], 0]=
-		Expand[Sum[(-2)^(r + 1) r!/(k - 1 - r)! (m^2)^(k - 1 - r) CovariantSeriesCoefficient[VBitensor[r], 0], {r, 0, k - 1}] + (m^2)^k/k!]
+DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[0], 0] = 1;
+DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[0], _] = 0;
+
+DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[l_Integer?Positive], n_]:=
+	DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[l], n]=
+		Expand[2^l (l-1)! (-1)^l Sum[ Binomial[n,k] CovariantSeriesCoefficient[SqrtDeltaInvBitensor, k] ReplaceAll[CovariantSeriesCoefficient[VBitensor[l-1],n-k], m->0], {k,0,n}]];
 
 End[]
 
