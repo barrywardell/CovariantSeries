@@ -335,6 +335,28 @@ AvramidiToXTensor[x:(AddFreeIndex[_,2]), freeIndices_IndexList, sigmaIndices_Ind
       CyclicPermutations[Join[IndexList[b],sigmaIndices[[1;;nsi]]]],1] ]/((nsi+2)(nsi+1))
 ]
 
+AvramidiToXTensor[AbstractTrace[x:(AddFreeIndex[_,2])], freeIndices_IndexList, sigmaIndices_IndexList] :=
+  Module[{nsi, newSigmaIndices, range, vbundle, contractedIndex},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = IndexVBundle;
+
+  nsi = NumSigmaIndices[x];
+
+  contractedIndex = DummyIn[vbundle];
+
+  (* Insert the contracted index once cyclically *)
+  newSigmaIndices = InsertCyclic[sigmaIndices, contractedIndex];
+
+  (* Get the list of places to insert the second contracted index - from the first contracted index to the end *)
+  range = -Reverse[Range[Range[nsi+1]]];
+
+  (* Insert the second contracted index *)
+  newSigmaIndices = Flatten[MapThread[ListInsert[#1, -contractedIndex, #2]&, {newSigmaIndices, range}],1];
+
+  (* Produce the xTensor expression. The factor of 2 / ((nsi+2)(nsi+1)) accounts for the number of terms coming from symmetrization *)
+  2 / ((nsi+2)(nsi+1)) Apply[Plus, AvramidiToXTensor[x[[1]], freeIndices, #]& /@ newSigmaIndices]
+]
+
 (* FIXME: This works for the term in V_ 1. Check it also works for all other cases. *)
 AvramidiToXTensor[x:(AddFreeIndex[_,1]), freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{nsi, vbundle, a},
