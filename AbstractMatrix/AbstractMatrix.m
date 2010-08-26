@@ -28,6 +28,8 @@ AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X a
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
 SimplifyTrace::usage = "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal form. This allows for the simplification of expressions with AbstractTrace[] in them."
 CyclicPermutations::usage = "CyclicPermutations[x] calculates the cyclic permutations of X."
+InsertCyclic::usage = "InsertCyclic[list, elem] produces a list of lists with each element corresponding to elem inserted into list at a different position."
+ListInsert::usage = "ListInsert[list, elem, pos] produces a list of lists with element inserted into list at positions pos."
 Contraction::usage = "Contraction[x, {i1, i2}] symbolizes a contraction of indices i1 and i2 together."
 
 (* Error Messages *)
@@ -93,6 +95,7 @@ e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
 Format[Contraction[x_, {i1_, i2_}]] :=
 
 
+
 \!\(\*SubscriptBox["\"\<C\>\"", 
 RowBox[{"{", 
 RowBox[{"i1", ",", "i2"}], "}"}]]\)[x];
@@ -137,6 +140,10 @@ ExtractNumbers[x_] := Module[{seq = {Sequence @@ x}, elems},
 CyclicPermutations[x_] := With[{len = Length[x]},
   Table[RotateLeft[x, n], {n, 0, len - 1}]
 ]
+
+InsertCyclic[l_, s_] := ListInsert[l, s, Range[Length[l]+1]];
+
+ListInsert[l_, s_, pos_] := Map[Insert[l, s, #]&, pos];
 
 (* Calculate the "weight" of the permutation x *)
 PermWeight[x_List] := With[{n = Length[x]},
@@ -183,4 +190,7 @@ SimplifyTrace[x_Power] := Power[SimplifyTrace[x[[1]]], x[[2]]]
 End[]
 
 EndPackage[]
+
+
+
 
