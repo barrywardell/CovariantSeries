@@ -101,7 +101,7 @@ Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
 (* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
 SetRicciFlat[] := Module[{},
   AbstractTrace[\[ScriptCapitalK][_]] = 0;
-  Contraction[\[ScriptCapitalR[_],{2,3}] = 0;
+  Contraction[\[ScriptCapitalR][_],{2,3}] = 0;
   ];
 
 (************************************** D *************************************)
