@@ -4,11 +4,11 @@
    This is a Mathematica for calculating covariant series expansions
    of bitensors.
     
-   Copyright 2009 Barry Wardell
+   Copyright 2009-2010 Barry Wardell
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
+   the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -99,7 +99,10 @@ Format[\[ScriptCapitalP][n_]] := Subscript[\[ScriptCapitalP], n];
 Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
 
 (* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
-SetRicciFlat[] := Module[{},AbstractTrace[\[ScriptCapitalK][_]] = 0;]
+SetRicciFlat[] := Module[{},
+  AbstractTrace[\[ScriptCapitalK][_]] = 0;
+  Contraction[\[ScriptCapitalR[_],{2,3}] = 0;
+  ];
 
 (************************************** D *************************************)
 (* Part that keeps the order the same *)
