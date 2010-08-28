@@ -374,7 +374,7 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n_]:=
 		Expand[1/(n+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[0], k]*
 				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
 				- 1/2 (CovariantSeriesCoefficient[AbstractDal[SqrtDeltaBitensor], n] 
-				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]+
+				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]-
                 Sum[Binomial[n, k] CovariantSeriesCoefficient[SqrtDeltaBitensor, k]*
 				\[ScriptCapitalP][n-k], {k, 0, n}]))
 		];
@@ -387,7 +387,7 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:=
 		Expand[1/(n+l+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l], k]*
 				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
 				- 1/(2 l) (CovariantSeriesCoefficient[AbstractDal[VBitensor[l-1]], n] 
-				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]+
+				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]-
                 Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l-1], k]*
 				\[ScriptCapitalP][n-k], {k, 0, n}]))
 		];
