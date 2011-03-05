@@ -7,7 +7,7 @@ Test[
 	,
 	5 k
 	,
-	TestID->"AbstractMatrixTest-20080716-O7C7F2"
+	TestID->"Numeric 1"
 ]
 
 Test[
@@ -15,7 +15,7 @@ Test[
 	,
 	5 k
 	,
-	TestID->"AbstractMatrixTest-20080716-Z6M0O9"
+	TestID->"Numeric 2"
 ]
 
 Test[
@@ -23,7 +23,7 @@ Test[
 	,
 	50 AbstractDot[k[1], k[2]]
 	,
-	TestID->"AbstractMatrixTest-20080716-Y5M9B5"
+	TestID->"Numeric 3"
 ]
 
 Test[
@@ -31,7 +31,7 @@ Test[
 	,
 	250 AbstractDot[k[1], k[2], k[3]]
 	,
-	TestID->"AbstractMatrixTest-20080806-J2L7S9"
+	TestID->"Numeric 4"
 ]
 
 (* Non-commutativity *)
@@ -40,7 +40,7 @@ Test[
 	,
 	AbstractDot[k[1], k[2]] + AbstractDot[k[2], k[1]]
 	,
-	TestID->"AbstractMatrixTest-20080716-J9X4L5"
+	TestID->"Non-commutativity 1"
 ]
 
 Test[
@@ -48,7 +48,7 @@ Test[
 	,
 	2 AbstractDot[k[1], k[2]]
 	,
-	TestID->"AbstractMatrixTest-20080716-I5G2E1"
+	TestID->"Non-commutativity 2"
 ]
 
 (* Distributivity *)
@@ -57,7 +57,7 @@ Test[
 	,
 	AbstractDot[k[1], k[2]] + AbstractDot[k[3], k[2]]
 	,
-	TestID->"AbstractMatrixTest-20080716-R4K6X3"
+	TestID->"Distributivity 1"
 ]
 
 Test[
@@ -65,7 +65,7 @@ Test[
 	,
 	AbstractDot[k[1], k[2]] + AbstractDot[k[1], k[3]]
 	,
-	TestID->"AbstractMatrixTest-20080716-Y4X6R9"
+	TestID->"Distributivity 2"
 ]
 
 Test[
@@ -73,7 +73,7 @@ Test[
 	,
 	8 AbstractDot[k[1], k[2]] + 6 AbstractDot[k[3], k[2]]
 	,
-	TestID->"AbstractMatrixTest-20080717-P4Q1V8"
+	TestID->"Distributivity 3"
 ]
 
 Test[
@@ -81,7 +81,7 @@ Test[
 	,
 	12 AbstractDot[k[1], k[2]] + 8 AbstractDot[k[1], k[3]]
 	,
-	TestID->"AbstractMatrixTest-20080717-Y8M4M0"
+	TestID->"Distributivity 4"
 ]
 
 (****************************** AbstractTrace ********************************)
@@ -90,7 +90,7 @@ Test[
 	,
 	5 AbstractTrace[AbstractDot[k[1], k[2]]]
 	,
-	TestID->"AbstractMatrixTest-20080716-N5I1P0"
+	TestID->"AbstractTrace numeric factor"
 ]
 
 Test[
@@ -98,7 +98,7 @@ Test[
 	,
 	5
 	,
-	TestID->"AbstractMatrixTest-20080717-Q6D2G8"
+	TestID->"AbstractTrace numeric"
 ]
 
 Test[
@@ -106,7 +106,7 @@ Test[
 	,
 	AbstractTrace[AbstractDot[k[1], k[2]]] + AbstractTrace[AbstractDot[k[2], k[1]]]
 	,
-	TestID->"AbstractMatrixTest-20080717-Y0U9T3"
+	TestID->"AbstractTrace distributivity"
 ]
 
 (****************************** SimplifyTrace ********************************)
@@ -115,7 +115,7 @@ Test[
 	,
 	2 AbstractTrace[AbstractDot[k[1], k[2]]]
 	,
-	TestID->"AbstractMatrixTest-20080717-W0H7W2"
+	TestID->"SimplifyTrace 1"
 ]
 
 Test[
@@ -123,5 +123,5 @@ Test[
 	,
 	2 SimplifyTrace[AbstractTrace[AbstractDot[k[3], k[2], k[6]]]]
 	,
-	TestID->"AbstractMatrixTest-20080806-X7D0O5"
+	TestID->"SimplifyTrace 2"
 ]
