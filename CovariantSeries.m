@@ -26,6 +26,7 @@ BeginPackage["CovariantSeries`", "AbstractMatrix`"]
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the matrix \!\(\*SubscriptBox[\"K\", \"(n)\"]\) of Avramidi."
 \[ScriptCapitalR]::usage = "\[ScriptCapitalR][n] is the tensor \!\(\*SubscriptBox[\[ScriptCapitalR], \"(n)\"]\) of Avramidi."
 W::usage = "W[n] is the n-th term in the covariant expansion of the general bitensor, W."
+\[ScriptCapitalB]::usage = "\[ScriptCapitalB][n] is the n-th term in the covariant expansion of the bitensor, \[ScriptCapitalB]."
 \[ScriptCapitalP]::usage = "\[ScriptCapitalP][n] is the n-th term in the covariant expansion of the scalar potential, \[ScriptCapitalP]."
 m::usage = "m is the field mass."
 g::usage = "g is the metric tensor."
@@ -44,6 +45,7 @@ Bitensors = {
 	{CDSqrtDeltaBitensor,"\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)"},
 	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{WBitensor,"W(x,x')"},
+	{\[ScriptCapitalB]Bitensor,"\[ScriptCapitalB](x,x')"},
 	{SqrtDeltaInvDalWBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]BoxW(x,x')\)"},
 	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{VTildeBitensor,"Vtilde(x,x')"},
@@ -306,6 +308,12 @@ WBitensor /: CovariantSeries[WBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoe
 
 WBitensor /: CovariantSeriesCoefficient[WBitensor, n_] := W[n];
 
+(***************************** Genera Bitensor, \[ScriptCapitalB] *****************************)
+\[ScriptCapitalB]Bitensor /: CovariantSeries[\[ScriptCapitalB]Bitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[\[ScriptCapitalB]Bitensor, i],{i,0,n}]
+
+\[ScriptCapitalB]Bitensor /: CovariantSeriesCoefficient[\[ScriptCapitalB]Bitensor, n_] /; n<0 = 0;
+\[ScriptCapitalB]Bitensor /: CovariantSeriesCoefficient[\[ScriptCapitalB]Bitensor, n_] := \[ScriptCapitalB][n];
+
 (***************************** Delta^-1/2 AbstractDal[W] ******************************)
 SqrtDeltaInvDalWBitensor /: CovariantSeries[SqrtDeltaInvDalWBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[SqrtDeltaInvDalWBitensor, i],{i,0,n}]
 
@@ -331,8 +339,8 @@ VTildeBitensor /: CovariantSeries[VTildeBitensor, n_]:= Sum[(-1)^i / i! Covarian
 
 VTildeBitensor /: CovariantSeriesCoefficient[VTildeBitensor, n_]:= 
 	VTildeBitensor /: CovariantSeriesCoefficient[VTildeBitensor, n] = 
-		Expand[-1/(n+1) (1/2 CovariantSeriesCoefficient[SqrtDeltaInvDalSqrtDeltaBitensor,n] +
-			Binomial[n, 2] g CovariantSeriesCoefficient[SqrtDeltaInvDalWBitensor, n - 2])
+		Expand[-1/(n+1) (1/2 CovariantSeriesCoefficient[SqrtDeltaInvDalSqrtDeltaBitensor,n](* -
+			Binomial[n, 2] g CovariantSeriesCoefficient[SqrtDeltaInvDalWBitensor, n - 2]*))
 		];
 
 (************************************ V ****************************************)
@@ -341,7 +349,8 @@ VBitensor /: CovariantSeries[VBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoe
 VBitensor /: CovariantSeriesCoefficient[VBitensor, n_]:= 
 	VBitensor /: CovariantSeriesCoefficient[VBitensor, n] = 
 		Expand[Sum[Binomial[n, k] CovariantSeriesCoefficient[SqrtDeltaBitensor, k]*
-				CovariantSeriesCoefficient[VTildeBitensor,n-k], {k, 0, n}]
+				CovariantSeriesCoefficient[VTildeBitensor,n-k], {k, 0, n}] 
+				+ g CovariantSeriesCoefficient[\[ScriptCapitalB]Bitensor,n-2]
 		];
 
 (*********************************** tau ***************************************)
