@@ -20,7 +20,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *)
  
-BeginPackage["CovariantSeries`", "AbstractMatrix`"]
+BeginPackage["CovariantSeries`", {"AbstractMatrix`"}]
 
 (* Kappa and R are the bitensors in terms of which all other bitensors are expanded *)
 \[ScriptCapitalK]::usage = "\[ScriptCapitalK][n] is the matrix \!\(\*SubscriptBox[\"K\", \"(n)\"]\) of Avramidi."
