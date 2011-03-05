@@ -466,7 +466,7 @@ AvramidiToXTensor[AbstractDot[y_,AddFreeIndex[x_,2]], freeIndices_IndexList, sig
 (* FIXME: We need to treat this as a special case because otherwise we get {-beta, -beta} as free indices rather than {alpha, -beta}.
    Ideally we shouldn't have to worry about this special case *)
 AvramidiToXTensor[AbstractTrace[x:(AbstractDot[AddFreeIndex[_, 1], _])], IndexList[], sigmaIndices_IndexList] := Module[
-{n1, n2, vbundle, a},
+{vbundle, a},
   (*Get the vbundle corresponding to the index a*)
   vbundle = IndexVBundle;
 
@@ -492,7 +492,7 @@ AvramidiToXTensor[AbstractDot[Contraction[\[ScriptCapitalR][k_],pos_List],AddFre
 ]
 
 AvramidiToXTensor[AbstractDot[Contraction[AbstractDot[\[ScriptCapitalR][k_],x_],pos_List],AddFreeIndex[y_, 1], z_], IndexList[], sigmaIndices_IndexList] := Module[
-{n1, n2, n3, vbundle, contractedIndex1, contractedIndex2,contractedIndex3},
+{n1, n2, n3, vbundle, contractedIndex1, contractedIndex2},
   (*Get the vbundle corresponding to the index a*)
   vbundle = IndexVBundle;
 
