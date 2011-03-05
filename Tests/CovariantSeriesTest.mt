@@ -144,7 +144,7 @@ Test[
    (5*AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2]])/6 - 
    (5*\[ScriptCapitalK][11])/6)/39916800
 	,
-	TestID->"CovariantSeriesTest-20080806-K7X5V4"
+	TestID->"GammaBitensor"
 ]
 
 (* Eta up to 9th order *)
@@ -178,7 +178,7 @@ Test[
    (184*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][2]])/5 + 
    31*AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2]] + (4*\[ScriptCapitalK][9])/5)/362880
 	,
-	TestID->"CovariantSeriesTest-20080806-E6O8H5"
+	TestID->"EtaBitensor"
 ]
 
 (* Lambda up to 9th order *)
@@ -211,14 +211,14 @@ Test[
     5 + (181*AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][2]])/5 + 
    31*AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2]] + \[ScriptCapitalK][9]/5)/362880
 	,
-	TestID->"CovariantSeriesTest-20080806-G6A4C9"
+	TestID->"LambdaBitensor"
 ]
 
 (* Zeta up to 11th order *)
 Test[
 	CovariantSeries[ZetaBitensor, 11]
 	,
-	AbstractTrace[\[ScriptCapitalK][2]]/12 - AbstractTrace[\[ScriptCapitalK][3]]/24 + 
+	4 + AbstractTrace[\[ScriptCapitalK][2]]/12 - AbstractTrace[\[ScriptCapitalK][3]]/24 + 
  (AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2]]]/15 + (3*AbstractTrace[\[ScriptCapitalK][4]])/10)/24 + 
  (-AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][3]]]/3 - AbstractTrace[\[ScriptCapitalK][5]]/3)/120 + 
  ((4*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][4]]])/7 + (15*AbstractTrace[AbstractDot[\[ScriptCapitalK][3], \[ScriptCapitalK][3]]])/
@@ -269,7 +269,7 @@ Test[
    (320*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][3]]])/3 - 
    (5*AbstractTrace[\[ScriptCapitalK][11]])/12)/39916800
 	,
-	TestID->"CovariantSeriesTest-20080806-U7L1X0"
+	TestID->"ZetaBitensor"
 ]
 
 (* SqrtDelta up to 11th order *)
@@ -453,7 +453,7 @@ Test[
    (385*AbstractTrace[\[ScriptCapitalK][3]]*AbstractTrace[\[ScriptCapitalK][8]])/24 - 
    (11*AbstractTrace[\[ScriptCapitalK][2]]*AbstractTrace[\[ScriptCapitalK][9]])/3 - (5*AbstractTrace[\[ScriptCapitalK][11]])/12)/39916800
 	,
-	TestID->"CovariantSeriesTest-20080806-H5R4P8"
+	TestID->"SqrtDeltaBitensor"
 ]
 
 (* Tau up to 9th order *)
@@ -481,7 +481,7 @@ Test[
    (336*AbstractTrace[AbstractDot[\[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][2], \[ScriptCapitalK][3]]])/5 - AbstractTrace[\[ScriptCapitalK][9]]/10)/
   362880
 	,
-	TestID->"CovariantSeriesTest-20080806-O0F3S8"
+	TestID->"TauBitensor"
 ]
 
 (* Checks against Christensen (PRD 17, 4 (1978)) *)
@@ -492,7 +492,7 @@ Test[
 	,
 	-\[ScriptCapitalR][1]/2 + \[ScriptCapitalR][2]/3 + (-AbstractDot[\[ScriptCapitalR][1], \[ScriptCapitalK][2]]/4 - (3*\[ScriptCapitalR][3])/4)/6
 	,
-	TestID->"CovariantSeriesTest-20080806-M1D5V5"
+	TestID->"ABitensor"
 ]
 
 (* B up to order 3 *)
@@ -501,7 +501,7 @@ Test[
 	,
 	-\[ScriptCapitalR][1]/2 + \[ScriptCapitalR][2]/6 + (-AbstractDot[\[ScriptCapitalR][1], \[ScriptCapitalK][2]]/4 - \[ScriptCapitalR][3]/4)/6
 	,
-	TestID->"CovariantSeriesTest-20080806-U6B5M2"
+	TestID->"BBitensor"
 ]
 
 (* CDSqrtDelta up to order 3 *)
@@ -515,14 +515,14 @@ Test[
        \[ScriptCapitalK][2]]], 1]/15 - AddFreeIndex[AbstractTrace[\[ScriptCapitalK][2]]^2, 
      1]/12 - (3*AddFreeIndex[AbstractTrace[\[ScriptCapitalK][4]], 1])/10)/6
 	,
-	TestID->"CovariantSeriesTest-20080806-A2R8M1"
+	TestID->"CDSqrtDeltaBitensor"
 ]
 
 (* CovD[SqrtDelta] up to order 3 *)
 Test[
-	CovariantSeries[CovD[SqrtDeltaBitensor],3]
+	CovariantSeries[AbstractCovD[SqrtDeltaBitensor],3]
 	,
 	Evaluate[CovariantSeries[CDSqrtDeltaBitensor, 3]]
 	,
-	TestID->"CovariantSeriesTest-20080806-A2R8M1"
+	TestID->"AbstractCovD[SqrtDeltaBitensor]"
 ]

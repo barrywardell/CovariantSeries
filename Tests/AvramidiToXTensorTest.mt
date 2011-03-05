@@ -5,5 +5,5 @@ Test[
 	,
 	CD[-e][RiemannCD[b, -c, -d, -a]]
 	,
-	TestID->"AvramidiToXTensorTest-20090409-K4W4N6"
+	TestID->"RiemannPart"
 ]
