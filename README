@@ -1,0 +1,73 @@
+===============================================================================
+CovariantSeries - Version 1.0
+===============================================================================
+Copyright 2009-2011 Barry Wardell
+
+The CovariantSeries package and the associated AbstractMatrix package provide
+symbolic Mathematica code for calculating covariant series expansions of
+fundamental bi-tensors including the world-function, the van Vleck determinant,
+the bi-vector of parallel transport, the bi-scalar V(x,x') appearing in the
+Hadamard form of the scalar Green function and the DeWitt coefficients.
+===============================================================================
+
+Getting the package
+-------------------
+The latest version of this software will always be available from the project
+website:
+
+http://www.barrywardell.net/Research/Code/CovariantSeries/
+
+Install
+---------
+Extract the zip file and move the CovariantSeries and AbstractMatrix folders 
+into your Mathematica applications folder. This is typically located in the 
+following places:
+
+Linux: 	/usr/share/Mathematica/Applications/
+Mac:   	/Library/Mathematica/Applications/
+Windows:Unknown
+
+although any location listed by Mathematica's $Path variable should be fine.
+The code can then be loaded into Mathematica using the command:
+
+<< CovariantSeries`
+
+For outputting in explicit Riemann tensor form, xTensor
+(http://metric.iem.csic.es/Martin-Garcia/xAct/index.html) is required and the
+AvramidiToXTensor package must also be loaded:
+
+<< CovariantSeries`AvramidiToXTensor`
+
+Examples
+--------
+For example usage, see the CovariantSeriesExamples.nb Mathematica notebook.
+
+Changelog
+---------
+17 Aug  2009: Version 1.0 released.
+              Full support for converting to xTensor notation.
+              Correct calculation of SqrtDeltaInvBitensor.
+              More efficient calculation of DeWitt coefficients.
+              Support for calculating off-diagonal DeWitt coefficients.
+              Add support for a potential term in the wave equation.
+26 June 2009: Version 0.9.1 released.
+              No code changes, but repackaged so that Mathematica will
+              actually load the package properly.
+ 2 June 2009:	Initial version (0.9) released.
+
+Known problems
+--------------
+None.
+
+License
+-------
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+Contact
+-------
+For any queries, please contact Barry Wardell <CovariantSeries@barrywardell.net>.
+
+
