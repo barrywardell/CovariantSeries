@@ -107,7 +107,7 @@ AbstractTrace[a_?NumericQ x_] := a*AbstractTrace[x];
 AbstractTrace[m_?NotBitensorQ^(a_)] := m^(a);
 AbstractTrace[m_?NotBitensorQ^(a_) x_] := m^(a) AbstractTrace[x];
 
-AbstractTrace[a_?Biscalar] := a;
+AbstractTrace[a_?BiscalarQ] := a;
 AbstractTrace[a_?BiscalarQ x_] := a*AbstractTrace[x];
 AbstractTrace[x_ a_?BiscalarQ] := a*AbstractTrace[x];
 AbstractTrace[m_?BiscalarQ^(a_)] := m^(a);
