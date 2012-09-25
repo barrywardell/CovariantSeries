@@ -94,13 +94,7 @@ Contraction[a_?NumericQ x_, l_List] := a Contraction[x, l];
 (* The contraction is distributive *)
 e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
 
-Format[Contraction[x_, {i1_, i2_}]] :=
-
-
-
-\!\(\*SubscriptBox["\"\<C\>\"", 
-RowBox[{"{", 
-RowBox[{"i1", ",", "i2"}], "}"}]]\)[x];
+Format[Contraction[x_, {i1_, i2_}]] := \!\(\*SubscriptBox[\("\<C\>"\), \({i1, i2}\)]\)[x];
 
 (****************************** AbstractTrace ********************************)
 (* AbstractTrace (aB)=a*AbstractTrace (B), a is a number, B is an AbstractMatrix *)
