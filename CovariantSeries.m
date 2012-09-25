@@ -49,6 +49,7 @@ Bitensors = {
 	{SqrtDeltaInvDalWBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]BoxW(x,x')\)"},
 	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{VTildeBitensor,"Vtilde(x,x')"},
+	{UBitensor,"\!\(\*SubscriptBox[U,n](x,x')\)"},
 	{VBitensor,"V(x,x')"},
 	{TauBitensor,"\[Tau](x,x')"},
 	{TauPBitensor,"\[Tau]'(x,x')"},
@@ -85,6 +86,7 @@ Begin["`Private`"]
 (* Implementation of the package *)
 
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
+UBitensor/: BitensorQ[UBitensor[_,_]] = True
 VBitensor/: BitensorQ[VBitensor[_]] = True
 BitensorQ[\[ScriptCapitalK]] = True
 BitensorQ[\[ScriptCapitalR]] = True
@@ -375,6 +377,26 @@ TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, n_]:=
 	TauPBitensor /: CovariantSeriesCoefficient[TauPBitensor, n] = 
 	Expand[n CovariantSeriesCoefficient[ZetaBitensor,n]];
 	
+(************************************ U0 ***************************************)
+UBitensor /: CovariantSeries[UBitensor[0, d_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[UBitensor[0,d], i],{i,0,n}]
+
+UBitensor /: CovariantSeriesCoefficient[UBitensor[0, d_Integer?Positive], n_]:=
+	UBitensor /: CovariantSeriesCoefficient[UBitensor[0, d], n] =
+		CovariantSeriesCoefficient[SqrtDeltaBitensor, n];
+
+(************************************ Ul ***************************************)
+UBitensor /: CovariantSeries[UBitensor[l_Integer?Positive, d_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[UBitensor[l,d], i],{i,0,n}]
+
+UBitensor /: CovariantSeriesCoefficient[UBitensor[l_Integer?Positive, d_Integer?Positive], n_]:=
+	UBitensor /: CovariantSeriesCoefficient[UBitensor[l, d], n] =
+		Expand[1/(n+l)( Sum[Binomial[n, k] CovariantSeriesCoefficient[UBitensor[l,d], k]*
+				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
+				- 1/(2 l + 2 - d) (CovariantSeriesCoefficient[AbstractDal[UBitensor[l-1, d]], n]
+				- m^2 CovariantSeriesCoefficient[UBitensor[l-1, d], n]-
+                Sum[Binomial[n, k] CovariantSeriesCoefficient[UBitensor[l-1, d], k]*
+				\[ScriptCapitalP][n-k], {k, 0, n}]))
+		];
+
 (************************************ V0 ***************************************)
 VBitensor /: CovariantSeries[VBitensor[0], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[0], i],{i,0,n}]
 
