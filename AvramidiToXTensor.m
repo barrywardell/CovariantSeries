@@ -20,7 +20,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-BeginPackage["CovariantSeries`AvramidiToXTensor`", { "xAct`xTensor`", "CovariantSeries`", "AbstractMatrix`" }]
+BeginPackage["CovariantSeries`AvramidiToXTensor`", { "xAct`xTensor`", "xAct`xPerm`", "CovariantSeries`", "AbstractMatrix`" }]
 (* Exported symbols added here with SymbolName::usage *)  
 
 AvramidiToXTensor::usage = 
