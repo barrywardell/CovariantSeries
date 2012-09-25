@@ -64,6 +64,8 @@ AbstractDot[x_, a_?NumericQ y_] := a AbstractDot[x,y];
 AbstractDot[m_?NotBitensorQ^(a_),x_] := m^(a) AbstractDot[x];
 AbstractDot[m_?NotBitensorQ^(a_) x_, y_] := m^(a) AbstractDot[x,y];
 AbstractDot[x_, m_?NotBitensorQ^(a_) y_] := m^(a) AbstractDot[x,y];
+AbstractDot[m_?NotBitensorQ x_, y_] := m AbstractDot[x,y];
+AbstractDot[x_, m_?NotBitensorQ y_] := m AbstractDot[x,y];
 
 (* Biscalars pull through dot product *)
 AbstractDot[a_?BiscalarQ x_, y_] := a AbstractDot[x,y];
