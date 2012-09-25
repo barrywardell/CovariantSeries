@@ -88,12 +88,12 @@ Begin["`Private`"]
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
 UBitensor/: BitensorQ[UBitensor[_,_]] = True
 VBitensor/: BitensorQ[VBitensor[_]] = True
-BitensorQ[\[ScriptCapitalK]] = True
-BitensorQ[\[ScriptCapitalR]] = True
+BitensorQ[\[ScriptCapitalK][_]] = True
+BitensorQ[\[ScriptCapitalR][_]] = True
 BitensorQ[\[ScriptCapitalP]] = True
 BiscalarQ[\[ScriptCapitalP][_]] = True
 BitensorQ[_] = False
-NotBitensorQ[x_] = If[BitensorQ[x],False,True]
+NotBitensorQ[x_] := If[BitensorQ[x],False,True]
 
 (* Format Kappa_n and R_n nicely *)
 Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
