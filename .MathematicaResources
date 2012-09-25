@@ -1,0 +1,9 @@
+Resources[
+    Version[1],
+    ExecutionBuildCommand["<<AbstractMatrix`"],
+    Paclet[
+        DocumentationFolder["Documentation"],
+        PacletFolder["."],
+        FunctionPaclet[False]
+    ]
+]
