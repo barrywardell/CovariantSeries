@@ -33,7 +33,7 @@
    },
 
    {"Title" -> "xTensor Output",
-    "Functions" -> {"AvramidiToXTensor"}
+    "Functions" -> {"AvramidiToXTensor", "xTensorNotation"}
    }
  },
  "Tutorials" -> {
