@@ -1,7 +1,7 @@
 ===============================================================================
-CovariantSeries - Version 1.0
+CovariantSeries - Version 1.0.1
 ===============================================================================
-Copyright 2009-2011 Barry Wardell
+Copyright 2009-2012 Barry Wardell
 
 The CovariantSeries package and the associated AbstractMatrix package provide
 symbolic Mathematica code for calculating covariant series expansions of
@@ -17,14 +17,17 @@ website:
 
 http://www.barrywardell.net/Research/Code/CovariantSeries/
 
+or directly from the git repository:
+
+http://github.com/barrywardell/CovariantSeries
+
 Install
 ---------
-Extract the zip file and move the CovariantSeries and AbstractMatrix folders 
-into your Mathematica applications folder. This is typically located in the 
-following places:
+Extract the zip file and move the CovariantSeries folder into your Mathematica
+applications folder. This is typically located in the following places:
 
 Linux: 	/usr/share/Mathematica/Applications/
-Mac:   	/Library/Mathematica/Applications/
+Mac:   	/Library/Mathematica/Applications/ or ~/Library/Mathematica/Applications/
 Windows:Unknown
 
 although any location listed by Mathematica's $Path variable should be fine.
@@ -40,10 +43,17 @@ AvramidiToXTensor package must also be loaded:
 
 Examples
 --------
-For example usage, see the CovariantSeriesExamples.nb Mathematica notebook.
+For example usage, see the documentation which is available by entering "CovariantSeries"
+into the search box in the Mathematica documentation.
 
 Changelog
 ---------
+26 Sep  2012: Add support for computing the bi-tensor U_n.
+              Fix problems with interaction with recent versions of xTensor.
+              AbstractMatrix package has been moved into CovariantSeries application
+              rather than being a separate package.
+              Renamed Bitensors variable to $Bitensors.
+              Add Mathematica-style documentation.
 17 Aug  2009: Version 1.0 released.
               Full support for converting to xTensor notation.
               Correct calculation of SqrtDeltaInvBitensor.
@@ -53,7 +63,7 @@ Changelog
 26 June 2009: Version 0.9.1 released.
               No code changes, but repackaged so that Mathematica will
               actually load the package properly.
- 2 June 2009:	Initial version (0.9) released.
+ 2 June 2009: Initial version (0.9) released.
 
 Known problems
 --------------
