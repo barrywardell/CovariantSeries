@@ -1,5 +1,5 @@
 ===============================================================================
-CovariantSeries - Version 1.0.1
+CovariantSeries - Version 1.1
 ===============================================================================
 Copyright 2009-2012 Barry Wardell
 
@@ -48,7 +48,8 @@ into the search box in the Mathematica documentation.
 
 Changelog
 ---------
-26 Sep  2012: Add support for computing the bi-tensor U_n.
+26 Sep  2012: Version 1.1 released
+              Add support for computing the bi-tensor U_n.
               Fix problems with interaction with recent versions of xTensor.
               AbstractMatrix package has been moved into CovariantSeries application
               rather than being a separate package.

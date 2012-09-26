@@ -4,7 +4,7 @@
 
 Paclet[
     Name -> "CovariantSeries",
-    Version -> "0.0.1",
+    Version -> "1.1",
     MathematicaVersion -> "6+",
     Creator -> "Barry Wardell",
     Extensions -> 
