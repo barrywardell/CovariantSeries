@@ -1,0 +1,378 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["CovariantSeries", "Title"],
+
+Cell[CellGroupData[{
+
+Cell["Working with the CovariantSeries package", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Load the package", "Subsection"],
+
+Cell[BoxData[
+ RowBox[{"<<", "CovariantSeries`"}]], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["List supported Bitensors", "Subsection"],
+
+Cell[BoxData["Bitensors"], "DefinitionBox"],
+
+Cell["List all supported Bitensors", "Caption"],
+
+Cell[BoxData["Bitensors"], "Input"],
+
+Cell[BoxData[GridBox[{
+   {"GammaBitensor", "EtaBitensor", Cell["LambdaBitensor", "TableText"]},
+   {"XiBitensor", "ABitensor", Cell["BBitensor", "TableText"]},
+   {"ZetaBitensor", "SqrtDeltaBitensor", Cell[
+    "SqrtDeltaInvBitensor", "TableText"]},
+   {"CDSqrtDeltaBitensor", "BoxSqrtDeltaBitensor", Cell[
+    "WBitensor", "TableText"]},
+   {"SqrtDeltaInvDalWBitensor", "SqrtDeltaInvDalSqrtDeltaBitensor", Cell[
+    "VTildeBitensor", "TableText"]},
+   {"VBitensor", "TauBitensor", Cell["TauPBitensor", "TableText"]},
+   {"DeWittABitensor", "\[Placeholder]", "\[Placeholder]"}
+  }]], "DefinitionBox3Col"],
+
+Cell["\<\
+Bitensors supported by the CovariantSeries package\
+\>", "Caption"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Main functions", "Subsection"],
+
+Cell[BoxData[GridBox[{
+   {"CovariantSeries", "CovariantSeriesCoefficient", "SetRicciFlat"}
+  }]], "DefinitionBox3Col"],
+
+Cell["\<\
+Main functions provided by the CovariantSeries package\
+\>", "Caption"],
+
+Cell[TextData[{
+ "Calculate the 3rd order coefficient of the covariant series expansion of \
+\[Xi]. Note that these coefficients exclude the factor ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"-", "1"}], ")"}], "n"], 
+    RowBox[{"n", "!"}]], TraditionalForm]]],
+ "."
+}], "Text"],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{"GammaBitensor", ",", "3"}], "]"}]], "Input"],
+
+Cell[TextData[{
+ "10th order coefficient (equivalent to ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox[
+    SuperscriptBox["\[Sigma]", 
+     RowBox[{"a", "'"}]], 
+    RowBox[{
+     RowBox[{"b", "'"}], 
+     RowBox[{"(", "cdefghijkl", ")"}]}]], TraditionalForm]]],
+ " ).  These expressions are not precalculated, although they are cached once \
+they have been calculated. This caching is preserved until the Kernel is quit."
+}], "Text"],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{"XiBitensor", ",", "10"}], "]"}]], "Input"],
+
+Cell[TextData[{
+ "We can also calculate the coincidence limit (order 0 coefficient) of ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["V", "2"], TraditionalForm]]],
+ ":"
+}], "Text",
+ CellChangeTimes->{{3.449414206752096*^9, 3.449414235016574*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{
+   RowBox[{"VBitensor", "[", "2", "]"}], ",", "0"}], "]"}]], "Input",
+ CellChangeTimes->{{3.449413992140087*^9, 3.449414022227311*^9}}],
+
+Cell["Also, the DeWitt coefficients:", "Text",
+ CellChangeTimes->{{3.449414475499178*^9, 3.449414482091132*^9}}],
+
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["a", "1"], TraditionalForm]]],
+ ":"
+}], "Text",
+ CellChangeTimes->{{3.48446144111434*^9, 3.48446146742663*^9}, {
+  3.491970141222086*^9, 3.491970142436243*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{
+   RowBox[{"DeWittABitensor", "[", "1", "]"}], ",", "0"}], "]"}]], "Input",
+ CellChangeTimes->{{3.449414484006279*^9, 3.449414500740587*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  SubscriptBox["a", "2"], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.484461451138999*^9, 3.484461469626554*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{
+   RowBox[{"DeWittABitensor", "[", "2", "]"}], ",", "0"}], "]"}]], "Input",
+ CellChangeTimes->{{3.449414506738302*^9, 3.449414510805491*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  SubscriptBox["a", "3"], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.4844614599696083`*^9, 3.4844614717687397`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{
+   RowBox[{"DeWittABitensor", "[", "3", "]"}], ",", "0"}], "]"}]], "Input",
+ CellChangeTimes->{{3.449414506738302*^9, 3.4494145139814262`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Output in xTensor format", "Subsection"],
+
+Cell["\<\
+To output in xTensor notation, we also need to load the AvramidiToXTensor \
+package. Note that this expects xTensor to also be installed.\
+\>", "Text",
+ CellChangeTimes->{{3.449414238968485*^9, 3.449414275200386*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", "CovariantSeries`AvramidiToXTensor`"}]], "Input",
+ CellChangeTimes->{{3.449397706955967*^9, 3.449397720087901*^9}}],
+
+Cell["\<\
+We can then use the xTensorNotation option to specify that we want the output \
+in xTensor form:\
+\>", "Text",
+ CellChangeTimes->{{3.449414280928616*^9, 3.44941431120895*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{"XiBitensor", ",", "10", ",", 
+   RowBox[{"xTensorNotation", "\[Rule]", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.449397724024146*^9, 3.4493977396829433`*^9}, 
+   3.449413297133831*^9, 3.449413917252515*^9, {3.484461561728449*^9, 
+   3.484461562958654*^9}}],
+
+Cell[TextData[{
+ "Note that here there is an implicit symmetrization (abcdefghij). Also note \
+that all indices are at x, so what we really have is ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox[
+     SuperscriptBox["\[Xi]", "a"], "b"], "=", 
+    RowBox[{
+     SuperscriptBox[
+      SubscriptBox["g", 
+       RowBox[{"a", "'"}]], "a"], 
+     SuperscriptBox[
+      SubscriptBox["g", "b"], 
+      RowBox[{"b", "'"}]], 
+     SubscriptBox[
+      SuperscriptBox["\[Sigma]", 
+       RowBox[{"a", "'"}]], 
+      RowBox[{"b", "'"}]]}]}], TraditionalForm]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.484461609797338*^9, 3.48446165003447*^9}, {
+  3.484461718706337*^9, 3.484461811078327*^9}}],
+
+Cell[BoxData[
+ RowBox[{"CovariantSeriesCoefficient", "[", 
+  RowBox[{"LambdaBitensor", ",", "10", ",", 
+   RowBox[{"xTensorNotation", "\[Rule]", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.449397724024146*^9, 3.4493977396829433`*^9}, 
+   3.449413297133831*^9, 3.449413917252515*^9, {3.484461561728449*^9, 
+   3.484461562958654*^9}, {3.4844618260163593`*^9, 3.484461829029653*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Canonicalization", "Subsection"],
+
+Cell[TextData[{
+ "We can also calculate coincidence limits of ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["V", "n"], TraditionalForm]]],
+ " (equivalently, the DeWitt ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["a", 
+    RowBox[{"n", "+", "1"}]], TraditionalForm]]],
+ ") and canonicalize with Invar:"
+}], "Text",
+ CellChangeTimes->{{3.484461940607388*^9, 3.4844620097432833`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", "xAct`Invar`"}]], "Input",
+ CellChangeTimes->{{3.4844620008166428`*^9, 3.484462004321396*^9}}],
+
+Cell["Set the potential to be \[Xi] R'", "Text",
+ CellChangeTimes->{{3.491972785966721*^9, 3.491972807063901*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"NumericQ", "[", "\[Xi]", "]"}], "=", "True"}]], "Input",
+ CellChangeTimes->{{3.489211441852474*^9, 3.489211453925775*^9}, {
+  3.489211521219318*^9, 3.489211522147874*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PotentialRule", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"IndexRuleDelayed", "[", 
+      RowBox[{
+       RowBox[{"PotentialP", "[", "inds__", "]"}], ",", 
+       RowBox[{"Fold", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"CD", "[", "#2", "]"}], "[", "#1", "]"}], "&"}], ",", 
+         RowBox[{"\[Xi]", " ", 
+          RowBox[{"Scalar", "[", 
+           RowBox[{"RiemannCD", "[", 
+            RowBox[{"a", ",", "b", ",", 
+             RowBox[{"-", "a"}], ",", 
+             RowBox[{"-", "b"}]}], "]"}], "]"}]}], ",", 
+         RowBox[{"{", "inds", "}"}]}], "]"}]}], "]"}], ",", 
+     RowBox[{"IndexRule", "[", 
+      RowBox[{
+       RowBox[{"PotentialP", "[", "]"}], ",", 
+       RowBox[{"\[Xi]", " ", 
+        RowBox[{"Scalar", "[", 
+         RowBox[{"RiemannCD", "[", 
+          RowBox[{"a", ",", "b", ",", 
+           RowBox[{"-", "a"}], ",", 
+           RowBox[{"-", "b"}]}], "]"}], "]"}]}]}], "]"}]}], "}"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.483873035092325*^9, 3.483873079253151*^9}, {
+  3.48921305360749*^9, 3.489213154342806*^9}, {3.489213184516103*^9, 
+  3.489213205180133*^9}, {3.489743350637398*^9, 3.4897433559716053`*^9}, {
+  3.4897434473702297`*^9, 3.4897434526788282`*^9}, {3.4897435119829493`*^9, 
+  3.4897436183239937`*^9}, {3.4897436662002573`*^9, 3.489743679263462*^9}, {
+  3.489743732593298*^9, 3.489743751838147*^9}, {3.489747781008614*^9, 
+  3.4897478118614597`*^9}, {3.489840251611354*^9, 3.489840254674943*^9}, {
+  3.491972816249125*^9, 3.491972818614251*^9}, {3.491972960848968*^9, 
+  3.491972966830286*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  SubscriptBox["V", "0"], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.4844620545898533`*^9, 3.484462055487364*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"CovariantSeriesCoefficient", "[", 
+    RowBox[{
+     RowBox[{"VBitensor", "[", "0", "]"}], ",", "0", ",", 
+     RowBox[{"xTensorNotation", "\[Rule]", "True"}]}], "]"}], "/.", 
+   "PotentialRule"}], "//.", 
+  RowBox[{"CurvatureRelations", "[", "CD", "]"}]}]], "Input",
+ CellChangeTimes->{{3.449397724024146*^9, 3.4493977396829433`*^9}, 
+   3.449413297133831*^9, 3.449413917252515*^9, {3.484461561728449*^9, 
+   3.484461562958654*^9}, {3.4844618260163593`*^9, 3.484461829029653*^9}, {
+   3.484461900734065*^9, 3.484461918602928*^9}, {3.49197292018256*^9, 
+   3.4919729321094017`*^9}, {3.491973018930986*^9, 3.49197304310712*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  SubscriptBox["V", "1"], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.484462051037764*^9, 3.48446205200012*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"CovariantSeriesCoefficient", "[", 
+     RowBox[{
+      RowBox[{"VBitensor", "[", "1", "]"}], ",", "0", ",", 
+      RowBox[{"xTensorNotation", "\[Rule]", "True"}]}], "]"}], "/.", 
+    "PotentialRule"}], "//", "RiemannSimplify"}], "//", "NoScalar"}]], "Input",
+ CellChangeTimes->{{3.4919730744409*^9, 3.4919731007410097`*^9}, {
+  3.491973143175926*^9, 3.4919731468773737`*^9}, {3.491973232755125*^9, 
+  3.4919732348022757`*^9}}],
+
+Cell["Convert to Ricci where possible:", "Text",
+ CellChangeTimes->{{3.491973314802782*^9, 3.49197332495125*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ContractMetric", "[", 
+  RowBox[{
+   RowBox[{"ContractMetric", "[", 
+    RowBox[{"%", "//.", 
+     RowBox[{"CurvatureRelations", "[", "CD", "]"}]}], "]"}], "//.", 
+   RowBox[{"CurvatureRelations", "[", "CD", "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.491973154800785*^9, 3.49197321163465*^9}, {
+  3.491973256280149*^9, 3.491973259978986*^9}, {3.4919734167835197`*^9, 
+  3.491973428214487*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  SubscriptBox["V", "2"], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.484462047895404*^9, 3.4844620487289963`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"CovariantSeriesCoefficient", "[", 
+     RowBox[{
+      RowBox[{"VBitensor", "[", "2", "]"}], ",", "0", ",", 
+      RowBox[{"xTensorNotation", "\[Rule]", "True"}]}], "]"}], "/.", 
+    "PotentialRule"}], "//", "RiemannSimplify"}], "//", "NoScalar"}]], "Input",
+ CellChangeTimes->{{3.491973289137623*^9, 3.491973289311576*^9}}],
+
+Cell["Convert to Ricci where possible:", "Text",
+ CellChangeTimes->{{3.4919733285276527`*^9, 3.491973341559245*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ContractMetric", "[", 
+    RowBox[{
+     RowBox[{"ContractMetric", "[", 
+      RowBox[{"%", "//.", 
+       RowBox[{"CurvatureRelations", "[", "CD", "]"}]}], "]"}], "//.", 
+     RowBox[{"CurvatureRelations", "[", "CD", "]"}]}], "]"}], "//", 
+   "ToCanonical"}], "//", "NoScalar"}]], "Input",
+ CellChangeTimes->{{3.4919733660962276`*^9, 3.491973368662631*^9}, {
+  3.491973685981564*^9, 3.491973688125908*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+Saveable->True,
+WindowSize->{967, 1025},
+WindowMargins->{{54, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+ShowSelection->True,
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->"Default.nb"
+]
+

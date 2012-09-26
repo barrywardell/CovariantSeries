@@ -1,0 +1,161 @@
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"ParentDirectory", "[", 
+    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "]"}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"docDir", "=", 
+  RowBox[{"FileNameJoin", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"FileNameDrop", "[", 
+      RowBox[{
+       RowBox[{"FindFile", "[", "\"\<CovariantSeries`\>\"", "]"}], ",", 
+       RowBox[{"-", "2"}]}], "]"}], ",", "\"\<Documentation\>\""}], "}"}], 
+   "]"}]}]], "Input"],
+
+Cell[BoxData["\<\"/Users/barry/Library/Mathematica/Applications/\
+CovariantSeries/Documentation\"\>"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Short", "[", 
+  RowBox[{
+   RowBox[{"docFiles", "=", 
+    RowBox[{"Select", "[", 
+     RowBox[{
+      RowBox[{"FileNames", "[", 
+       RowBox[{"\"\<*\>\"", ",", "docDir", ",", "Infinity"}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"DirectoryQ", "[", "#", "]"}]}], "&"}]}], "]"}]}], ",", 
+   "10"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"{", 
+   RowBox[{"\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/Guides/CovariantSeries.nb\"\>", 
+    ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/Index/_0.cfs\"\>", 
+    ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/Index/_0.cfx\"\>", ",", 
+    RowBox[{"\[LeftSkeleton]", "4", "\[RightSkeleton]"}], 
+    ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/SpellIndex/segments_2\"\>", 
+    ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/SpellIndex/segments.gen\"\>", 
+    ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
+Documentation/English/Tutorials/CovariantSeries.nb\"\>"}], "}"}],
+  Short[#, 10]& ]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"DeleteFile", "[", "docFiles", "]"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"<<", "\"\<Source/GenerateDocumentation.m\>\""}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"------------------------------------------------------------\
+\"\>"], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Package xAct`xPerm`  version \"\>", 
+   "\[InvisibleSpace]", "\<\"1.1.3\"\>", "\[InvisibleSpace]", "\<\", \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2012", ",", "5", ",", "5"}], "}"}]}],
+  SequenceForm["Package xAct`xPerm`  version ", "1.1.3", ", ", {2012, 5, 5}],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"CopyRight (C) 2003-2011, Jose M. Martin-Garcia, under the \
+General Public License.\"\>"], "Print"],
+
+Cell[BoxData["\<\"Connecting to external mac executable...\"\>"], "Print"],
+
+Cell[BoxData["\<\"Connection established.\"\>"], "Print"],
+
+Cell[BoxData["\<\"------------------------------------------------------------\
+\"\>"], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Package xAct`xTensor`  version \"\>", 
+   "\[InvisibleSpace]", "\<\"1.0.4\"\>", "\[InvisibleSpace]", "\<\", \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2012", ",", "5", ",", "5"}], "}"}]}],
+  SequenceForm["Package xAct`xTensor`  version ", "1.0.4", ", ", {2012, 5, 5}],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"CopyRight (C) 2002-2011, Jose M. Martin-Garcia, under the \
+General Public License.\"\>"], "Print"],
+
+Cell[BoxData["\<\"------------------------------------------------------------\
+\"\>"], "Print"],
+
+Cell[BoxData["\<\"These packages come with ABSOLUTELY NO WARRANTY; for \
+details type Disclaimer[]. This is free software, and you are welcome to \
+redistribute it under certain conditions. See the General Public License for \
+details.\"\>"], "Print"],
+
+Cell[BoxData["\<\"------------------------------------------------------------\
+\"\>"], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Undocumented symbols for package CovariantSeries skipped:\\n\"\
+\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "\<\"CovariantSeries`m\"\>", "}"}]}],
+  SequenceForm[
+  "Undocumented symbols for package CovariantSeries skipped:\n", {
+   "CovariantSeries`m"}],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"Building symbol reference pages\"\>"], "Print"],
+
+Cell[BoxData["\<\"Building guides\"\>"], "Print"],
+
+Cell[BoxData["\<\"Building tutorials\"\>"], "Print"],
+
+Cell[BoxData["\<\"Source/Documentation/English/Tutorials/CovariantSeries.md\"\
+\>"], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Removing \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"\<\"Temp`inds\"\>", ",", "\<\"Temp`PotentialRule\"\>", 
+     ",", "\<\"Temp`result\"\>", ",", "\<\"Temp`\[Xi]\"\>"}], "}"}]}],
+  SequenceForm[
+  "Removing ", {
+   "Temp`inds", "Temp`PotentialRule", "Temp`result", "Temp`\[Xi]"}],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"Indexing Documentation\"\>"], "Print"],
+
+Cell[BoxData["\<\"Done\"\>"], "Print"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{740, 867},
+WindowMargins->{{Automatic, 463}, {Automatic, 3}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+ShowSelection->True,
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->"Default.nb"
+]
+
