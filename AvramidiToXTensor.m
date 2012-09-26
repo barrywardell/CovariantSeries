@@ -20,8 +20,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-BeginPackage["CovariantSeries`AvramidiToXTensor`", { "xAct`xTensor`", "xAct`xPerm`", "CovariantSeries`", "AbstractMatrix`" }]
-(* Exported symbols added here with SymbolName::usage *)  
+BeginPackage["CovariantSeries`AvramidiToXTensor`",
+ {
+  "xAct`xTensor`",
+  "xAct`xPerm`",
+  "CovariantSeries`CovariantSeries`",
+  "CovariantSeries`AbstractMatrix`"
+ }
+]
 
 AvramidiToXTensor::usage = 
   "AvramidiToXTensor is a package to convert expressions from the \

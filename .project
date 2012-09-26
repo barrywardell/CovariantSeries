@@ -3,7 +3,6 @@
 	<name>CovariantSeries</name>
 	<comment></comment>
 	<projects>
-		<project>AbstractMatrix</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
