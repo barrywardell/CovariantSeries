@@ -1,0 +1,71 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CDSqrtDeltaBitensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/CDSqrtDeltaBitensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["CDSqrtDeltaBitensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["CDSqrtDeltaBitensor",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/CDSqrtDeltaBitensor"]], 
+      "InlineFormula"],
+     "\[LineSeparator] is the bitensor \
+\!\(\*SuperscriptBox[CD\[CapitalDelta],\"1/2\"]\)."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"CDSqrtDeltaBitensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {
+     "CDSqrtDeltaBitensor", "CDSQRTDELTABITENSOR", "cdsqrtdeltabitensor"}, 
+    "index" -> True, "label" -> "CovariantSeries/CovariantSeries Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries", "status" -> "None", 
+    "summary" -> 
+    "CDSqrtDeltaBitensor is the bitensor \!\(\*SuperscriptBox[CD\
+\[CapitalDelta],\"1/2\"]\).", 
+    "synonyms" -> {
+     "CDSqrtDeltaBitensor", "CDSQRTDELTABITENSOR", "cdsqrtdeltabitensor"}, 
+    "title" -> "CDSqrtDeltaBitensor", "windowTitle" -> "CDSqrtDeltaBitensor", 
+    "type" -> "Symbol", "uri" -> "CovariantSeries/ref/CDSqrtDeltaBitensor"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

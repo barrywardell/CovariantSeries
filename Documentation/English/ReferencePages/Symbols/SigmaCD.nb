@@ -1,0 +1,68 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["SigmaCD",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/SigmaCD"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["SigmaCD", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["SigmaCD",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/SigmaCD"], "[", 
+       StyleBox["x", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]is the derivative operator D on x."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"SigmaCD",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"SigmaCD", "SIGMACD", "sigmacd"}, "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries Symbol", "language" -> "en", "paclet" -> 
+    "CovariantSeries", "status" -> "None", "summary" -> 
+    "SigmaCD[x] is the derivative operator D on x.", 
+    "synonyms" -> {"SigmaCD", "SIGMACD", "sigmacd"}, "title" -> "SigmaCD", 
+    "windowTitle" -> "SigmaCD", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/SigmaCD"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

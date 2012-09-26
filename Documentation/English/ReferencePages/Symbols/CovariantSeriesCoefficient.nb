@@ -1,0 +1,208 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeriesCoefficient",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/CovariantSeriesCoefficient"]
+}], "LinkTrail"],
+
+Cell[BoxData[GridBox[{
+   {Cell["COVARIANTSERIES PACLET SYMBOL", "PacletNameCell"], Cell[TextData[{
+     Cell[BoxData[
+      ActionMenuBox[
+       FrameBox["\<\"More About \[RightGuillemet]\"\>",
+        StripOnInput->False], {"CovariantSeries":>Documentation`HelpLookup[
+       "paclet:CovariantSeries/guide/CovariantSeries"]},
+       Appearance->None,
+       MenuAppearance->Automatic]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]"
+    }], "AnchorBar"]}
+  }]], "AnchorBarGrid"],
+
+Cell[CellGroupData[{
+
+Cell["CovariantSeriesCoefficient", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["CovariantSeriesCoefficient",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/CovariantSeriesCoefficient"], 
+       "[", 
+       StyleBox[
+        RowBox[{"X", ",", " ", "n"}], "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]calculates the order n coefficient of the covariant \
+series of X,  where X is one of the bitensors: "
+    }]]},
+   {"", Cell["\<\
+{GammaBitensor, EtaBitensor, LambdaBitensor, XiBitensor, ABitensor, \
+BBitensor, ZetaBitensor, SqrtDeltaBitensor, SqrtDeltaInvBitensor, \
+CDSqrtDeltaBitensor, BoxSqrtDeltaBitensor, WBitensor, \
+\[ScriptCapitalB]Bitensor, SqrtDeltaInvDalWBitensor, \
+SqrtDeltaInvDalSqrtDeltaBitensor, VTildeBitensor, UBitensor, VBitensor, \
+TauBitensor, TauPBitensor, DeWittABitensor}\
+\>"]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ ButtonBox[
+  FrameBox[
+   StyleBox[
+    RowBox[{"MORE", " ", "INFORMATION"}], "NotesFrameText"],
+   StripOnInput->False],
+  Appearance->{Automatic, None},
+  BaseStyle->None,
+  ButtonFunction:>(FrontEndExecute[{
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], All, ButtonCell], 
+     FrontEndToken["OpenCloseGroup"], 
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], After, CellContents]}]& ),
+  Evaluator->None,
+  Method->"Preemptive"]]]], "NotesSection",
+ CellGroupingRules->{"SectionGrouping", 50}],
+
+Cell["\<\
+The coefficients exclude the factor (-1)^n/n! from the definition of a \
+covariant series.\
+\>", "Notes"],
+
+Cell["\<\
+To use the xTensor output format, the package \
+CovariantSeries`AvramidiToXTensor` must first be loaded.\
+\>", "Notes"],
+
+Cell["The following options can be given: ", "Notes"],
+
+Cell[BoxData[GridBox[{
+   {Cell["      ", "TableRowIcon"], "xTensorNotation", "False", Cell[
+    "Output results in xTensor form.", "TableText"]}
+  },
+  GridBoxAlignment->{
+   "Columns" -> {Left, Left, {Left}}, "ColumnsIndexed" -> {}, 
+    "Rows" -> {{Baseline}}, "RowsIndexed" -> {}}]], "3ColumnTableMod",
+ GridBoxOptions->{
+ GridBoxBackground->{
+  "Columns" -> {{None}}, "ColumnsIndexed" -> {}, "Rows" -> {{None}}, 
+   "RowsIndexed" -> {}},
+ GridBoxDividers->{"Rows" -> {{True, True}}}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[ButtonBox["EXAMPLES",
+ BaseStyle->None,
+ Appearance->{Automatic, None},
+ Evaluator->None,
+ Method->"Preemptive",
+ ButtonFunction:>(FrontEndExecute[{
+    FrontEnd`SelectionMove[
+     FrontEnd`SelectedNotebook[], All, ButtonCell], 
+    FrontEndToken["OpenCloseGroup"], 
+    FrontEnd`SelectionMove[
+     FrontEnd`SelectedNotebook[], After, 
+     CellContents]}]& )]], "PrimaryExamplesSection",
+ CellTags->"PrimaryExamplesSection"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Basic Examples",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(1)", "ExampleCount"]
+}], "ExampleSection"],
+
+Cell[CellGroupData[{
+
+Cell["CovariantSeriesCoefficient[GammaBitensor, 3]", "Input",
+ CellLabel->"In[1]:="],
+
+Cell[BoxData[
+ FractionBox[
+  SubscriptBox["\[ScriptCapitalK]", "3"], "2"]], "Output",
+ CellLabel->"Out[1]:= "]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[ButtonBox["MORE ABOUT",
+ BaseStyle->None,
+ Appearance->{Automatic, None},
+ Evaluator->None,
+ Method->"Preemptive",
+ ButtonFunction:>(FrontEndExecute[{
+    FrontEnd`SelectionMove[
+     FrontEnd`SelectedNotebook[], All, ButtonCell], 
+    FrontEndToken["OpenCloseGroup"], 
+    FrontEnd`SelectionMove[
+     FrontEnd`SelectedNotebook[], After, 
+     CellContents]}]& )]], "MoreAboutSection"],
+
+Cell[TextData[ButtonBox["CovariantSeries",
+ BaseStyle->"Link",
+ ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"]], "MoreAbout"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"CovariantSeriesCoefficient",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {
+     "CovariantSeriesCoefficient", "COVARIANTSERIESCOEFFICIENT", 
+      "covariantseriescoefficient"}, "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries Symbol", "language" -> "en", "paclet" -> 
+    "CovariantSeries", "status" -> "None", "summary" -> 
+    "CovariantSeriesCoefficient[X, n] calculates the order n coefficient of \
+the covariant series of X,  where X is one of the bitensors: \n\
+{GammaBitensor, EtaBitensor, LambdaBitensor, XiBitensor, ABitensor, \
+BBitensor, ZetaBitensor, SqrtDeltaBitensor, SqrtDeltaInvBitensor, \
+CDSqrtDeltaBitensor, BoxSqrtDeltaBitensor, WBitensor, \
+\[ScriptCapitalB]Bitensor, SqrtDeltaInvDalWBitensor, \
+SqrtDeltaInvDalSqrtDeltaBitensor, VTildeBitensor, UBitensor, VBitensor, \
+TauBitensor, TauPBitensor, DeWittABitensor}", 
+    "synonyms" -> {
+     "CovariantSeriesCoefficient", "COVARIANTSERIESCOEFFICIENT", 
+      "covariantseriescoefficient"}, "title" -> "CovariantSeriesCoefficient", 
+    "windowTitle" -> "CovariantSeriesCoefficient", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/CovariantSeriesCoefficient"}, "SearchTextTranslated" -> 
+  "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

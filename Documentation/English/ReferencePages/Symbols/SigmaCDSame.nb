@@ -1,0 +1,70 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["SigmaCDSame",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/SigmaCDSame"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["SigmaCDSame", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["SigmaCDSame",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/SigmaCDSame"], "[", 
+       StyleBox["x", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]is the part of the derivative operator D on x that \
+preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"SigmaCDSame",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"SigmaCDSame", "SIGMACDSAME", "sigmacdsame"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries", "status" -> "None", "summary" -> 
+    "SigmaCDSame[x] is the part of the derivative operator D on x that \
+preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\).", 
+    "synonyms" -> {"SigmaCDSame", "SIGMACDSAME", "sigmacdsame"}, "title" -> 
+    "SigmaCDSame", "windowTitle" -> "SigmaCDSame", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/SigmaCDSame"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

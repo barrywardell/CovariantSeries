@@ -1,0 +1,68 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["XiBitensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/XiBitensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["XiBitensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["XiBitensor",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/XiBitensor"]], "InlineFormula"],
+     
+     "\[LineSeparator] is the bitensor \!\(\*SubscriptBox[SuperscriptBox[\
+\[Sigma],\"a'\"], \"b'\"]\)."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"XiBitensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"XiBitensor", "XIBITENSOR", "xibitensor"}, "index" -> True,
+     "label" -> "CovariantSeries/CovariantSeries Symbol", "language" -> "en", 
+    "paclet" -> "CovariantSeries", "status" -> "None", "summary" -> 
+    "XiBitensor is the bitensor \
+\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a'\"], \"b'\"]\).", 
+    "synonyms" -> {"XiBitensor", "XIBITENSOR", "xibitensor"}, "title" -> 
+    "XiBitensor", "windowTitle" -> "XiBitensor", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/XiBitensor"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

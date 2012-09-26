@@ -1,0 +1,66 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["TauPBitensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/TauPBitensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["TauPBitensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["TauPBitensor",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/TauPBitensor"]], 
+      "InlineFormula"],
+     "\[LineSeparator] is the bitensor \[Tau]'(x,x')."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"TauPBitensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"TauPBitensor", "TAUPBITENSOR", "taupbitensor"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries", "status" -> "None", "summary" -> 
+    "TauPBitensor is the bitensor \[Tau]'(x,x').", 
+    "synonyms" -> {"TauPBitensor", "TAUPBITENSOR", "taupbitensor"}, "title" -> 
+    "TauPBitensor", "windowTitle" -> "TauPBitensor", "type" -> "Symbol", 
+    "uri" -> "CovariantSeries/ref/TauPBitensor"}, "SearchTextTranslated" -> 
+  "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

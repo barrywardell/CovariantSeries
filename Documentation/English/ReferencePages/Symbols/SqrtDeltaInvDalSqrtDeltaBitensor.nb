@@ -1,0 +1,75 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["SqrtDeltaInvDalSqrtDeltaBitensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/SqrtDeltaInvDalSqrtDeltaBitensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["SqrtDeltaInvDalSqrtDeltaBitensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["SqrtDeltaInvDalSqrtDeltaBitensor",
+      BaseStyle->"Link",
+      ButtonData->
+       "paclet:CovariantSeries/ref/SqrtDeltaInvDalSqrtDeltaBitensor"]], 
+      "InlineFormula"],
+     "\[LineSeparator] is the bitensor \
+\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\
+\[CapitalDelta],\"1/2\"]\)."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"SqrtDeltaInvDalSqrtDeltaBitensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {
+     "SqrtDeltaInvDalSqrtDeltaBitensor", "SQRTDELTAINVDALSQRTDELTABITENSOR", 
+      "sqrtdeltainvdalsqrtdeltabitensor"}, "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries Symbol", "language" -> "en", "paclet" -> 
+    "CovariantSeries", "status" -> "None", "summary" -> 
+    "SqrtDeltaInvDalSqrtDeltaBitensor is the bitensor \!\(\*SuperscriptBox[\
+\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\).", 
+    "synonyms" -> {
+     "SqrtDeltaInvDalSqrtDeltaBitensor", "SQRTDELTAINVDALSQRTDELTABITENSOR", 
+      "sqrtdeltainvdalsqrtdeltabitensor"}, "title" -> 
+    "SqrtDeltaInvDalSqrtDeltaBitensor", "windowTitle" -> 
+    "SqrtDeltaInvDalSqrtDeltaBitensor", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/SqrtDeltaInvDalSqrtDeltaBitensor"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

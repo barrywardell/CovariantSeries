@@ -1,0 +1,60 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["AbstractDal",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/AbstractDal"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["AbstractDal", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell["Covariant d'Alembertian of bitensor."]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"AbstractDal",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"AbstractDal", "ABSTRACTDAL", "abstractdal"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries", "status" -> "None", "summary" -> 
+    "Covariant d'Alembertian of bitensor.", 
+    "synonyms" -> {"AbstractDal", "ABSTRACTDAL", "abstractdal"}, "title" -> 
+    "AbstractDal", "windowTitle" -> "AbstractDal", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/AbstractDal"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

@@ -1,0 +1,71 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["\[ScriptCapitalK]",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/\[ScriptCapitalK]"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["\[ScriptCapitalK]", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["\[ScriptCapitalK]",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/\[ScriptCapitalK]"], "[", 
+       StyleBox["n", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]is the matrix \!\(\*SubscriptBox[\"K\", \"(n)\"]\) of \
+Avramidi."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"\[ScriptCapitalK]",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"\[ScriptCapitalK]", "\[ScriptCapitalK]", "\[ScriptK]"}, 
+    "index" -> True, "label" -> "CovariantSeries/CovariantSeries Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries", "status" -> "None", 
+    "summary" -> 
+    "\[ScriptCapitalK][n] is the matrix \!\(\*SubscriptBox[\"K\", \"(n)\"]\) \
+of Avramidi.", 
+    "synonyms" -> {"\[ScriptCapitalK]", "\[ScriptCapitalK]", "\[ScriptK]"}, 
+    "title" -> "\[ScriptCapitalK]", "windowTitle" -> "\[ScriptCapitalK]", 
+    "type" -> "Symbol", "uri" -> "CovariantSeries/ref/\[ScriptCapitalK]"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

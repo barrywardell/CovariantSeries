@@ -1,0 +1,147 @@
+Notebook[{
+Cell[" ", "GuideColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"]
+}], "LinkTrail"],
+
+Cell[BoxData[GridBox[{
+   {Cell["COVARIANTSERIES GUIDE", "PacletNameCell"], Cell[TextData[{
+     Cell[BoxData[
+      ActionMenuBox[
+       FrameBox["\<\"Tutorials \[RightGuillemet]\"\>",
+        StripOnInput->False], {"CovariantSeries":>Documentation`HelpLookup[
+       "paclet:CovariantSeries/tutorial/CovariantSeries"]},
+       Appearance->None,
+       MenuAppearance->Automatic]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      ActionMenuBox[
+       FrameBox["\<\"URL \[RightGuillemet]\"\>",
+        StripOnInput->False], {"\<\"Go to CovariantSeries website\"\>":>
+       FrontEndExecute[{
+         NotebookLocate[{
+           URL["http://github.com/barrywardell/CovariantSeries"], None}]}], 
+       Delimiter, "\<\"Go to wolfram Mathematica website\"\>":>
+       FrontEndExecute[{
+         NotebookLocate[{
+           URL[
+           "http://reference.wolfram.com/mathematica/guide/Mathematica.html"],
+            None}]}]},
+       Appearance->None,
+       MenuAppearance->Automatic]],
+      LineSpacing->{1.4, 0}]
+    }], "AnchorBar"]}
+  }]], "AnchorBarGrid"],
+
+Cell[CellGroupData[{
+
+Cell["CovariantSeries", "GuideTitle"],
+
+Cell["\<\
+The CovariantSeries package and the associated AbstractMatrix package provide \
+symbolic Mathematica code for calculating covariant series expansions of \
+fundamental bi-tensors including the world-function, the van Vleck \
+determinant, the bi-vector of parallel transport, the bi-scalar V(x,x') \
+appearing in the Hadamard form of the scalar Green function and the DeWitt \
+coefficients.\
+\>", "GuideAbstract"],
+
+Cell[CellGroupData[{
+
+Cell["Computing Covariant Series Expansions", "GuideFunctionsSubsection"],
+
+Cell[TextData[{
+ Cell[TextData[ButtonBox["CovariantSeries",
+  BaseStyle->"Link",
+  ButtonData->"paclet:CovariantSeries/ref/CovariantSeries"]], 
+  "InlineFunctionSans"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "compute covariant series expansions"
+}], "GuideText"],
+
+Cell[TextData[{
+ Cell[TextData[ButtonBox["CovariantSeriesCoefficient",
+  BaseStyle->"Link",
+  ButtonData->"paclet:CovariantSeries/ref/CovariantSeriesCoefficient"]], 
+  "InlineFunctionSans"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "compute coefficients in covariant series expansions."
+}], "GuideText"],
+
+Cell[TextData[{
+ Cell[TextData[ButtonBox["SetRicciFlat",
+  BaseStyle->"Link",
+  ButtonData->"paclet:CovariantSeries/ref/SetRicciFlat"]], 
+  "InlineFunctionSans"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "introduce the assumption that the Ricci tensor vanishes."
+}], "GuideText"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Supported Bitensors", "GuideFunctionsSubsection"],
+
+Cell["", "InlineGuideFunctionListing"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["TUTORIALS", "GuideTutorialsSection"],
+
+Cell[TextData[ButtonBox["CovariantSeries",
+ BaseStyle->"Link",
+ ButtonData->
+  "paclet:CovariantSeries/tutorial/CovariantSeries"]], "GuideTutorial"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"CovariantSeries",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"CovariantSeries", "Bi-tensor"}, "index" -> True, "label" -> 
+    "CovariantSeries Application", "language" -> "en", "paclet" -> 
+    "CovariantSeries", "status" -> "None", "summary" -> 
+    "A package for computing covariant series expansions of many fundamental \
+bi-tensors.", "synonyms" -> {"CovariantSeries"}, "title" -> "CovariantSeries",
+     "windowTitle" -> "CovariantSeries", "type" -> "Guide", "uri" -> 
+    "CovariantSeries/guide/CovariantSeries"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

@@ -1,0 +1,65 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["WBitensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/WBitensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["WBitensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["WBitensor",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/WBitensor"]], "InlineFormula"],
+     "\[LineSeparator] is the bitensor W(x,x')."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"WBitensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"WBitensor", "WBITENSOR", "wbitensor"}, "index" -> True, 
+    "label" -> "CovariantSeries/CovariantSeries Symbol", "language" -> "en", 
+    "paclet" -> "CovariantSeries", "status" -> "None", "summary" -> 
+    "WBitensor is the bitensor W(x,x').", 
+    "synonyms" -> {"WBitensor", "WBITENSOR", "wbitensor"}, "title" -> 
+    "WBitensor", "windowTitle" -> "WBitensor", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/WBitensor"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

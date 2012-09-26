@@ -46,7 +46,7 @@ Documentation/English/Guides/CovariantSeries.nb\"\>",
 Documentation/English/Index/_0.cfs\"\>", 
     ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
 Documentation/English/Index/_0.cfx\"\>", ",", 
-    RowBox[{"\[LeftSkeleton]", "4", "\[RightSkeleton]"}], 
+    RowBox[{"\[LeftSkeleton]", "43", "\[RightSkeleton]"}], 
     ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
 Documentation/English/SpellIndex/segments_2\"\>", 
     ",", "\<\"/Users/barry/Library/Mathematica/Applications/CovariantSeries/\
@@ -113,17 +113,85 @@ details.\"\>"], "Print"],
 Cell[BoxData["\<\"------------------------------------------------------------\
 \"\>"], "Print"],
 
-Cell[BoxData[
- InterpretationBox[
-  RowBox[{"\<\"Undocumented symbols for package CovariantSeries skipped:\\n\"\
-\>", "\[InvisibleSpace]", 
-   RowBox[{"{", "\<\"CovariantSeries`m\"\>", "}"}]}],
-  SequenceForm[
-  "Undocumented symbols for package CovariantSeries skipped:\n", {
-   "CovariantSeries`m"}],
-  Editable->False]], "Print"],
-
 Cell[BoxData["\<\"Building symbol reference pages\"\>"], "Print"],
+
+Cell[BoxData["\<\"ABitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"AbstractCovD\"\>"], "Print"],
+
+Cell[BoxData["\<\"AbstractDal\"\>"], "Print"],
+
+Cell[BoxData["\<\"AddFreeIndex\"\>"], "Print"],
+
+Cell[BoxData["\<\"BBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"BoxSqrtDeltaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"CDSqrtDeltaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"CovariantSeries\"\>"], "Print"],
+
+Cell[BoxData["\<\"CovariantSeriesCoefficient\"\>"], "Print"],
+
+Cell[BoxData["\<\"DeWittABitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"EtaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"g\"\>"], "Print"],
+
+Cell[BoxData["\<\"GammaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"LambdaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"m\"\>"], "Print"],
+
+Cell[BoxData["\<\"SetRicciFlat\"\>"], "Print"],
+
+Cell[BoxData["\<\"SigmaCD\"\>"], "Print"],
+
+Cell[BoxData["\<\"SigmaCDPlus\"\>"], "Print"],
+
+Cell[BoxData["\<\"SigmaCDSame\"\>"], "Print"],
+
+Cell[BoxData["\<\"SqrtDeltaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"SqrtDeltaInvBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"SqrtDeltaInvDalSqrtDeltaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"SqrtDeltaInvDalWBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"TauBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"TauPBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"UBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"VBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"VTildeBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"W\"\>"], "Print"],
+
+Cell[BoxData["\<\"WBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"XiBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"xTensorNotation\"\>"], "Print"],
+
+Cell[BoxData["\<\"ZetaBitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"\[ScriptCapitalB]\"\>"], "Print"],
+
+Cell[BoxData["\<\"\[ScriptCapitalB]Bitensor\"\>"], "Print"],
+
+Cell[BoxData["\<\"\[ScriptCapitalK]\"\>"], "Print"],
+
+Cell[BoxData["\<\"\[ScriptCapitalP]\"\>"], "Print"],
+
+Cell[BoxData["\<\"\[ScriptCapitalR]\"\>"], "Print"],
+
+Cell[BoxData["\<\"$Bitensors\"\>"], "Print"],
 
 Cell[BoxData["\<\"Building guides\"\>"], "Print"],
 
@@ -136,11 +204,9 @@ Cell[BoxData[
  InterpretationBox[
   RowBox[{"\<\"Removing \"\>", "\[InvisibleSpace]", 
    RowBox[{"{", 
-    RowBox[{"\<\"Temp`inds\"\>", ",", "\<\"Temp`PotentialRule\"\>", 
-     ",", "\<\"Temp`result\"\>", ",", "\<\"Temp`\[Xi]\"\>"}], "}"}]}],
-  SequenceForm[
-  "Removing ", {
-   "Temp`inds", "Temp`PotentialRule", "Temp`result", "Temp`\[Xi]"}],
+    RowBox[{"\<\"inds\"\>", ",", "\<\"PotentialRule\"\>", 
+     ",", "\<\"result\"\>", ",", "\<\"\[Xi]\"\>"}], "}"}]}],
+  SequenceForm["Removing ", {"inds", "PotentialRule", "result", "\[Xi]"}],
   Editable->False]], "Print"],
 
 Cell[BoxData["\<\"Indexing Documentation\"\>"], "Print"],
