@@ -29,7 +29,11 @@
    },
 
    {"Title" -> "Supported Bitensors",
-    "Functions" -> $Bitensors
+    "Functions" -> ToString /@ CovariantSeries`$Bitensors[[All,1]]
+   },
+
+   {"Title" -> "xTensor Output",
+    "Functions" -> {"AvramidiToXTensor"}
    }
  },
  "Tutorials" -> {
