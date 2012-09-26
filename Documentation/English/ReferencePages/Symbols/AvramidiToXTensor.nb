@@ -1,0 +1,77 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AvramidiToXTensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->
+   "paclet:CovariantSeries/guide/CovariantSeries`AvramidiToXTensor"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["AvramidiToXTensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/AvramidiToXTensor"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["AvramidiToXTensor", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["AvramidiToXTensor",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/AvramidiToXTensor"]], 
+      "InlineFormula"],
+     "\[LineSeparator] is a package to convert expressions from the Avramidi \
+notation (with \!\(\*SubscriptBox[\"\[ScriptCapitalK]\", \"n\"]\)) to Riemann \
+tensors and their derivatives contracted with derivatives of \[Sigma] in \
+xTensor form."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"AvramidiToXTensor",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {
+     "AvramidiToXTensor", "AVRAMIDITOXTENSOR", "avramiditoxtensor"}, "index" -> 
+    True, "label" -> 
+    "CovariantSeries/CovariantSeries`AvramidiToXTensor Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AvramidiToXTensor", "status" -> "None",
+     "summary" -> 
+    "AvramidiToXTensor is a package to convert expressions from the Avramidi \
+notation (with \!\(\*SubscriptBox[\"\[ScriptCapitalK]\", \"n\"]\)) to Riemann \
+tensors and their derivatives contracted with derivatives of \[Sigma] in \
+xTensor form.", 
+    "synonyms" -> {
+     "AvramidiToXTensor", "AVRAMIDITOXTENSOR", "avramiditoxtensor"}, "title" -> 
+    "AvramidiToXTensor", "windowTitle" -> "AvramidiToXTensor", "type" -> 
+    "Symbol", "uri" -> "CovariantSeries/ref/AvramidiToXTensor"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

@@ -1,0 +1,73 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["SimplifyTrace",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/SimplifyTrace"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["SimplifyTrace", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["SimplifyTrace",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/SimplifyTrace"], "[", 
+       StyleBox["X", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]puts any occurance of AbstractTrace in X into normal \
+form. This allows for the simplification of expressions with AbstractTrace[] \
+in them."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"SimplifyTrace",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"SimplifyTrace", "SIMPLIFYTRACE", "simplifytrace"}, 
+    "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AbstractMatrix", "status" -> "None", 
+    "summary" -> 
+    "SimplifyTrace[X] puts any occurance of AbstractTrace in X into normal \
+form. This allows for the simplification of expressions with AbstractTrace[] \
+in them.", "synonyms" -> {"SimplifyTrace", "SIMPLIFYTRACE", "simplifytrace"}, 
+    "title" -> "SimplifyTrace", "windowTitle" -> "SimplifyTrace", "type" -> 
+    "Symbol", "uri" -> "CovariantSeries/ref/SimplifyTrace"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

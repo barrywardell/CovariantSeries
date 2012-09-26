@@ -1,0 +1,72 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CyclicPermutations",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/CyclicPermutations"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["CyclicPermutations", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["CyclicPermutations",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/CyclicPermutations"], "[", 
+       StyleBox["x", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]calculates the cyclic permutations of X."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"CyclicPermutations",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {
+     "CyclicPermutations", "CYCLICPERMUTATIONS", "cyclicpermutations"}, 
+    "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AbstractMatrix", "status" -> "None", 
+    "summary" -> 
+    "CyclicPermutations[x] calculates the cyclic permutations of X.", 
+    "synonyms" -> {
+     "CyclicPermutations", "CYCLICPERMUTATIONS", "cyclicpermutations"}, 
+    "title" -> "CyclicPermutations", "windowTitle" -> "CyclicPermutations", 
+    "type" -> "Symbol", "uri" -> "CovariantSeries/ref/CyclicPermutations"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

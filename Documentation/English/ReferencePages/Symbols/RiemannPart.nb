@@ -1,0 +1,71 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AvramidiToXTensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->
+   "paclet:CovariantSeries/guide/CovariantSeries`AvramidiToXTensor"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["RiemannPart",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/RiemannPart"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["RiemannPart", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[TextData[ButtonBox["RiemannPart",
+      BaseStyle->"Link",
+      ButtonData->"paclet:CovariantSeries/ref/RiemannPart"]], "InlineFormula"],
+     "\[LineSeparator][\!\(\*SubscriptBox[\"\[ScriptCapitalK]\", \"n\"]\)] \
+gives the Riemann tensor part of \!\(\*SubscriptBox[\"s\", \"n\"]\) in \
+xTensor form."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"RiemannPart",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"RiemannPart", "RIEMANNPART", "riemannpart"}, "index" -> 
+    True, "label" -> 
+    "CovariantSeries/CovariantSeries`AvramidiToXTensor Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AvramidiToXTensor", "status" -> "None",
+     "summary" -> 
+    "RiemannPart[\!\(\*SubscriptBox[\"\[ScriptCapitalK]\", \"n\"]\)] gives \
+the Riemann tensor part of \!\(\*SubscriptBox[\"s\", \"n\"]\) in xTensor \
+form.", "synonyms" -> {"RiemannPart", "RIEMANNPART", "riemannpart"}, "title" -> 
+    "RiemannPart", "windowTitle" -> "RiemannPart", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/RiemannPart"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

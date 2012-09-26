@@ -1,0 +1,74 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["Contraction",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/Contraction"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["Contraction", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["Contraction",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/Contraction"], "[", 
+       StyleBox[
+        RowBox[{"x", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i1", ",", " ", "i2"}], "}"}]}], "TI"], "]"}]], 
+      "InlineFormula"],
+     "\[LineSeparator]symbolizes a contraction of indices i1 and i2 \
+together."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"Contraction",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"Contraction", "CONTRACTION", "contraction"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries`AbstractMatrix", 
+    "status" -> "None", "summary" -> 
+    "Contraction[x, {i1, i2}] symbolizes a contraction of indices i1 and i2 \
+together.", "synonyms" -> {"Contraction", "CONTRACTION", "contraction"}, 
+    "title" -> "Contraction", "windowTitle" -> "Contraction", "type" -> 
+    "Symbol", "uri" -> "CovariantSeries/ref/Contraction"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

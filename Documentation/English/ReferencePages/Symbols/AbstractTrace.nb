@@ -1,0 +1,70 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["AbstractTrace",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/AbstractTrace"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["AbstractTrace", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["AbstractTrace",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/AbstractTrace"], "[", 
+       StyleBox["X", "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]is the abstract matrix trace of the matrix X."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"AbstractTrace",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"AbstractTrace", "ABSTRACTTRACE", "abstracttrace"}, 
+    "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AbstractMatrix", "status" -> "None", 
+    "summary" -> 
+    "AbstractTrace[X] is the abstract matrix trace of the matrix X.", 
+    "synonyms" -> {"AbstractTrace", "ABSTRACTTRACE", "abstracttrace"}, 
+    "title" -> "AbstractTrace", "windowTitle" -> "AbstractTrace", "type" -> 
+    "Symbol", "uri" -> "CovariantSeries/ref/AbstractTrace"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

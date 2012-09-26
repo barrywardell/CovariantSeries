@@ -1,0 +1,61 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AvramidiToXTensor",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->
+   "paclet:CovariantSeries/guide/CovariantSeries`AvramidiToXTensor"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["NumFreeIndices",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/NumFreeIndices"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["NumFreeIndices", "ObjectName"],
+
+Cell[BoxData[
+ GridBox[{}]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"NumFreeIndices",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"NumFreeIndices", "NUMFREEINDICES", "numfreeindices"}, 
+    "index" -> True, "label" -> 
+    "CovariantSeries/CovariantSeries`AvramidiToXTensor Symbol", "language" -> 
+    "en", "paclet" -> "CovariantSeries`AvramidiToXTensor", "status" -> "None",
+     "summary" -> "", 
+    "synonyms" -> {"NumFreeIndices", "NUMFREEINDICES", "numfreeindices"}, 
+    "title" -> "NumFreeIndices", "windowTitle" -> "NumFreeIndices", "type" -> 
+    "Symbol", "uri" -> "CovariantSeries/ref/NumFreeIndices"}, 
+  "SearchTextTranslated" -> "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

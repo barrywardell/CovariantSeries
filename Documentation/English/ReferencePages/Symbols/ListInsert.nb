@@ -1,0 +1,73 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["ListInsert",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/ListInsert"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["ListInsert", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["ListInsert",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/ListInsert"], "[", 
+       StyleBox[
+        RowBox[{"list", ",", " ", "elem", ",", " ", "pos"}], "TI"], "]"}]], 
+      "InlineFormula"],
+     "\[LineSeparator]produces a list of lists with element inserted into \
+list at positions pos."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"ListInsert",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"ListInsert", "LISTINSERT", "listinsert"}, "index" -> True,
+     "label" -> "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries`AbstractMatrix", 
+    "status" -> "None", "summary" -> 
+    "ListInsert[list, elem, pos] produces a list of lists with element \
+inserted into list at positions pos.", 
+    "synonyms" -> {"ListInsert", "LISTINSERT", "listinsert"}, "title" -> 
+    "ListInsert", "windowTitle" -> "ListInsert", "type" -> "Symbol", "uri" -> 
+    "CovariantSeries/ref/ListInsert"}, "SearchTextTranslated" -> "", 
+  "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

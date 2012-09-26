@@ -1,0 +1,60 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["NotBitensorQ",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/NotBitensorQ"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["NotBitensorQ", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell["Tests if a symbol is not a bitensor."]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"NotBitensorQ",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"NotBitensorQ", "NOTBITENSORQ", "notbitensorq"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries`AbstractMatrix", 
+    "status" -> "None", "summary" -> "Tests if a symbol is not a bitensor.", 
+    "synonyms" -> {"NotBitensorQ", "NOTBITENSORQ", "notbitensorq"}, "title" -> 
+    "NotBitensorQ", "windowTitle" -> "NotBitensorQ", "type" -> "Symbol", 
+    "uri" -> "CovariantSeries/ref/NotBitensorQ"}, "SearchTextTranslated" -> 
+  "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+

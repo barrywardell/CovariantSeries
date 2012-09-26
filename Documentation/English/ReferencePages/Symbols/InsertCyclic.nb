@@ -1,0 +1,72 @@
+Notebook[{
+Cell[" ", "SymbolColorBar",
+ CellMargins->{{Inherited, Inherited}, {-5, 0}}],
+
+Cell[TextData[{
+ ButtonBox["CovariantSeries",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["CovariantSeries`AbstractMatrix",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/guide/CovariantSeries`AbstractMatrix"],
+ StyleBox[" > ", "LinkTrailSeparator"],
+ ButtonBox["InsertCyclic",
+  BaseStyle->{"Link", "LinkTrail"},
+  ButtonData->"paclet:CovariantSeries/ref/InsertCyclic"]
+}], "LinkTrail"],
+
+Cell[CellGroupData[{
+
+Cell["InsertCyclic", "ObjectName"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       ButtonBox["InsertCyclic",
+        BaseStyle->"Link",
+        ButtonData->"paclet:CovariantSeries/ref/InsertCyclic"], "[", 
+       StyleBox[
+        RowBox[{"list", ",", " ", "elem"}], "TI"], "]"}]], "InlineFormula"],
+     "\[LineSeparator]produces a list of lists with each element \
+corresponding to elem inserted into list at a different position."
+    }]]}
+  }]], "Usage"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[" ", "FooterCell"],
+
+Cell[BoxData[""]]
+}, Open  ]]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{725, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"InsertCyclic",
+Visible->True,
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "CovariantSeries`", 
+    "keywords" -> {"InsertCyclic", "INSERTCYCLIC", "insertcyclic"}, "index" -> 
+    True, "label" -> "CovariantSeries/CovariantSeries`AbstractMatrix Symbol", 
+    "language" -> "en", "paclet" -> "CovariantSeries`AbstractMatrix", 
+    "status" -> "None", "summary" -> 
+    "InsertCyclic[list, elem] produces a list of lists with each element \
+corresponding to elem inserted into list at a different position.", 
+    "synonyms" -> {"InsertCyclic", "INSERTCYCLIC", "insertcyclic"}, "title" -> 
+    "InsertCyclic", "windowTitle" -> "InsertCyclic", "type" -> "Symbol", 
+    "uri" -> "CovariantSeries/ref/InsertCyclic"}, "SearchTextTranslated" -> 
+  "", "LinkTrails" -> ""},
+TrackCellChangeTimes->False,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+
