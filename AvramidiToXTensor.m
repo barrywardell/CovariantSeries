@@ -24,7 +24,7 @@ BeginPackage["CovariantSeries`AvramidiToXTensor`",
  {
   "xAct`xTensor`",
   "xAct`xPerm`",
-  "CovariantSeries`CovariantSeries`",
+  "CovariantSeries`",
   "CovariantSeries`AbstractMatrix`"
  }
 ]
