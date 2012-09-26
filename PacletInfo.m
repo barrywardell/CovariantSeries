@@ -10,7 +10,7 @@ Paclet[
     Extensions -> 
         {
             {"Documentation", Resources -> 
-                {"Guides/CovariantSeries Guide"}
+                {"Guides/CovariantSeries"}
             , Language -> "English"}
         }
 ]
