@@ -75,8 +75,8 @@ CovariantSeries::usage = "CovariantSeries[X, n] calculates the covariant series 
 CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates the order n "<>
 	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ $Bitensors];
 
-xTensorNotation::usage = "Specifies whether CovariantSeriesCoefficient should output in xTensor notation. Default: FALSE."
-Options[CovariantSeriesCoefficient] = {xTensorNotation -> False};
+xTensorNotation::usage = "Specifies whether CovariantSeriesCoefficient should output in xTensor notation. Default: False."
+Options[CovariantSeriesCoefficient] = {"xTensorNotation" -> False};
 
 AddFreeIndex::usage = "AddFreeIndex[] replaces one of the \[Sigma]-contracted indices with a free index."
 
