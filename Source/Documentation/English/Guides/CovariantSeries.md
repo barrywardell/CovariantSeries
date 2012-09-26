@@ -24,7 +24,7 @@
    },
 
    {"Title" -> "Supported Bitensors",
-    "Functions" -> Bitensors
+    "Functions" -> $Bitensors
    }
  },
  "Tutorials" -> {

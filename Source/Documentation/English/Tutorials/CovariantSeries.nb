@@ -19,11 +19,11 @@ Cell[CellGroupData[{
 
 Cell["List supported Bitensors", "Subsection"],
 
-Cell[BoxData["Bitensors"], "DefinitionBox"],
+Cell[BoxData["$Bitensors"], "DefinitionBox"],
 
 Cell["List all supported Bitensors", "Caption"],
 
-Cell[BoxData["Bitensors"], "Input"],
+Cell[BoxData["$Bitensors"], "Input"],
 
 Cell[BoxData[GridBox[{
    {"GammaBitensor", "EtaBitensor", Cell["LambdaBitensor", "TableText"]},
@@ -38,9 +38,7 @@ Cell[BoxData[GridBox[{
    {"DeWittABitensor", "\[Placeholder]", "\[Placeholder]"}
   }]], "DefinitionBox3Col"],
 
-Cell["\<\
-Bitensors supported by the CovariantSeries package\
-\>", "Caption"]
+Cell["Bitensors supported by the CovariantSeries package", "Caption"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -51,9 +49,7 @@ Cell[BoxData[GridBox[{
    {"CovariantSeries", "CovariantSeriesCoefficient", "SetRicciFlat"}
   }]], "DefinitionBox3Col"],
 
-Cell["\<\
-Main functions provided by the CovariantSeries package\
-\>", "Caption"],
+Cell["Main functions provided by the CovariantSeries package", "Caption"],
 
 Cell[TextData[{
  "Calculate the 3rd order coefficient of the covariant series expansion of \

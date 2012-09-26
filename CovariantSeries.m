@@ -32,7 +32,7 @@ m::usage = "m is the field mass."
 g::usage = "g is the metric tensor."
 
 (* We can calculate covariant series expansions for the following bitensors *)
-Bitensors = { 
+$Bitensors = { 
 	{GammaBitensor, "\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a'\"], b]\)"},
 	{EtaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a\"], \"b'\"]\)"},
 	{LambdaBitensor,"\!\(\*SubscriptBox[SuperscriptBox[\[Sigma],\"a\"], b]\)"},
@@ -56,11 +56,11 @@ Bitensors = {
 	{DeWittABitensor,"a(x,x')"}
 }
 
-Bitensors::usage = "Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
-	ToString[#[[1]] &/@ Bitensors]
+$Bitensors::usage = "$Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
+	ToString[#[[1]] &/@ $Bitensors]
 
 (* Usage messages for all the bitensors we support *)
-(Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ Bitensors
+(Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ $Bitensors
 
 AbstractCovD::usage = "Covariant derivative of bitensor."
 AbstractDal::usage = "Covariant d'Alembertian of bitensor."
@@ -70,10 +70,10 @@ SigmaCDSame::usage = "SigmaCDSame[x] is the part of the derivative operator D on
 
 (* The main functions we provide *)
 CovariantSeries::usage = "CovariantSeries[X, n] calculates the covariant series of X up to "<>
-	"order n, where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
+	"order n, where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ $Bitensors];
 
 CovariantSeriesCoefficient::usage = "CovariantSeriesCoefficient[X, n] calculates the order n "<>
-	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ Bitensors];
+	"coefficient of the covariant series of X,  where X is one of the bitensors: \n" <> ToString[#[[1]] &/@ $Bitensors];
 
 xTensorNotation::usage = "Specifies whether CovariantSeriesCoefficient should output in xTensor notation. Default: FALSE."
 Options[CovariantSeriesCoefficient] = {xTensorNotation -> False};
@@ -85,7 +85,7 @@ SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculation
 Begin["`Private`"]
 (* Implementation of the package *)
 
-(Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ Bitensors
+(Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ $Bitensors
 UBitensor/: BitensorQ[UBitensor[_,_]] = True
 VBitensor/: BitensorQ[VBitensor[_]] = True
 BitensorQ[\[ScriptCapitalK][_]] = True
