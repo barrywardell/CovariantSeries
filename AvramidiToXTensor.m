@@ -125,19 +125,7 @@ NumAddFreeIndices[x_] := Module[{positions, numIndices},
   numIndices
 ]
 
-NumFreeIndices[\[ScriptCapitalR][_]] := 3;
-NumFreeIndices[\[ScriptCapitalK][_]] := 2;
-NumFreeIndices[\[ScriptCapitalP][_]] := 0;
-NumFreeIndices[W[_]] := 0;
-NumFreeIndices[\[ScriptCapitalB][_]] := 0;
-NumFreeIndices[g] := 0;
-NumFreeIndices[x_AbstractDot] := Plus@@(NumFreeIndices/@(List@@x)) - 2 (Length[x]-1);
-NumFreeIndices[x_AbstractTrace]:= NumFreeIndices[x[[1]]]-2;
-NumFreeIndices[x_Contraction]:= NumFreeIndices[x[[1]]]-2;
-NumFreeIndices[x_Times] := Plus @@(NumFreeIndices/@(List@@x));
-NumFreeIndices[x_Power] := x[[2]]NumFreeIndices[x[[1]]];
-NumFreeIndices[x_AddFreeIndex] := x[[2]]+NumFreeIndices[x[[1]]];
-NumFreeIndices[n_?NumericQ] := 0;
+
 
 PartitionIndices[indicesIn_, partition_]:= Module[{iter, expr, indices=indicesIn},
   expr = {};

@@ -1,5 +1,8 @@
 (* ::Package:: *)
 
+ 
+
+
 (* CovariantSeries Mathematica package 
    This is a Mathematica for calculating covariant series expansions
    of bitensors.
@@ -46,6 +49,7 @@ $Bitensors = {
 	{BoxSqrtDeltaBitensor,"\!\(\*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{WBitensor,"W(x,x')"},
 	{\[ScriptCapitalB]Bitensor,"\[ScriptCapitalB](x,x')"},
+	{GBitensor,"\[ScriptCapitalG](x,x')"},
 	{SqrtDeltaInvDalWBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"]BoxW(x,x')\)"},
 	{SqrtDeltaInvDalSqrtDeltaBitensor,"\!\(\*SuperscriptBox[\[CapitalDelta],\"-1/2\"] \*SuperscriptBox[Box\[CapitalDelta],\"1/2\"]\)"},
 	{VTildeBitensor,"Vtilde(x,x')"},
@@ -54,6 +58,7 @@ $Bitensors = {
 	{TauBitensor,"\[Tau](x,x')"},
 	{TauPBitensor,"\[Tau]'(x,x')"},
 	{DeWittABitensor,"a(x,x')"}
+	
 }
 
 $Bitensors::usage = "$Bitensors is a list of bitensors which can be expanded using CovariantSeries. The list is currently:\n"<>
@@ -62,8 +67,11 @@ $Bitensors::usage = "$Bitensors is a list of bitensors which can be expanded usi
 (* Usage messages for all the bitensors we support *)
 (Evaluate[#[[1]]]::"usage" = ToString[#[[1]]] <> " is the bitensor " <> #[[2]] <> ".") & /@ $Bitensors
 
+AbstractCovDTensor::usage="Covariant derivative of bitensor(1,1)."
 AbstractCovD::usage = "Covariant derivative of bitensor."
 AbstractDal::usage = "Covariant d'Alembertian of bitensor."
+AbstractDalS::usage = "Covariant d'Alembertian of biscaler."
+AbstractDalG::usage = "Covariant d'Alembertian of bivector of parallel transport."
 SigmaCD::usage = "SigmaCD[x] is the derivative operator D on x."
 SigmaCDPlus::usage = "SigmaCDPlus[x] is the part of the derivative operator D on x that increases the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
 SigmaCDSame::usage = "SigmaCDSame[x] is the part of the derivative operator D on x that preserves the order in \!\(\*SuperscriptBox[\[Sigma], \"\[Mu]\"]\)."
@@ -81,26 +89,45 @@ Options[CovariantSeriesCoefficient] = {"xTensorNotation" -> False};
 AddFreeIndex::usage = "AddFreeIndex[] replaces one of the \[Sigma]-contracted indices with a free index."
 
 SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculations by ignoring terms which are 0 in Ricci-flat spacetimes";
-
+NumFreeIndices::usage="";
+Contraction::usage="";
 Begin["`Private`"]
 (* Implementation of the package *)
+NumFreeIndices[\[ScriptCapitalR][_]] := 3;
+NumFreeIndices[\[ScriptCapitalK][_]] := 2;
+NumFreeIndices[\[ScriptCapitalP][_]] := 2;
+NumFreeIndices[W[_]] := 0;
+NumFreeIndices[\[ScriptCapitalB][_]] := 0;
+NumFreeIndices[m]:=0
+NumFreeIndices[g] := 2;
+NumFreeIndices[GBitensor]:=2;
+NumFreeIndices[x_AbstractTensorProduct]:= Plus @@(NumFreeIndices/@(List@@x));
+NumFreeIndices[x_AbstractDot] := Plus@@(NumFreeIndices/@(List@@x)) - 2 (Length[x]-1);
+NumFreeIndices[x_AbstractTrace]:= NumFreeIndices[x[[1]]]-2;
+NumFreeIndices[x_Contraction]:= NumFreeIndices[x[[1]]]-2;
+NumFreeIndices[x_Times] := Plus @@(NumFreeIndices/@(List@@x));
+NumFreeIndices[x_Power] := x[[2]]NumFreeIndices[x[[1]]];
+NumFreeIndices[x_AddFreeIndex] := x[[2]]+NumFreeIndices[x[[1]]];
+NumFreeIndices[n_?NumericQ] := 0;
 
 (Evaluate[#[[1]]]/: BitensorQ[Evaluate[#[[1]]]] = True) &/@ $Bitensors
 UBitensor/: BitensorQ[UBitensor[_,_]] = True
 VBitensor/: BitensorQ[VBitensor[_]] = True
-BitensorQ[\[ScriptCapitalK][_]] = True
+(*BitensorQ[\[ScriptCapitalK][_]] = True
 BitensorQ[\[ScriptCapitalR][_]] = True
 BitensorQ[\[ScriptCapitalP]] = True
-BiscalarQ[\[ScriptCapitalP][_]] = True
+BiscalarQ[\[ScriptCapitalP][_]] = False
 BitensorQ[_] = False
-NotBitensorQ[x_] := If[BitensorQ[x],False,True]
-
+NotBitensorQ[x_] := If[BitensorQ[x],False,True]*)
+BitensorQ[x_]:=If[ NumFreeIndices[x]==0,False,True]
+BiscalarQ[x_]:=If[ NumFreeIndices[x]==0,True,False]
 (* Format Kappa_n and R_n nicely *)
 Format[\[ScriptCapitalK][n_]] := Subscript[\[ScriptCapitalK], n];
 Format[\[ScriptCapitalR][n_]] := Subscript[\[ScriptCapitalR], n];
 Format[W[n_]] := Subscript[W, n];
 Format[\[ScriptCapitalP][n_]] := Subscript[\[ScriptCapitalP], n];
-Format[AddFreeIndex[x_,a_]] := Subscript[x, -a];
+Format[GBitensor]:= "\[ScriptCapitalG]";
+Format[AddFreeIndex[x_,a_]] := Subscript[Row[{"(",x,")"}], -a];
 
 (* For Ricci-flat spacetimes, we can set tr (K[_]) = 0 *)
 SetRicciFlat[] := Module[{},
@@ -129,6 +156,20 @@ SigmaCDPlus[a_?NumericQ] := 0
 
 (* Total *)
 SigmaCD[x_] := SigmaCDSame[x] + SigmaCDPlus[x]
+
+(******************************* Contraction *********************************)
+(*Contraction[x_,{_,_}] := x;*)
+(* Numbers pull through the contraction *)
+Contraction[a_?NumericQ x_,l_List] := a*Contraction[x,l];
+Contraction[m_?BiscalarQ x_,l_List] := m*Contraction[x,l];
+Contraction[AddFreeIndex[\[ScriptCapitalR][1]],{3,4}]:=0;
+Contraction[GBitensor x_BitensorQ,l_List=={3,4}]:=GBitensor Contraction[x,l];
+Contraction[0,l_List]:=0;
+
+(* The contraction is distributive *)
+e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
+
+Format[Contraction[x_, {i1_, i2_}]] := \!\(\*SubscriptBox[\("\<C\>"\), \({i1, i2}\)]\)[x];
 
 (******************************** Add Free Index ******************************)
 AddFreeIndex[x_] := AddFreeIndex[x,1]
@@ -198,14 +239,14 @@ XiBitensor /: CovariantSeriesCoefficient[XiBitensor, n_]:=
 			 Sum[Binomial[n, k]*k*AbstractDot[CovariantSeriesCoefficient[GammaBitensor, n-k],
 			 	 CovariantSeriesCoefficient[EtaBitensor, k]], {k, 2, n - 2}]];
 
-(************************************** A *************************************)
+(************************************** A (Fixed)*************************************)
 ABitensor /: CovariantSeries[ABitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[ABitensor, i],{i,0,n}]
 
 ABitensor /: CovariantSeriesCoefficient[ABitensor, 0] = 0;
 
 ABitensor /: CovariantSeriesCoefficient[ABitensor, n_]:= 
 	ABitensor /: CovariantSeriesCoefficient[ABitensor, n] = 
-		Expand[(1/(n + 1))*(n*\[ScriptCapitalR][n] 
+		Expand[-(1/(n + 1))*(n*\[ScriptCapitalR][n] 
 			- Sum[Binomial[n, k]*AbstractDot[CovariantSeriesCoefficient[ABitensor,k],
 				CovariantSeriesCoefficient[XiBitensor, n-k]], {k, 0, n - 2}])];
 
@@ -280,7 +321,7 @@ BoxSqrtDeltaBitensor /: CovariantSeriesCoefficient[BoxSqrtDeltaBitensor, n_]:=
 				CovariantSeriesCoefficient[CDSqrtDeltaBitensor,n-k] ], {k, 1, n+1}]
 		];
 
-(**************** Covariant Derivative of a general bitensor ******************)
+(**************** Covariant Derivative of a general bitensor(Scalar) ******************)
 AbstractCovD /: CovariantSeries[AbstractCovD[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractCovD[x], i],{i,0,n}]
 
 AbstractCovD /: CovariantSeriesCoefficient[AbstractCovD[x_?BitensorQ], 0] :=
@@ -289,22 +330,70 @@ AbstractCovD /: CovariantSeriesCoefficient[AbstractCovD[x_?BitensorQ], 0] :=
 AbstractCovD /: CovariantSeriesCoefficient[AbstractCovD[x_?BitensorQ], n_]:= 
 	AbstractCovD /: CovariantSeriesCoefficient[AbstractCovD[x], n] = 
 		Expand[-Sum[Binomial[n, k]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[x,k+1]],
-			CovariantSeriesCoefficient[EtaBitensor,n-k] ], {k, 0, n}]];
+			CovariantSeriesCoefficient[EtaBitensor,n-k] ], {k, 0, n}]
 
-(********************** D'alembertian of a general bitensor *******************)
+			];
+(**************** Covariant Derivative of a general bitensor(1,1) ******************)
+AbstractCovDTensor /: CovariantSeries[AbstractCovDTensor[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractCovD[x], i],{i,0,n}]
+
+AbstractCovDTensor /: CovariantSeriesCoefficient[AbstractCovDTensor[x_?BitensorQ], 0] :=
+	AbstractCovDTensor /: CovariantSeriesCoefficient[AbstractCovDTensor[x], 0] = AddFreeIndex[CovariantSeriesCoefficient[x,1]];
+
+AbstractCovDTensor /: CovariantSeriesCoefficient[AbstractCovDTensor[x_?BitensorQ], n_]:= 
+	AbstractCovDTensor /: CovariantSeriesCoefficient[AbstractCovDTensor[x], n] = 
+		Expand[-Sum[Binomial[n, k]*AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[x,k+1]],
+			CovariantSeriesCoefficient[EtaBitensor,n-k] ], {k, 0, n}]
+			-Sum[Binomial[n,k]*Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],x],{2,5}],{k,0,n}]
+
+			];
+(********************** D'alembertian of a general bitensor(Test with 1 primed index) *******************)
 AbstractDal /: CovariantSeries[AbstractDal[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractDal[x], i],{i,0,n}]
 
 AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x_?BitensorQ], 0] := 
-	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], 0] = AbstractTrace[AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],1]]];
+	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], 0] = Contraction[AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],1]],{3,4}];
 
 AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x_?BitensorQ], n_]:= 
 	AbstractDal /: CovariantSeriesCoefficient[AbstractDal[x], n] = 
+		Expand[-Sum[Binomial[n, k]*Contraction[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovDTensor[x],k+1]],
+			CovariantSeriesCoefficient[EtaBitensor,n-k] ],{3,4}], {k, 0, n}]
+			+Sum[Binomial[n, k]*Contraction[AbstractTensorProduct[Contraction[CovariantSeriesCoefficient[ABitensor,k],{2,3}],
+				CovariantSeriesCoefficient[AbstractCovD[x],n-k] ],{1,4}], {k, 1, n}]
+				
+				-Sum[Binomial[n, k]*Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],
+				CovariantSeriesCoefficient[AbstractCovD[x],n-k] ],{2,5}],{2,4}], {k, 1, n}]
+		];
+(********************** D'alembertian of a general bitensor(Scaler) *******************)
+
+AbstractDalS /: CovariantSeries[AbstractDalS[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractDalS[x], i],{i,0,n}]
+
+AbstractDalS /: CovariantSeriesCoefficient[AbstractDalS[x_?BitensorQ], 0] := 
+	AbstractDalS /: CovariantSeriesCoefficient[AbstractDalS[x], 0] = AbstractTrace[AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],1]]];
+
+AbstractDalS /: CovariantSeriesCoefficient[AbstractDalS[x_?BitensorQ], n_]:= 
+	AbstractDalS /: CovariantSeriesCoefficient[AbstractDalS[x], n] = 
 		Expand[-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[x],k+1]],
 			CovariantSeriesCoefficient[EtaBitensor,n-k] ]], {k, 0, n}]
-			-Sum[Binomial[n, k]*AbstractDot[Contraction[CovariantSeriesCoefficient[ABitensor,k],{2,3}],
+			+Sum[Binomial[n, k]*AbstractDot[Contraction[CovariantSeriesCoefficient[ABitensor,k],{2,3}],
 				CovariantSeriesCoefficient[AbstractCovD[x],n-k] ], {k, 1, n}]
+				
 		];
+		
+(********************** D'alembertian of a general bitensor(Test with gab') *******************)
+AbstractDalG /: CovariantSeries[AbstractDalG[x_?BitensorQ], n_] := Sum[(-1)^i / i! CovariantSeriesCoefficient[AbstractDal[x], i],{i,0,n}]
 
+AbstractDalG /: CovariantSeriesCoefficient[AbstractDalG[x_?BitensorQ], 0] := 
+	AbstractDalG /: CovariantSeriesCoefficient[AbstractDalG[x], 0] = Contraction[AddFreeIndex[CovariantSeriesCoefficient[ABitensor,1]],{3,4}];
+
+AbstractDalG /: CovariantSeriesCoefficient[AbstractDalG[x_?BitensorQ], n_]:= 
+	AbstractDalG /: CovariantSeriesCoefficient[AbstractDalG[x], n] = 
+		Expand[-Sum[Binomial[n, k]*Contraction[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[ABitensor,k+1]],
+			CovariantSeriesCoefficient[EtaBitensor,n-k] ],{3,4}], {k, 0, n}]
+			+Sum[Binomial[n, k]*Contraction[AbstractTensorProduct[Contraction[CovariantSeriesCoefficient[ABitensor,k],{2,3}],
+				CovariantSeriesCoefficient[ABitensor,n-k]],{1,4} ], {k, 1, n}]
+				
+				-Sum[Binomial[n, k]*Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],
+				CovariantSeriesCoefficient[ABitensor,n-k] ],{2,5}],{2,4}], {k, 1, n}]
+		];		
 (***************************** Genera Bitensor, W *****************************)
 WBitensor /: CovariantSeries[WBitensor, n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[WBitensor, i],{i,0,n}]
 
@@ -402,26 +491,45 @@ VBitensor /: CovariantSeries[VBitensor[0], n_]:= Sum[(-1)^i / i! CovariantSeries
 
 VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n_]:= 
 	VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n] = 
-		Expand[1/(n+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[0], k]*
-				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
-				- 1/2 (CovariantSeriesCoefficient[AbstractDal[SqrtDeltaBitensor], n] 
-				- m^2 CovariantSeriesCoefficient[SqrtDeltaBitensor, n]-
-                Sum[Binomial[n, k] CovariantSeriesCoefficient[SqrtDeltaBitensor, k]*
-				\[ScriptCapitalP][n-k], {k, 0, n}]))
+		Expand[1/(n+1)( Sum[Binomial[n, k] AbstractTensorProduct[CovariantSeriesCoefficient[VBitensor[0], k],
+				CovariantSeriesCoefficient[TauPBitensor,n-k]], {k, 0, n-2}]
+				- 1/2 (AbstractTensorProduct[GBitensor ,CovariantSeriesCoefficient[AbstractDalS[SqrtDeltaBitensor], n]] 
+				- m^2 AbstractTensorProduct[GBitensor ,CovariantSeriesCoefficient[SqrtDeltaBitensor, n]]+
+				2 Sum[Binomial[n,k] Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[AbstractCovD[SqrtDeltaBitensor],k],CovariantSeriesCoefficient[ABitensor,n-k]],{1,4}],{k,0,n}]+
+				Sum[Binomial[n,k]CovariantSeriesCoefficient[SqrtDeltaBitensor,k]*CovariantSeriesCoefficient[AbstractDalG[ABitensor],n-k],{k,0,n}]-
+                Sum[Binomial[n, k] AbstractTensorProduct[CovariantSeriesCoefficient[SqrtDeltaBitensor, k],
+				\[ScriptCapitalP][n-k]], {k, 0, n}]))
 		];
 
 (************************************ Vl ***************************************)
-VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
+(*VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
 
 VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:= 
 	VBitensor /: CovariantSeriesCoefficient[VBitensor[l], n] = 
-		Expand[1/(n+l+1)( Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l], k]*
-				CovariantSeriesCoefficient[TauPBitensor,n-k], {k, 0, n-2}]
-				- 1/(2 l) (CovariantSeriesCoefficient[AbstractDal[VBitensor[l-1]], n] 
-				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]-
-                Sum[Binomial[n, k] CovariantSeriesCoefficient[VBitensor[l-1], k]*
-				\[ScriptCapitalP][n-k], {k, 0, n}]))
+		Expand[1/(n+l+1)( Sum[Binomial[n, k]AbstractTensorProduct[ CovariantSeriesCoefficient[VBitensor[l], k],
+				CovariantSeriesCoefficient[TauPBitensor,n-k]], {k, 0, n-2}]
+				- 1/(2 l) (Sum[Binomial[n, k] Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],n-k]],{2,5}],{2,4}],{k,0,n}]
+				+Sum[Binomial[n, k] Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor[k]],CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1],[n-k]]]],{2,3}],{1,4}],{k,0,n}]
+				-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],k+1]],
+				CovariantSeriesCoefficient[EtaBitensor,n-k] ]], {k, 0, n}]))
 		];
+		*)
+		
+		(************************************ old Vl ***************************************)
+(*VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
+
+VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:= 
+	VBitensor /: CovariantSeriesCoefficient[VBitensor[l], n] = 
+		Expand[1/(n+l+1)( Sum[Binomial[n, k]AbstractTensorProduct[ CovariantSeriesCoefficient[VBitensor[l], k],
+				CovariantSeriesCoefficient[TauPBitensor,n-k]], {k, 0, n-2}]
+				- 1/(2 l) (Sum[Binomial[n, k]AbstractTensorProduct[CovariantSeriesCoefficient[AbstractDalG[ABitensor]],CovariantSeriesCoefficient[VBitensor[l-1], n-k]],{k,0,n}]
+				
+				 
+				+CovariantSeriesCoefficient[AbstractDalS[VBitensor[l-1]], n]+CovariantSeriesCoefficient[AbstractDalG[ABitensor],n-l]+2 Sum[Binomial[n,k] Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[AbstractCovD[VBitensor],k],CovariantSeriesCoefficient[ABitensor,n-k]],{1,4}],{k,0,n}] 
+				- m^2 CovariantSeriesCoefficient[VBitensor[l-1], n]-
+                Sum[Binomial[n, k] Contraction[AbstractTensorProduct[\[ScriptCapitalP][k],
+				CovariantSeriesCoefficient[VBitensor[l-1], n-k]],{2,4}], {k, 0, n}]))
+		];*)
 
 (************************************ a_k **************************************)
 DeWittABitensor /: CovariantSeries[DeWittABitensor[l_Integer?NonNegative], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[DeWittABitensor[l], i],{i,0,n}]
@@ -436,3 +544,6 @@ DeWittABitensor /: CovariantSeriesCoefficient[DeWittABitensor[l_Integer?Positive
 End[]
 
 EndPackage[]
+
+
+

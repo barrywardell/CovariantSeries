@@ -23,6 +23,7 @@
 BeginPackage["CovariantSeries`AbstractMatrix`"]
 
 (* Exported functions *)
+AbstractTensorProduct::usage="testing for product"
 AbstractMatrix::usage = "AbstractMatrix is a package which provides abstract matrix operations such as dot product and trace."
 AbstractDot::usage = "AbstractDot[X,Y] is the abstract matrix dot product of X and Y."
 AbstractTrace::usage = "AbstractTrace[X] is the abstract matrix trace of the matrix X."
@@ -84,17 +85,54 @@ e : AbstractDot[_, _Plus] := Distribute[Unevaluated[e]]
 e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
 
 (* Print AbstractDot as a cross inside a circle *)
-Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"\[CircleTimes]"];
+Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"."];
 
-(******************************* Contraction *********************************)
-(*Contraction[x_,{_,_}] := x;*)
-(* Numbers pull through the contraction *)
-Contraction[a_?NumericQ x_, l_List] := a Contraction[x, l];
+(******************************* AbstractTensorProduct *********************************)
+(* Dot product with a number is just normal multiplication*)
+AbstractTensorProduct[a_?NumericQ, x_] := a x;
+AbstractTensorProduct[x_, a_?NumericQ] := a x;
 
-(* The contraction is distributive *)
-e : Contraction[_Plus, {_,_}] := Distribute[Unevaluated[e]];
+(* Dot products are associative but not distributive (Maeder pp. 178) 
+ * FIXME: 
+ * 1. Why does setting the OneIdentity Attribute make this an order of
+ *    magnitude slower?
+ * 2. Why does putting this before the first two definitions make this 
+ *    several orders of magnitude slower? It doesn't seem to fully
+ *    expand things out without it set. *)
+SetAttributes[AbstractTensorProduct, {Flat, OneIdentity}];
+AbstractTensorProduct[x_,0]:=0;
+AbstractTensorProduct[0,y_]:=0;
+(* Numbers pull through the tensor product *)
+AbstractTensorProduct[a_?NumericQ x_, y_] := a AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, a_?NumericQ y_] := a AbstractTensorProduct[x,y];
 
-Format[Contraction[x_, {i1_, i2_}]] := \!\(\*SubscriptBox[\("\<C\>"\), \({i1, i2}\)]\)[x];
+AbstractTensorProduct[m_?NotBitensorQ^(a_),x_] := m^(a) AbstractTensorProduct[x];
+AbstractTensorProduct[m_?NotBitensorQ^(a_) x_, y_] := m^(a)AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, m_?NotBitensorQ^(a_) y_] := m^(a) AbstractTensorProduct[x,y];
+AbstractTensorProduct[m_?NotBitensorQ x_, y_] := m AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, m_?NotBitensorQ y_] := m AbstractTensorProduct[x,y];
+
+(* Biscalars pull through dot product *)
+AbstractTensorProduct[a_?BiscalarQ x_, y_] := a AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, a_?BiscalarQ y_] := a AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_ a_?BiscalarQ, y_] := a AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, y_ a_?BiscalarQ] := a AbstractTensorProduct[x,y];
+(*AbstractTensorProduct[x_,a_?BiscalarQ]:=Times[a,x];
+AbstractTensorProduct[a_?BiscalarQ, x_]:=Times[a,x];*)
+
+AbstractTensorProduct[m_?BiscalarQ^(a_),x_] := m^(a) AbstractTensorProduct[x];
+AbstractTensorProduct[m_?BiscalarQ^(a_) x_, y_] := m^(a) AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, m_?BiscalarQ^(a_) y_] := m^(a) AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_ m_?BiscalarQ^(a_), y_] := m^(a) AbstractTensorProduct[x,y];
+AbstractTensorProduct[x_, y_ m_?BiscalarQ^(a_)] := m^(a) AbstractTensorProduct[x,y];
+
+
+(* The dot product is distributive *)
+e : AbstractTensorProduct[_, _Plus] := Distribute[Unevaluated[e]]
+e : AbstractTensorProduct[_Plus, _] := Distribute[Unevaluated[e]]
+
+(* Print AbstractDot as a cross inside a circle *)
+Format[AbstractTensorProduct[x_, y_]] := Infix[AbstractTensorProduct[x, y],"\[CircleTimes]"];
 
 (****************************** AbstractTrace ********************************)
 (* AbstractTrace (aB)=a*AbstractTrace (B), a is a number, B is an AbstractMatrix *)
@@ -186,6 +224,9 @@ SimplifyTrace[x_Power] := Power[SimplifyTrace[x[[1]]], x[[2]]]
 End[]
 
 EndPackage[]
+
+
+
 
 
 
