@@ -212,7 +212,7 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] :=
 ]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
-AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] :=
+AvramidiToXTensor[x_CircleTimes, freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{parts, indicesPerTerm, termIndices, freeIndicesPerTerm, termFreeIndices},
   (* Separate multiplication into a list of each term *)
   parts = List @@ x;

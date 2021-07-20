@@ -502,18 +502,18 @@ VBitensor /: CovariantSeriesCoefficient[VBitensor[0], n_]:=
 		];
 
 (************************************ Vl ***************************************)
-(*VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
+VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
 
 VBitensor /: CovariantSeriesCoefficient[VBitensor[l_Integer?Positive], n_]:= 
 	VBitensor /: CovariantSeriesCoefficient[VBitensor[l], n] = 
 		Expand[1/(n+l+1)( Sum[Binomial[n, k]AbstractTensorProduct[ CovariantSeriesCoefficient[VBitensor[l], k],
 				CovariantSeriesCoefficient[TauPBitensor,n-k]], {k, 0, n-2}]
 				- 1/(2 l) (Sum[Binomial[n, k] Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],n-k]],{2,5}],{2,4}],{k,0,n}]
-				+Sum[Binomial[n, k] Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor[k]],CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1],[n-k]]]],{2,3}],{1,4}],{k,0,n}]
-				-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[ AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],k+1]],
+				+Sum[Binomial[n, k] Contraction[Contraction[AbstractTensorProduct[CovariantSeriesCoefficient[ABitensor,k],CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],n-k]],{2,3}],{1,4}],{k,0,n}]
+				-Sum[Binomial[n, k]*AbstractTrace[AbstractDot[AddFreeIndex[CovariantSeriesCoefficient[AbstractCovD[VBitensor[l-1]],k+1]],
 				CovariantSeriesCoefficient[EtaBitensor,n-k] ]], {k, 0, n}]))
 		];
-		*)
+		
 		
 		(************************************ old Vl ***************************************)
 (*VBitensor /: CovariantSeries[VBitensor[l_Integer?Positive], n_]:= Sum[(-1)^i / i! CovariantSeriesCoefficient[VBitensor[l], i],{i,0,n}]
