@@ -212,7 +212,7 @@ AvramidiToXTensor[x_, vbundle_?VBundleQ] :=
 ]
 
 (* Multiplication is a bit tricky since we want all terms to have unique indices *)
-AvramidiToXTensor[x_CircleTimes, freeIndices_IndexList, sigmaIndices_IndexList] :=
+AvramidiToXTensor[x_Times, freeIndices_IndexList, sigmaIndices_IndexList] :=
   Module[{parts, indicesPerTerm, termIndices, freeIndicesPerTerm, termFreeIndices},
   (* Separate multiplication into a list of each term *)
   parts = List @@ x;
@@ -246,6 +246,29 @@ AvramidiToXTensor[Power[x_AbstractTrace, pow_?Positive], freeIndices_IndexList, 
   ];
 
   expr
+]
+
+(*Tesnsor Products*)
+AvramidiToXTensor[x_AbstractTensorProduct, freeIndices_IndexList, sigmaIndices_IndexList] :=
+  Module[{vbundle, numTerms, numFreeIndices, numContractedIndices, contractedIndices, iter, expr, sigmaIndicesPerTerm,termSigmaIndices, indicesUsed, parts, freeIndicesPerTerm, termFreeIndices},
+  (* Get the vbundle corresponding to the index a *)
+  vbundle = IndexVBundle;
+  numTerms = Length[x];
+
+  numFreeIndices = NumFreeIndices[x];
+
+  (* Figure out how many free indices each term uses *)
+  parts = List @@ x;
+  freeIndicesPerTerm = Map[NumFreeIndices, parts];
+
+  (* And divide the indices up between each term *)
+  termFreeIndices = PartitionIndices[freeIndices, freeIndicesPerTerm];
+
+  
+  
+  sigmaIndicesPerTerm = Map[NumSigmaIndices, List @@ x];
+  termSigmaIndices = PartitionIndices[sigmaIndices, sigmaIndicesPerTerm];
+expr=Times@@MapThread[AvramidiToXTensor,{parts,termFreeIndices,termSigmaIndices}]
 ]
 
 (* AbstractDot *)
