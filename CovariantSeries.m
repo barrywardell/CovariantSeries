@@ -90,9 +90,64 @@ AddFreeIndex::usage = "AddFreeIndex[] replaces one of the \[Sigma]-contracted in
 
 SetRicciFlat::usage = "SetRicciFlat[] tries to simplify and speed up calculations by ignoring terms which are 0 in Ricci-flat spacetimes";
 NumFreeIndices::usage="";
+PosFreeIndices::usage="";
+PosSigmaIndices::usage="";
 Contraction::usage="";
 Begin["`Private`"]
 (* Implementation of the package *)
+
+
+PosFreeIndices[\[ScriptCapitalR][n_]]:=If[n==1,{{-1,-1,-0,-1}},{Join[{-1,-1,-0,-1},ConstantArray[-0,n-1]]}];
+PosFreeIndices[\[ScriptCapitalK][n_]]:=If[n==2,{{1,-0,-1,-0}},{Join[{1,-0,-1,-0},ConstantArray[-0,n-2]]}];
+PosFreeIndices[\[ScriptCapitalP][_]]:={{-1,-1}};
+PosFreeIndices[W[_]]:={{}};
+PosFreeIndices[\[ScriptCapitalB][_]]:={{}};
+PosFreeIndices[m]:={{}};
+PosFreeIndices[g]:={{}};
+PosFreeIndices[GBitensor]:={-1.-1};
+PosFreeIndices[x_AbstractTensorProduct]:= Join @@(PosFreeIndices/@(List@@x));
+PosFreeIndices[x_Times] := Join @@(PosFreeIndices/@(List@@x));
+PosFreeIndices[x_AbstractDot] :=Module[{iter,numTerms,list,a,b,c},
+	numTerms=Length[x];
+	list=PosFreeIndices/@(List@@x);
+	For[iter=1,iter<numTerms,iter++,
+	a=Position[Abs[list[[iter]][[-1]]],1][[-1]][[1]];
+	b=Position[Abs[list[[iter+1]][[1]]],1][[1]][[1]];
+	list=Delete[list,{iter,-1,a}];
+	
+	list=Delete[list,{iter+1,1,b}];
+	];
+	Flatten[list]
+	
+
+	]
+	
+
+PosFreeIndices[x_AddFreeIndex]:= Module[{list,a ,b, y},
+	list=PosFreeIndices[x[[1]]];
+	a=Position[Flatten[list],0];
+	Table[ReplacePart[Flatten[list],a[[i]]-> 1],{i,1,Length[a]}]	
+	]
+	
+(*PosFreeIndices[x:(AddFreeIndex[_,2])]:=Module[{a,y,z},y=PosFreeIndices[AddFreeIndex[x[[1]],1]];
+a=Position[y,0];
+Table[ReplacePart[y[[i]],
+]*)
+PosFreeIndices[n_?NumericQ]:={{}};
+
+
+PosSigmaIndices[\[ScriptCapitalR][n_]]:={ConstantArray[-2,n]};
+PosSigmaIndices[\[ScriptCapitalK][n_]]:={ConstantArray[-2,n]};
+PosSigmaIndices[\[ScriptCapitalP][_]]:={{-1,-1}};
+PosSigmaIndices[W[_]]:={{}};
+PosSigmaIndices[\[ScriptCapitalB][_]]:={{}};
+PosSigmaIndices[m]:={{}};
+PosSigmaIndices[g]:={{}};
+PosSigmaIndices[x_AbstractTensorProduct]:= Join @@(PosSigmaIndices/@(List@@x));
+PosSigmaIndices[x_AbstractDot]:= Join @@(PosSigmaIndices/@(List@@x));
+PosSigmaIndices[x_Times] := Join @@(PosSigmaIndices/@(List@@x));
+
+
 NumFreeIndices[\[ScriptCapitalR][_]] := 3;
 NumFreeIndices[\[ScriptCapitalK][_]] := 2;
 NumFreeIndices[\[ScriptCapitalP][_]] := 2;

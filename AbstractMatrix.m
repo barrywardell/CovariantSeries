@@ -79,12 +79,11 @@ AbstractDot[m_?BiscalarQ^(a_) x_, y_] := m^(a) AbstractDot[x,y];
 AbstractDot[x_, m_?BiscalarQ^(a_) y_] := m^(a) AbstractDot[x,y];
 AbstractDot[x_ m_?BiscalarQ^(a_), y_] := m^(a) AbstractDot[x,y];
 AbstractDot[x_, y_ m_?BiscalarQ^(a_)] := m^(a) AbstractDot[x,y];
-
 (* The dot product is distributive *)
 e : AbstractDot[_, _Plus] := Distribute[Unevaluated[e]]
 e : AbstractDot[_Plus, _] := Distribute[Unevaluated[e]]
-
-(* Print AbstractDot as a cross inside a circle *)
+AbstractDot[AbstractDot[x_,y_],z_]:=AbstractDot[(AbstractDot[x,y]),z];
+(* Print AbstractDot as a cross dot. *)
 Format[AbstractDot[x_, y_]] := Infix[AbstractDot[x, y],"."];
 
 (******************************* AbstractTensorProduct *********************************)
